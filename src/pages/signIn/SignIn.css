@@ -1,0 +1,43 @@
+.sign-in-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.form {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.form .remember {
+  width: 200px;
+}
+
+.submit-remember-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remember {
+  margin-top: 10px;
+}
+
+.error {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.signup-redirect {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signup-redirect span {
+  margin-right: 5px;
+  font-size: 14px;
+}
