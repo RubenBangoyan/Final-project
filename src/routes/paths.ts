@@ -3,3 +3,4 @@ export const SIGN_UP: string = '/sign-up';
 export const ABOUT: string = '/about';
 export const HOME: string = '/';
 export const NOT_FOUND_PAGE: string = '*';
+export const RESUME: string = '/resume'

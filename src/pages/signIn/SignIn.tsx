@@ -2,10 +2,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebse-config';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { RESUME, SIGN_UP } from '../../routes/paths';
 import type { FormProps } from 'antd';
 import { useState } from 'react';
 import './SignIn.css';
-import { SIGN_UP } from '../../routes/paths';
 
 type FieldType = {
   email: string;
@@ -23,7 +23,7 @@ const SignIn = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/');
+      navigate(RESUME);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
