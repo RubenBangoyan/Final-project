@@ -4,9 +4,12 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import type { FormProps } from "antd";
 import { useState } from "react";
+import { useAppDispatch } from "../../app/hook";
+import { setUser } from "../../features/user/userSlice";
 import "./SignIn.css";
-// import { HOME_PATH, SIGN_UP_PATH } from "../../routes/paths";
 import { ROUTES } from "../../routes/paths";
+// import { StorageService } from "../../services/StorageService";
+// import { AUTHENTIFICATION_STORAGE_KEY } from "../../constants/storageKeys";
 
 type FieldType = {
   email: string;
@@ -17,13 +20,29 @@ type FieldType = {
 const SignIn = () => {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     const { email, password } = values;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+
+      dispatch(
+        setUser({
+          email: user.email || "",
+          token,
+          id: user.uid,
+        })
+      );
+
       navigate(ROUTES.HOME_PATH);
     } catch (error) {
       if (error instanceof Error) {

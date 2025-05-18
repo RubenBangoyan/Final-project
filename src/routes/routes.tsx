@@ -1,11 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
-import AppLayout from '../layout/appLayout/AppLayout';
-import SignUp from '../pages/signUp/SignUp';
-import SignIn from '../pages/signIn/SignIn';
-import Contact from '../pages/Contact';
-import About from '../pages/About';
-import Home from '../pages/Home';
-import { ROUTES } from './paths';
+import { createBrowserRouter } from "react-router-dom";
+import { ROUTES } from "./paths";
+import AppLayout from "../layout/appLayout/AppLayout";
+import Home from "../pages/Home";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import SignIn from "../pages/signIn/SignIn";
+import SignUp from "../pages/signUp/SignUp";
+import NotFound from "../pages/NotFound";
+import { ProtectedRouter } from "./ProtectedRouter";
 
 export const router = createBrowserRouter([
   {
@@ -13,16 +15,21 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: ROUTES.HOME_PATH,
+        index: true,
         element: <Home />,
       },
       {
-        path: ROUTES.ABOUT_PATH,
-        element: <About />,
-      },
-      {
-        path: ROUTES.CONTACT_US_PATH,
-        element: <Contact />,
+        element: <ProtectedRouter />,
+        children: [
+          {
+            path: ROUTES.ABOUT_PATH,
+            element: <About />,
+          },
+          {
+            path: ROUTES.CONTACT_US_PATH,
+            element: <Contact />,
+          },
+        ],
       },
     ],
   },
@@ -33,5 +40,9 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.SIGN_UP_PATH,
     element: <SignUp />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
