@@ -1,9 +1,7 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../routes/paths';
-// import '../components/Header.css';
-import { Button } from 'antd';
-import './header.css'
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
+import { Button } from "antd";
+import "./header.css";
 
 const Header = () => {
   const navigate = useNavigate();

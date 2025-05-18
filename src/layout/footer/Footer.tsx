@@ -1,11 +1,9 @@
-import './Footer.css'
-
-
+import "./Footer.css";
 
 const Footer = () => {
   return (
     <footer>
-      <p>copyright 2025</p>
+      <p>Copyrights 2025</p>
     </footer>
   );
 };
