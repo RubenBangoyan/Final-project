@@ -1,12 +1,17 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
-import { Button } from "antd";
-import "./header.css";
+import { MoonFilled, SunOutlined } from '@ant-design/icons';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
+import { ROUTES } from '../../routes/paths';
+import { Button } from 'antd';
+import './header.css';
+import LanguageSelector from '../../components/SelectLanguage/SelectLanguage';
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const { theme, handleCLick } = useTheme();
   return (
-    <header>
+    <header className={`header-${theme}`}>
       <div className="nav-container">
         <div>Logo</div>
         <nav>
@@ -22,6 +27,16 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+        <div>
+          {theme ? (
+            <MoonFilled onClick={handleCLick} />
+          ) : (
+            <SunOutlined onClick={handleCLick} />
+          )}
+        </div>
+        <div>
+          <LanguageSelector />
+        </div>
       </div>
       <div className="auth-buttons">
         <Button type="primary" onClick={() => navigate(ROUTES.SIGN_IN_PATH)}>

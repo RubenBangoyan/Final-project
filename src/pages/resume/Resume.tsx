@@ -1,10 +1,10 @@
+import { formatResumePrompt } from '../../utils/resumeFormat';
 import type { UploadFile } from 'antd/es/upload/interface';
 import type { UploadChangeParam } from 'antd/es/upload';
+import { generateResumeFromGPT } from '../../api';
 import { PlusOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { generateResumeFromGPT } from '../../api';
-import { formatResumePrompt } from '../../utils';
 import {
   Button,
   DatePicker,
@@ -39,9 +39,6 @@ const ResumeForm: React.FC = () => {
     setExperienceFields(experienceFields.filter((field) => field.id !== id));
   };
 
-  // function handleCreateResume(values: {}) {
-  //   console.log(values);
-  // }
 
   async function handleCreateResume(values: any) {
     const prompt = formatResumePrompt(values);
@@ -50,7 +47,7 @@ const ResumeForm: React.FC = () => {
       console.log('Generated Resume:', result);
       setGeneratedResume(result);
 
-      // покажи результат на экране, сохрани в стейт или скачай
+   
     } catch (err) {
       console.error('Error generating resume:', err);
     }
