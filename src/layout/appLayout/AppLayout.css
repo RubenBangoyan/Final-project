@@ -1,0 +1,9 @@
+.app-layout {
+  padding: 0 20px;
+}
+
+main {
+  min-height: 100vh;
+  background-color: rebeccapurple;
+  margin: 0 auto;
+}

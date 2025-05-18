@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import type { FormProps } from "antd";
 import { useState } from "react";
 import "./SignIn.css";
-import { HOME_PATH, SIGN_UP_PATH } from "../../routes/paths";
+// import { HOME_PATH, SIGN_UP_PATH } from "../../routes/paths";
+import { ROUTES } from "../../routes/paths";
 
 type FieldType = {
   email: string;
@@ -23,7 +24,7 @@ const SignIn = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate(HOME_PATH);
+      navigate(ROUTES.HOME_PATH);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -91,7 +92,7 @@ const SignIn = () => {
 
         <div className="signup-redirect">
           <span>Don't have an account?</span>
-          <Button type="link" onClick={() => navigate(SIGN_UP_PATH)}>
+          <Button type="link" onClick={() => navigate(ROUTES.SIGN_UP_PATH)}>
             Sign Up
           </Button>
         </div>

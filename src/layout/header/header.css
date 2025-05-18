@@ -1,0 +1,60 @@
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-size: 1.2rem;
+  /* width: 90%; */
+  margin: 0 auto;
+
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-container > div {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1890ff;
+  cursor: pointer;
+}
+
+.list-container {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.list-container li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.list-container li a.active {
+  color: #1890ff;
+  border-bottom: 2px solid #1890ff;
+  padding-bottom: 2px;
+}
+
+.list-container li a:hover {
+  color: #40a9ff;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}

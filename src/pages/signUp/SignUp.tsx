@@ -1,13 +1,13 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../services/firebse-config/index";
-import { setUser } from "../../features/user/userSlice";
-import { Button, Checkbox, Form, Input } from "antd";
-import { useAppDispatch } from "../../app/hook";
-import { useNavigate } from "react-router-dom";
-import { HOME_PATH, SIGN_IN_PATH } from "../../routes/paths";
-import type { FormProps } from "antd";
-import { useState } from "react";
-import "./SignUp.css";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../services/firebse-config/index';
+import { setUser } from '../../features/user/userSlice';
+import { Button, Checkbox, Form, Input } from 'antd';
+import { useAppDispatch } from '../../app/hook';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import type { FormProps } from 'antd';
+import { useState } from 'react';
+import './SignUp.css';
 
 type FieldType = {
   email: string;
@@ -20,9 +20,9 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const { password, confirmPassword, email } = values;
 
     if (password !== confirmPassword) {
@@ -41,26 +41,26 @@ const SignUp = () => {
 
       dispatch(
         setUser({
-          email: user.email || "",
+          email: user.email || '',
           token,
           id: user.uid,
         })
       );
 
-      navigate(HOME_PATH);
+      navigate(ROUTES.HOME_PATH);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
-        form.setFieldsValue({ password: "", confirmPassword: "" });
+        form.setFieldsValue({ password: '', confirmPassword: '' });
       }
       console.log(error);
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
     errorInfo
   ) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -76,10 +76,10 @@ const SignUp = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{
-          width: "100vw",
+          width: '100vw',
           maxWidth: 550,
           minWidth: 280,
-          boxSizing: "border-box",
+          boxSizing: 'border-box',
           height: 400,
         }}
       >
@@ -88,9 +88,9 @@ const SignUp = () => {
           name="email"
           rules={[
             {
-              type: "email",
+              type: 'email',
               required: true,
-              message: "Please input your Email!",
+              message: 'Please input your Email!',
             },
           ]}
         >
@@ -100,7 +100,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="password"
           label="Password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password />
         </Form.Item>
@@ -108,19 +108,19 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="confirmPassword"
           label="Confirm Password"
-          rules={[{ required: true, message: "Please confirm your password!" }]}
+          rules={[{ required: true, message: 'Please confirm your password!' }]}
         >
           <Input.Password />
         </Form.Item>
 
         <div>
-          <h3 className="error" style={{ color: "red" }}>
+          <h3 className="error" style={{ color: 'red' }}>
             {error}
           </h3>
         </div>
         <div className="login-redirect">
           <span>Already have an account?</span>
-          <Button type="link" onClick={() => navigate(SIGN_IN_PATH)}>
+          <Button type="link" onClick={() => navigate(ROUTES.SIGN_IN_PATH)}>
             Sign In
           </Button>
         </div>
