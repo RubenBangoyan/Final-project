@@ -1,8 +1,10 @@
-import type { UploadFile } from "antd/es/upload/interface";
-import type { UploadChangeParam } from "antd/es/upload";
-import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import type { UploadFile } from 'antd/es/upload/interface';
+import type { UploadChangeParam } from 'antd/es/upload';
+import { PlusOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { generateResumeFromGPT } from '../../api';
+import { formatResumePrompt } from '../../utils';
 import {
   Button,
   DatePicker,
@@ -13,8 +15,8 @@ import {
   Divider,
   Row,
   Col,
-} from "antd";
-import "./Resume.css";
+} from 'antd';
+import './Resume.css';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -25,6 +27,7 @@ const normFile = (e: UploadChangeParam<UploadFile<any>>): UploadFile[] => {
 };
 
 const ResumeForm: React.FC = () => {
+  const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [form] = Form.useForm();
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
 
@@ -36,8 +39,21 @@ const ResumeForm: React.FC = () => {
     setExperienceFields(experienceFields.filter((field) => field.id !== id));
   };
 
-  function handleCreateResume(values: {}) {
-    console.log(values);
+  // function handleCreateResume(values: {}) {
+  //   console.log(values);
+  // }
+
+  async function handleCreateResume(values: any) {
+    const prompt = formatResumePrompt(values);
+    try {
+      const result = await generateResumeFromGPT(prompt);
+      console.log('Generated Resume:', result);
+      setGeneratedResume(result);
+
+      // покажи результат на экране, сохрани в стейт или скачай
+    } catch (err) {
+      console.error('Error generating resume:', err);
+    }
   }
 
   return (
@@ -46,7 +62,7 @@ const ResumeForm: React.FC = () => {
         <Form
           form={form}
           layout="vertical"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onFinish={(values) => handleCreateResume(values)}
         >
           <Divider orientation="left">
@@ -58,7 +74,7 @@ const ResumeForm: React.FC = () => {
                 label="First Name"
                 name="firstName"
                 rules={[
-                  { required: true, message: "Please enter your first name" },
+                  { required: true, message: 'Please enter your first name' },
                 ]}
               >
                 <Input placeholder="Enter first name" />
@@ -69,7 +85,7 @@ const ResumeForm: React.FC = () => {
                 label="Last Name"
                 name="lastName"
                 rules={[
-                  { required: true, message: "Please enter your last name" },
+                  { required: true, message: 'Please enter your last name' },
                 ]}
               >
                 <Input placeholder="Enter last name" />
@@ -77,7 +93,7 @@ const ResumeForm: React.FC = () => {
             </Col>
             <Col xs={24} sm={12} md={8}>
               <Form.Item label="Date of Birth" name="birthdate">
-                <DatePicker style={{ width: "100%" }} />
+                <DatePicker style={{ width: '100%' }} />
               </Form.Item>
             </Col>
           </Row>
@@ -89,8 +105,8 @@ const ResumeForm: React.FC = () => {
                 name="email"
                 rules={[
                   {
-                    type: "email",
-                    message: "Please enter a valid email address",
+                    type: 'email',
+                    message: 'Please enter a valid email address',
                   },
                 ]}
               >
@@ -129,21 +145,21 @@ const ResumeForm: React.FC = () => {
               key={field.id}
               direction="vertical"
               style={{
-                display: "block",
-                border: "1px solid #d9d9d9",
+                display: 'block',
+                border: '1px solid #d9d9d9',
                 padding: 16,
                 marginBottom: 16,
                 borderRadius: 8,
-                backgroundColor: "#fafafa",
+                backgroundColor: '#fafafa',
               }}
             >
               <Row gutter={[24, 16]}>
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Company"
-                    name={["experience", index, "company"]}
+                    name={['experience', index, 'company']}
                     rules={[
-                      { required: true, message: "Please enter company name" },
+                      { required: true, message: 'Please enter company name' },
                     ]}
                   >
                     <Input />
@@ -152,9 +168,9 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Position"
-                    name={["experience", index, "position"]}
+                    name={['experience', index, 'position']}
                     rules={[
-                      { required: true, message: "Please enter position" },
+                      { required: true, message: 'Please enter position' },
                     ]}
                   >
                     <Input />
@@ -163,15 +179,15 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={24} md={8}>
                   <Form.Item
                     label="Period"
-                    name={["experience", index, "period"]}
+                    name={['experience', index, 'period']}
                   >
-                    <RangePicker style={{ width: "100%" }} />
+                    <RangePicker style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 label="Description"
-                name={["experience", index, "description"]}
+                name={['experience', index, 'description']}
               >
                 <TextArea rows={2} />
               </Form.Item>
@@ -192,6 +208,12 @@ const ResumeForm: React.FC = () => {
             </Button>
           </Form.Item>
         </Form>
+        {generatedResume && (
+          <>
+            <Divider orientation="left">📄 Generated Resume</Divider>
+            <TextArea value={generatedResume} rows={10} readOnly />
+          </>
+        )}
       </div>
     </div>
   );
