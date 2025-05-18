@@ -4,7 +4,7 @@ const Footer = () => {
   const { Footer } = Layout;
   return (
     <Footer style={footerStyle}>
-      <p>copyright 2025</p>
+      <p>Copyright 2025</p>
     </Footer>
   );
 };
