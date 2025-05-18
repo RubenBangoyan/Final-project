@@ -1,6 +1,7 @@
-export const SIGN_IN: string = '/sign-in';
-export const SIGN_UP: string = '/sign-up';
-export const ABOUT: string = '/about';
-export const HOME: string = '/';
-export const NOT_FOUND_PAGE: string = '*';
-export const RESUME: string = '/resume'
+export const SIGN_IN_PATH: string = "/sign-in";
+export const SIGN_UP_PATH: string = "/sign-up";
+export const ABOUT_PATH: string = "/about";
+export const HOME_PATH: string = "/";
+export const CONTACT_US_PATH: string = "/contact-us";
+export const NOT_FOUND_PAGE_PATH: string = "*";
+export const RESUME_PATH: string = "/resume";

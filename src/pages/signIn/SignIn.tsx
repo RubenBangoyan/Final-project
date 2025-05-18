@@ -1,11 +1,11 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../services/firebse-config';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import type { FormProps } from 'antd';
-import { useState } from 'react';
-import './SignIn.css';
-import { SIGN_UP } from '../../routes/paths';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../services/firebse-config";
+import { Button, Checkbox, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
+import type { FormProps } from "antd";
+import { useState } from "react";
+import "./SignIn.css";
+import { HOME_PATH, SIGN_UP_PATH } from "../../routes/paths";
 
 type FieldType = {
   email: string;
@@ -14,31 +14,31 @@ type FieldType = {
 };
 
 const SignIn = () => {
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     const { email, password } = values;
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/');
+      navigate(HOME_PATH);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
-        form.setFieldsValue({ password: '' });
+        form.setFieldsValue({ password: "" });
       } else {
-        setError('An unknown error occurred');
-        form.setFieldsValue({ password: '' });
+        setError("An unknown error occurred");
+        form.setFieldsValue({ password: "" });
       }
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -54,10 +54,10 @@ const SignIn = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
         style={{
-          width: '100vw',
+          width: "100vw",
           maxWidth: 550,
           minWidth: 280,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           height: 340,
         }}
       >
@@ -66,9 +66,9 @@ const SignIn = () => {
           name="email"
           rules={[
             {
-              type: 'email',
+              type: "email",
               required: true,
-              message: 'Please input your Email!',
+              message: "Please input your Email!",
             },
           ]}
         >
@@ -78,20 +78,20 @@ const SignIn = () => {
         <Form.Item<FieldType>
           name="password"
           label="Password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password />
         </Form.Item>
 
         <div>
-          <h3 className="error" style={{ color: 'red' }}>
+          <h3 className="error" style={{ color: "red" }}>
             {error}
           </h3>
         </div>
 
         <div className="signup-redirect">
           <span>Don't have an account?</span>
-          <Button type="link" onClick={() => navigate(SIGN_UP)}>
+          <Button type="link" onClick={() => navigate(SIGN_UP_PATH)}>
             Sign Up
           </Button>
         </div>
