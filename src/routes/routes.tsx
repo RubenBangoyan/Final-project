@@ -1,13 +1,14 @@
-import { createBrowserRouter } from "react-router-dom";
-import { ROUTES } from "./paths";
-import AppLayout from "../layout/appLayout/AppLayout";
-import Home from "../pages/Home";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
-import SignIn from "../pages/signIn/SignIn";
-import SignUp from "../pages/signUp/SignUp";
-import NotFound from "../pages/NotFound";
-import { ProtectedRouter } from "./ProtectedRouter";
+import { createBrowserRouter } from 'react-router-dom';
+import { ROUTES } from './paths';
+import AppLayout from '../layout/appLayout/AppLayout';
+import Home from '../pages/Home';
+import About from '../pages/About';
+import Contact from '../pages/Contact';
+import SignIn from '../pages/signIn/SignIn';
+import SignUp from '../pages/signUp/SignUp';
+import NotFound from '../pages/NotFound';
+import { ProtectedRouter } from './ProtectedRouter';
+import ResumeForm from '../pages/resume/Resume';
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +43,11 @@ export const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
+  },
+  {
+    path: ROUTES.RESUME_PATH,
+    element: <ResumeForm />,
   },
 ]);
