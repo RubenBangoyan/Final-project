@@ -5,6 +5,7 @@ import {
   HOME_PATH,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
+  PROFILE_PATH,
 } from "./paths";
 import AppLayout from "../components/AppLayout";
 import Home from "../pages/Home";
@@ -12,6 +13,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import SignIn from "../pages/signIn/SignIn";
 import SignUp from "../pages/signUp/SignUp";
+import ProfilePage from "../pages/profilePage/ProfilePage"; // ✅ Correct path
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: CONTACT_US_PATH,
         element: <Contact />,
+      },
+      {
+        path: PROFILE_PATH, // ✅ New route
+        element: <ProfilePage />,
       },
     ],
   },
