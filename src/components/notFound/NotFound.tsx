@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <div className="not-found-container">
       <img src={notFoundImg} alt="404" />
-      <NavLink to={ROUTES.SIGN_UP_PATH}>Sign Up</NavLink>
+      <NavLink to={ROUTES.HOME_PATH}>Home</NavLink>
     </div>
   );
 };
