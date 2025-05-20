@@ -70,7 +70,7 @@ const Header = () => {
                 className={`language-select language-select-${theme}`}
                 value={language}
                 onChange={onLanguageChange}
-                dropdownMatchSelectWidth={false}
+                popupMatchSelectWidth={false}
                 optionLabelProp="label"
               >
                 <Option

@@ -1,10 +1,7 @@
 footer {
   background: #14213d;
-  height: 200px;
   color: #ccc;
-  padding: 60px 20px 50px;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+  padding: 60px 20px 30px;
 }
 
 .footer-dark {
