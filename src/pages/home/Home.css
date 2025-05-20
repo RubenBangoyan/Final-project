@@ -1,0 +1,138 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f0f5ff;
+    --bg-dark: #001529;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+  }
+  
+  .homepage-light {
+    min-height: 100vh;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+  }
+  
+  .homepage-dark {
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+  }
+  
+  .content {
+    padding: 3rem 2rem;
+    background: inherit;
+  }
+  
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .hero h1 {
+    color: inherit;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero p {
+    color: inherit;
+    font-size: 1.2rem;
+  }
+  
+  .search-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  .input {
+    width: 250px;
+  }
+  
+  .select {
+    width: 180px;
+  }
+  
+  .search-button {
+    width: 120px;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  
+  .carousel-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  .worker-carousel {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .carousel-slide {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+  
+  .worker-card {
+    width: 600px;
+    text-align: center;
+    background-color: var(--bg-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    padding: 2rem;
+    color: var(--text-dark);
+  }
+  
+  .homepage-dark .worker-card {
+    background-color: #0a1a2a;
+    color: var(--text-light);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+  
+  .worker-image {
+    height: 400px;
+    width: 360px;       
+    background: #d6e4ff;
+    margin: 1.5rem auto; 
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .worker-rate {
+    font-size: 1.8rem;
+    color: #fadb14;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .worker-name,
+  .worker-surname {
+    font-size: 1.4rem;
+    margin: 0.3rem 0;
+    font-weight: 600;
+  }
+  
+  .worker-profession {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  

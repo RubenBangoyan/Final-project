@@ -6,7 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import App from './App.tsx';
 import './index.css';
 import { ThemeProvider } from './contexts/ThemeContext.tsx';
-
+import './i18n'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>

@@ -1,0 +1,30 @@
+{
+    "menu": {
+      "home": "Home",
+      "contact": "Contact Us",
+      "about": "About Us",
+      "signup": "Sign Up",
+      "login": "Log In"
+    },
+    "hero": {
+      "title": "Hire the Best",
+      "description": "Find top-rated professionals for any job"
+    },
+    "search": {
+      "placeholder": "Search...",
+      "category": "Category",
+      "plumber": "Plumber",
+      "electrician": "Electrician",
+      "carpenter": "Carpenter",
+      "button": "Search"
+    },
+    "section": {
+      "bestWorkers": "Best Workers"
+    },
+    "worker": {
+      "name": "name",
+      "surname": "surname",
+      "profession": "Electrician"
+    }
+  }
+  
