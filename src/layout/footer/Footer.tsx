@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./Footer.css";
 import {
   InstagramOutlined,
@@ -11,9 +12,10 @@ import { ROUTES } from "../../routes/paths";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   return (
-    <footer className="footer">
+    <footer className={`footer footer-${theme}`}>
       <Row gutter={[32, 16]}>
         <Col xs={24} sm={12} md={6}>
           <Title level={4} style={{ color: "#fff" }}>
@@ -112,5 +114,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

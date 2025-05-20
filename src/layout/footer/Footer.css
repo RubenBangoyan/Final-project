@@ -3,6 +3,14 @@ footer {
   height: 200px;
   color: #ccc;
   padding: 60px 20px 50px;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.footer-dark {
+  background-color: #001529;
+  color: #f0f0f0;
+  border-top: 1px solid #444;
 }
 
 footer a.ant-typography {
