@@ -1,15 +1,21 @@
 .sign-in-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f1f5f9;
+  box-sizing: border-box;
 }
 
 .form {
   background-color: #fff;
+  width: 100%;
+  max-width: 450px;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .form .remember {
@@ -30,6 +36,7 @@
   margin-top: -10px;
   margin-bottom: 10px;
   text-align: center;
+  color: #e53e3e;
 }
 
 .signup-redirect {
@@ -40,4 +47,19 @@
 .signup-redirect span {
   margin-right: 5px;
   font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 30px 20px;
+  }
+
+  .submit-remember-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submit-remember-container button {
+    width: 100%;
+  }
 }

@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOME_PATH: "/",
-  ABOUT_PATH: "/about",
   NOT_FOUND_PATH: "*",
+  ABOUT_PATH: "/about",
   RESUME_PATH: "/resume",
   SIGN_IN_PATH: "/sign-in",
   SIGN_UP_PATH: "/sign-up",

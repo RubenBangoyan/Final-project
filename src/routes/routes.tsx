@@ -1,4 +1,3 @@
-import NotFound from "../components/notFound/NotFound";
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layout/appLayout/AppLayout";
 import { ProtectedRouter } from "./ProtectedRouter";
@@ -9,6 +8,7 @@ import Contact from "../pages/contact/Contact";
 import About from "../pages/About";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
+import NotFound from "../components/notFound/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "*",
+    path: ROUTES.NOT_FOUND_PATH,
     element: <NotFound />,
   },
   {
