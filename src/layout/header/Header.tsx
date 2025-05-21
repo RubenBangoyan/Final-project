@@ -3,7 +3,8 @@ import { MoonFilled, SunOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { ROUTES } from "../../routes/paths";
-import { Button, Col, Row, Select } from "antd";
+import { useAuth } from "../../contexts/AuthContext";
+import { Button, Col, Row, Select, Modal } from "antd";
 import "./header.css";
 
 import usFlag from "../../images/flags/us.png";
@@ -21,6 +22,7 @@ const flags = {
 const Header = () => {
   const navigate = useNavigate();
   const { theme, handleClick } = useTheme();
+  const { isAuth, logout } = useAuth();
   const [language, setLanguage] = React.useState<"en" | "hy" | "ru">("en");
 
   React.useEffect(() => {
@@ -37,7 +39,19 @@ const Header = () => {
   const onLanguageChange = (lang: "en" | "hy" | "ru") => {
     setLanguage(lang);
     localStorage.setItem("appLang", lang);
-    // Если используешь i18n: i18n.changeLanguage(lang);
+  };
+
+  const handleLogout = () => {
+    Modal.confirm({
+      title: "Confirm Logout",
+      content: "Are you sure you want to log out?",
+      okText: "Yes",
+      cancelText: "No",
+      onOk: logout,
+      okButtonProps: {
+        danger: true,
+      },
+    });
   };
 
   return (
@@ -139,22 +153,42 @@ const Header = () => {
 
         <Col>
           <Row gutter={12} wrap={false}>
-            <Col>
-              <Button
-                type="primary"
-                onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
-              >
-                Sign In
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                type="default"
-                onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
-              >
-                Sign Up
-              </Button>
-            </Col>
+            {isAuth ? (
+              <>
+                <Col>
+                  <Button
+                    type="default"
+                    onClick={() => navigate(ROUTES.RESUME_PATH)}
+                  >
+                    Profile / Resume
+                  </Button>
+                </Col>
+                <Col>
+                  <Button type="primary" danger onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </Col>
+              </>
+            ) : (
+              <>
+                <Col>
+                  <Button
+                    type="primary"
+                    onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
+                  >
+                    Sign In
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    type="default"
+                    onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
+                  >
+                    Sign Up
+                  </Button>
+                </Col>
+              </>
+            )}
           </Row>
         </Col>
       </Row>

@@ -1,10 +1,12 @@
-import { formatResumePrompt } from '../../utils/resumeFormat';
-import type { UploadFile } from 'antd/es/upload/interface';
-import type { UploadChangeParam } from 'antd/es/upload';
-import { generateResumeFromGPT } from '../../api';
-import { PlusOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { formatResumePrompt } from "../../utils/resumeFormat";
+import type { UploadFile } from "antd/es/upload/interface";
+import type { UploadChangeParam } from "antd/es/upload";
+import { generateResumeFromGPT } from "../../api";
+import { PlusOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
 import {
   Button,
   DatePicker,
@@ -15,8 +17,9 @@ import {
   Divider,
   Row,
   Col,
-} from 'antd';
-import './Resume.css';
+  Modal,
+} from "antd";
+import "./Resume.css";
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -30,6 +33,7 @@ const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [form] = Form.useForm();
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
+  const navigate = useNavigate();
 
   const addExperience = () => {
     setExperienceFields([...experienceFields, { id: uuidv4() }]);
@@ -39,19 +43,27 @@ const ResumeForm: React.FC = () => {
     setExperienceFields(experienceFields.filter((field) => field.id !== id));
   };
 
-
   async function handleCreateResume(values: any) {
     const prompt = formatResumePrompt(values);
     try {
       const result = await generateResumeFromGPT(prompt);
-      console.log('Generated Resume:', result);
+      console.log("Generated Resume:", result);
       setGeneratedResume(result);
-
-   
     } catch (err) {
-      console.error('Error generating resume:', err);
+      console.error("Error generating resume:", err);
     }
   }
+
+  const handleGoBack = () => {
+    Modal.confirm({
+      title: "Discard Form?",
+      content:
+        "Are you sure you want to go back? All entered data will be lost.",
+      okText: "Yes, go back",
+      cancelText: "Cancel",
+      onOk: () => navigate(ROUTES.HOME_PATH),
+    });
+  };
 
   return (
     <div className="resume-container">
@@ -59,7 +71,7 @@ const ResumeForm: React.FC = () => {
         <Form
           form={form}
           layout="vertical"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           onFinish={(values) => handleCreateResume(values)}
         >
           <Divider orientation="left">
@@ -71,7 +83,7 @@ const ResumeForm: React.FC = () => {
                 label="First Name"
                 name="firstName"
                 rules={[
-                  { required: true, message: 'Please enter your first name' },
+                  { required: true, message: "Please enter your first name" },
                 ]}
               >
                 <Input placeholder="Enter first name" />
@@ -82,7 +94,7 @@ const ResumeForm: React.FC = () => {
                 label="Last Name"
                 name="lastName"
                 rules={[
-                  { required: true, message: 'Please enter your last name' },
+                  { required: true, message: "Please enter your last name" },
                 ]}
               >
                 <Input placeholder="Enter last name" />
@@ -90,7 +102,7 @@ const ResumeForm: React.FC = () => {
             </Col>
             <Col xs={24} sm={12} md={8}>
               <Form.Item label="Date of Birth" name="birthdate">
-                <DatePicker style={{ width: '100%' }} />
+                <DatePicker style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
@@ -102,8 +114,8 @@ const ResumeForm: React.FC = () => {
                 name="email"
                 rules={[
                   {
-                    type: 'email',
-                    message: 'Please enter a valid email address',
+                    type: "email",
+                    message: "Please enter a valid email address",
                   },
                 ]}
               >
@@ -142,21 +154,21 @@ const ResumeForm: React.FC = () => {
               key={field.id}
               direction="vertical"
               style={{
-                display: 'block',
-                border: '1px solid #d9d9d9',
+                display: "block",
+                border: "1px solid #d9d9d9",
                 padding: 16,
                 marginBottom: 16,
                 borderRadius: 8,
-                backgroundColor: '#fafafa',
+                backgroundColor: "#fafafa",
               }}
             >
               <Row gutter={[24, 16]}>
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Company"
-                    name={['experience', index, 'company']}
+                    name={["experience", index, "company"]}
                     rules={[
-                      { required: true, message: 'Please enter company name' },
+                      { required: true, message: "Please enter company name" },
                     ]}
                   >
                     <Input />
@@ -165,9 +177,9 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Position"
-                    name={['experience', index, 'position']}
+                    name={["experience", index, "position"]}
                     rules={[
-                      { required: true, message: 'Please enter position' },
+                      { required: true, message: "Please enter position" },
                     ]}
                   >
                     <Input />
@@ -176,15 +188,15 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={24} md={8}>
                   <Form.Item
                     label="Period"
-                    name={['experience', index, 'period']}
+                    name={["experience", index, "period"]}
                   >
-                    <RangePicker style={{ width: '100%' }} />
+                    <RangePicker style={{ width: "100%" }} />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 label="Description"
-                name={['experience', index, 'description']}
+                name={["experience", index, "description"]}
               >
                 <TextArea rows={2} />
               </Form.Item>
@@ -200,9 +212,14 @@ const ResumeForm: React.FC = () => {
           </Button>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" size="large">
-              Create Resume
-            </Button>
+            <Space>
+              <Button type="primary" htmlType="submit" size="large">
+                Create Resume
+              </Button>
+              <Button type="default" size="large" onClick={handleGoBack}>
+                Go Back Home
+              </Button>
+            </Space>
           </Form.Item>
         </Form>
         {generatedResume && (

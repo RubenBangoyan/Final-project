@@ -1,30 +1,34 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useState } from "react";
 
 type ThemeContextType = {
-  theme: 'light' | 'dark'
-  handleClick: () => void
-}
+  theme: string;
+  handleClick: () => void;
+};
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
+);
 
-export const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [theme, setTheme] = useState("light");
 
-  const handleClick = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+  function handleClick(): void {
+    setTheme(theme === "light" ? "dark" : "light");
   }
 
   return (
     <ThemeContext.Provider value={{ theme, handleClick }}>
       {children}
     </ThemeContext.Provider>
-  )
-}
+  );
+};
 
 export const useTheme = () => {
-  const context = useContext(ThemeContext)
+  const context = React.useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
-  return context
-}
+  return context;
+};
