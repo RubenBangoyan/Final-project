@@ -1,6 +1,6 @@
 import notFoundImg from '../../images/404-not-found.png';
 import { ROUTES } from '../../routes/paths';
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import './NotFound.css';
 
 const NotFound = () => {
