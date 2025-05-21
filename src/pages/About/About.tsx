@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Card, Typography, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Card, Typography, Button } from "antd";
+import { useState } from "react";
 import "./About.css";
 
 const { Title, Paragraph } = Typography;
