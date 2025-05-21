@@ -1,0 +1,70 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #e0f4ff;
+    min-height: 100vh;
+}
+
+.about-header {
+    text-align: center;
+}
+
+.our-team,
+.learn-more-section {
+    display: flex;
+    justify-content: center;
+}
+
+.team-card,
+.learn-more-card {
+    max-width: 700px;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.team-images-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.team-cards {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    flex-wrap: nowrap;
+}
+
+.member-card {
+    width: 160px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.img-placeholder {
+    width: 100%;
+    height: 100px;
+    background-color: #d0e7ff;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.about-footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+}
+
