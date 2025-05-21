@@ -6,7 +6,7 @@ import ResumeForm from "../pages/resume/Resume";
 import SignIn from "../pages/signIn/SignIn";
 import SignUp from "../pages/signUp/SignUp";
 import Contact from "../pages/contact/Contact";
-import About from "../pages/About";
+import About from "../pages/About/About.tsx";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
 
