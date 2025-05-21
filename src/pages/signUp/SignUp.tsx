@@ -53,15 +53,23 @@ const SignUp = () => {
         })
       );
 
-      await setDoc(doc(db, 'users', user.uid), {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: user.email,
-        role: values.role,
-        createdAt: new Date(),
-      });
+      if (role === 'looking') {
+        navigate(ROUTES.LOOKING_STEP_PATH);
+      }
 
-      navigate(ROUTES.HOME_PATH);
+      if (role === 'offering') {
+        navigate(ROUTES.OFFERING_STEP_PATH);
+      }
+
+      // await setDoc(doc(db, 'users', user.uid), {
+      //   firstName: values.firstName,
+      //   lastName: values.lastName,
+      //   email: user.email,
+      //   role: values.role,
+      //   createdAt: new Date(),
+      // });
+
+      // navigate(ROUTES.HOME_PATH);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

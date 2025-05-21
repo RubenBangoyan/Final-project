@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { Row, Col, Typography, Space, Divider } from "antd";
 import { useTheme } from "../../contexts/ThemeContext";
-import "./Footer.css";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
+const { Title, Text, Link } = Typography;
 import {
   InstagramOutlined,
   LinkedinOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
-import { Row, Col, Typography, Space, Divider } from "antd";
-const { Title, Text, Link } = Typography;
-import { ROUTES } from "../../routes/paths";
+import "./Footer.css";
 
 const Footer = () => {
   const navigate = useNavigate();

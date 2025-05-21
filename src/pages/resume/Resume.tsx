@@ -3,10 +3,10 @@ import type { UploadFile } from "antd/es/upload/interface";
 import type { UploadChangeParam } from "antd/es/upload";
 import { generateResumeFromGPT } from "../../api";
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Button,
   DatePicker,

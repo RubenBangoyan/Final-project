@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
 import { Layout, Input, Button, Select, Card, Carousel } from "antd";
-import { useTranslation } from "react-i18next";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
+import React, { useRef } from "react";
 import "./Home.css";
 
 const { Content } = Layout;

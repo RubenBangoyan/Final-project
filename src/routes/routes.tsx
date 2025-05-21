@@ -1,14 +1,16 @@
-import NotFound from "../components/notFound/NotFound";
-import { createBrowserRouter } from "react-router-dom";
-import AppLayout from "../layout/appLayout/AppLayout";
-import { ProtectedRouter } from "./ProtectedRouter";
-import ResumeForm from "../pages/resume/Resume";
-import SignIn from "../pages/signIn/SignIn";
-import SignUp from "../pages/signUp/SignUp";
-import Contact from "../pages/contact/Contact";
-import About from "../pages/About/About.tsx";
-import Home from "../pages/home/Home";
-import { ROUTES } from "./paths";
+import OfferingWorkFormStep from '../pages/offeringWorkFormStep/OfferingWorkFormStep.tsx';
+import LookingWorkFormStep from '../pages/lookingWorkFormStep/LookingWorkFormStep.tsx';
+import NotFound from '../components/notFound/NotFound';
+import { createBrowserRouter } from 'react-router-dom';
+import AppLayout from '../layout/appLayout/AppLayout';
+import { ProtectedRouter } from './ProtectedRouter';
+import ResumeForm from '../pages/resume/Resume';
+import SignIn from '../pages/signIn/SignIn';
+import SignUp from '../pages/signUp/SignUp';
+import Contact from '../pages/contact/Contact';
+import About from '../pages/About/About.tsx';
+import Home from '../pages/home/Home';
+import { ROUTES } from './paths';
 
 export const router = createBrowserRouter([
   {
@@ -43,11 +45,19 @@ export const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
   },
   {
     path: ROUTES.RESUME_PATH,
     element: <ResumeForm />,
+  },
+  {
+    path: ROUTES.LOOKING_STEP_PATH,
+    element: <LookingWorkFormStep />,
+  },
+  {
+    path: ROUTES.OFFERING_STEP_PATH,
+    element: <OfferingWorkFormStep />,
   },
 ]);
