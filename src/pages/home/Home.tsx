@@ -1,7 +1,8 @@
 import { Layout, Input, Button, Select, Card, Carousel } from "antd";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
-import React, { useRef } from "react";
+import { useFirebaseData } from "../../contexts/FirebaseDataContext";
+import React, { useRef, useEffect } from "react";
 import "./Home.css";
 
 const { Content } = Layout;
@@ -11,9 +12,24 @@ const Home: React.FC = () => {
   const carouselRef = useRef<any>(null);
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const { jobOffers, jobSeekers, loading, error } = useFirebaseData();
 
   const next = () => carouselRef.current?.next();
   const prev = () => carouselRef.current?.prev();
+
+  // Fetching test data from Firestore into the console (Home.tsx)
+  useEffect(() => {
+    if (!loading && jobOffers.length > 0) {
+      console.log("Job Offers from Firebase:", jobOffers);
+    }
+    if (!loading && jobSeekers.length > 0) {
+      console.log("Job Seekers from Firebase:", jobSeekers);
+    }
+
+    if (error) {
+      console.error("Error fetching job offers:", error);
+    }
+  }, [jobOffers, loading, error]);
 
   return (
     <Layout className={`homepage homepage-${theme}`}>
