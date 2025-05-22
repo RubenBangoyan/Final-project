@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeUser, setUser } from "../features/user/userSlice";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebse-config";
-import { signOut } from "firebase/auth";
 import { message } from "antd";
 
 interface AuthContextType {
@@ -12,6 +11,7 @@ interface AuthContextType {
   token: string | null;
   id: string | null;
   logout: () => void;
+  authLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -20,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   token: null,
   id: null,
   logout: () => {},
+  authLoading: true,
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -27,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const dispatch = useDispatch();
   const { email, token, id } = useSelector((state: any) => state.user);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const logout = async () => {
     try {
@@ -53,6 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         dispatch(removeUser());
       }
+      setAuthLoading(false);
     });
 
     return () => unsubscribe();
@@ -64,10 +67,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     token,
     id,
     logout,
+    authLoading,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
