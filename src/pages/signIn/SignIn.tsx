@@ -1,4 +1,9 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  setPersistence,
+  inMemoryPersistence,
+  browserLocalPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../../services/firebse-config";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -24,9 +29,15 @@ const SignIn = () => {
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-    const { email, password } = values;
+    const { email, password, remember } = values;
 
     try {
+      const persistenceType = remember
+        ? browserLocalPersistence
+        : inMemoryPersistence;
+
+      await setPersistence(auth, persistenceType);
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -35,13 +46,16 @@ const SignIn = () => {
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      dispatch(
-        setUser({
-          email: user.email || "",
-          token,
-          id: user.uid,
-        })
-      );
+      const userData = {
+        email: user.email || "",
+        token,
+        id: user.uid,
+      };
+
+      dispatch(setUser(userData));
+
+      console.log(userData, "test print userdata");
+      console.log(remember, "test print remember");
 
       navigate(ROUTES.HOME_PATH);
     } catch (error) {
