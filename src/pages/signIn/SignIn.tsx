@@ -13,8 +13,6 @@ import { useAppDispatch } from "../../app/hook";
 import { setUser } from "../../features/user/userSlice";
 import "./SignIn.css";
 import { ROUTES } from "../../routes/paths";
-// import { StorageService } from "../../services/StorageService";
-// import { AUTHENTIFICATION_STORAGE_KEY } from "../../constants/storageKeys";
 
 type FieldType = {
   email: string;

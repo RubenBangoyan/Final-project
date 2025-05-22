@@ -1,4 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import { StorageService } from "../services/StorageService";
+import { THEME_STORAGE_KEY } from "../constants/storageKeys";
 
 type ThemeContextType = {
   theme: string;
@@ -14,8 +16,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    const storedTheme = StorageService.getItem<string>(
+      THEME_STORAGE_KEY,
+      "string"
+    );
+    if (storedTheme === "dark" || storedTheme === "light") {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    StorageService.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
   function handleClick(): void {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   }
 
   return (
