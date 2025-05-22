@@ -10,6 +10,8 @@ import "./header.css";
 import usFlag from "../../images/flags/us.png";
 import hyFlag from "../../images/flags/am.png";
 import ruFlag from "../../images/flags/ru.png";
+import i18n from '../../i18n.ts';
+
 
 const { Option } = Select;
 
@@ -37,8 +39,9 @@ const Header = () => {
   }, []);
 
   const onLanguageChange = (lang: "en" | "hy" | "ru") => {
-    setLanguage(lang);
+    i18n.changeLanguage(lang);
     localStorage.setItem("appLang", lang);
+    setLanguage(lang);
   };
 
   const handleLogout = () => {
