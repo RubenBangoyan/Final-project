@@ -3,10 +3,10 @@ import type { UploadFile } from "antd/es/upload/interface";
 import type { UploadChangeParam } from "antd/es/upload";
 import { generateResumeFromGPT } from "../../api";
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Button,
   DatePicker,
@@ -20,6 +20,8 @@ import {
   Modal,
 } from "antd";
 import "./Resume.css";
+import type { RcFile } from "antd/es/upload";
+import { message } from "antd";
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -34,6 +36,10 @@ const ResumeForm: React.FC = () => {
   const [form] = Form.useForm();
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const navigate = useNavigate();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const addExperience = () => {
     setExperienceFields([...experienceFields, { id: uuidv4() }]);
@@ -64,6 +70,46 @@ const ResumeForm: React.FC = () => {
       onOk: () => navigate(ROUTES.HOME_PATH),
     });
   };
+
+  const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const beforeUpload = (file: RcFile) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+      message.error("You can only upload image files!");
+      return Upload.LIST_IGNORE;
+    }
+
+    const isLt5MB = file.size / 1024 / 1024 < 5;
+    if (!isLt5MB) {
+      message.error("Image must be smaller than 5MB!");
+      return Upload.LIST_IGNORE;
+    }
+
+    return true;
+  };
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || "Preview");
+  };
+
+  const handleChange = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => setFileList(newFileList);
 
   return (
     <div className="resume-container">
@@ -140,14 +186,42 @@ const ResumeForm: React.FC = () => {
             valuePropName="fileList"
             getValueFromEvent={normFile}
           >
-            <Upload listType="picture-card" beforeUpload={() => false}>
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              beforeUpload={beforeUpload}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              customRequest={({ onSuccess }) =>
+                setTimeout(() => onSuccess?.("ok"), 500)
+              }
+              maxCount={1}
+            >
+              {fileList.length >= 1 ? null : (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              )}
             </Upload>
-          </Form.Item>
 
+            <Modal
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={() => setPreviewOpen(false)}
+            >
+              <img
+                alt="Preview"
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  maxHeight: "500px",
+                }}
+                src={previewImage}
+              />
+            </Modal>
+          </Form.Item>
           <Divider orientation="left">💼 Work Experience</Divider>
           {experienceFields.map((field, index) => (
             <Space

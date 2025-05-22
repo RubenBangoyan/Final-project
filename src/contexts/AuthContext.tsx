@@ -1,6 +1,9 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeUser } from "../features/user/userSlice";
+import { removeUser, setUser } from "../features/user/userSlice";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../services/firebse-config";
+import { message } from "antd";
 
 interface AuthContextType {
   isAuth: boolean;
@@ -8,6 +11,7 @@ interface AuthContextType {
   token: string | null;
   id: string | null;
   logout: () => void;
+  authLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   token: null,
   id: null,
   logout: () => {},
+  authLoading: true,
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -23,10 +28,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const dispatch = useDispatch();
   const { email, token, id } = useSelector((state: any) => state.user);
+  const [authLoading, setAuthLoading] = useState(true);
 
-  const logout = () => {
-    dispatch(removeUser());
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(removeUser());
+      message.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      message.error("Logout failed");
+    }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const token = await user.getIdToken();
+        dispatch(
+          setUser({
+            email: user.email || "",
+            token,
+            id: user.uid,
+          })
+        );
+      } else {
+        dispatch(removeUser());
+      }
+      setAuthLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [dispatch]);
 
   const contextValue: AuthContextType = {
     isAuth: !!email,
@@ -34,10 +67,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     token,
     id,
     logout,
+    authLoading,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
