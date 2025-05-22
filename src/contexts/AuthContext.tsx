@@ -1,6 +1,10 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeUser } from "../features/user/userSlice";
+import { removeUser, setUser } from "../features/user/userSlice";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/firebse-config";
+import { signOut } from "firebase/auth";
+import { message } from "antd";
 
 interface AuthContextType {
   isAuth: boolean;
@@ -24,9 +28,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const dispatch = useDispatch();
   const { email, token, id } = useSelector((state: any) => state.user);
 
-  const logout = () => {
-    dispatch(removeUser());
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(removeUser());
+      message.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      message.error("Logout failed");
+    }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const token = await user.getIdToken();
+        dispatch(
+          setUser({
+            email: user.email || "",
+            token,
+            id: user.uid,
+          })
+        );
+      } else {
+        dispatch(removeUser());
+      }
+    });
+
+    return () => unsubscribe();
+  }, [dispatch]);
 
   const contextValue: AuthContextType = {
     isAuth: !!email,

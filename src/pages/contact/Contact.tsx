@@ -32,7 +32,7 @@ const Contact = () => {
       <Card className="contact-info">
         <div className="contact-info-content">
           <p>
-            <PhoneFilled /> +374 99 99 99 99
+            <PhoneFilled /> +374 00 00-00-00
           </p>
           <p>
             <MailFilled /> example@gmail.com

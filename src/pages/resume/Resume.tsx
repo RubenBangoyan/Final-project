@@ -23,7 +23,6 @@ import "./Resume.css";
 import type { RcFile } from "antd/es/upload";
 import { message } from "antd";
 
-
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
@@ -73,12 +72,12 @@ const ResumeForm: React.FC = () => {
   };
 
   const getBase64 = (file: RcFile): Promise<string> =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-      });
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
 
   const beforeUpload = (file: RcFile) => {
     const isImage = file.type.startsWith("image/");
@@ -106,8 +105,11 @@ const ResumeForm: React.FC = () => {
     setPreviewTitle(file.name || "Preview");
   };
 
-  const handleChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) =>
-      setFileList(newFileList);
+  const handleChange = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => setFileList(newFileList);
 
   return (
     <div className="resume-container">
@@ -179,38 +181,44 @@ const ResumeForm: React.FC = () => {
           </Row>
           <Divider orientation="left">📸 Photo</Divider>
           <Form.Item
-              label="Upload Photo"
-              name="photo"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
+            label="Upload Photo"
+            name="photo"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
           >
             <Upload
-                listType="picture-card"
-                fileList={fileList}
-                beforeUpload={beforeUpload}
-                onPreview={handlePreview}
-                onChange={handleChange}
-                customRequest={({ onSuccess }) => setTimeout(() => onSuccess?.("ok"), 500)}
-                maxCount={1}
+              listType="picture-card"
+              fileList={fileList}
+              beforeUpload={beforeUpload}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              customRequest={({ onSuccess }) =>
+                setTimeout(() => onSuccess?.("ok"), 500)
+              }
+              maxCount={1}
             >
               {fileList.length >= 1 ? null : (
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                  </div>
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
               )}
             </Upload>
 
             <Modal
-                open={previewOpen}
-                title={previewTitle}
-                footer={null}
-                onCancel={() => setPreviewOpen(false)}
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={() => setPreviewOpen(false)}
             >
               <img
-                  alt="Preview"
-                  style={{ width: "100%", objectFit: "contain", maxHeight: "500px" }}
-                  src={previewImage}
+                alt="Preview"
+                style={{
+                  width: "100%",
+                  objectFit: "contain",
+                  maxHeight: "500px",
+                }}
+                src={previewImage}
               />
             </Modal>
           </Form.Item>
