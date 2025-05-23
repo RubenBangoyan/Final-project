@@ -5,6 +5,7 @@ import JobCard from '../../components/jobCard/JobCard';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useEffect, useState } from 'react';
 import './Home.css';
+import ChatHelper from '../../components/chatHelper/ChatHelper';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -139,6 +140,7 @@ const Home = () => {
           ))}
         </Row>
       )}
+      <ChatHelper />
     </div>
   );
 };
