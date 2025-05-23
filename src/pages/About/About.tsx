@@ -1,7 +1,7 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { useTheme } from "../../contexts/ThemeContext";
 import { Card, Typography, Button } from "antd";
 import { useState } from "react";
-import { useTheme } from "../../contexts/ThemeContext";
 import "./About.css";
 
 const { Title, Paragraph } = Typography;
