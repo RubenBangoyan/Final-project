@@ -52,7 +52,7 @@ const Home = () => {
       : true;
 
     const matchesSalary =
-      job.salaryFrom >= salaryRange[0] && job.salaryTo <= salaryRange[1];
+      job.salaryFrom <= salaryRange[1] && job.salaryTo >= salaryRange[0];
 
     return matchesQuery && matchesEmployment && matchesTech && matchesSalary;
   });

@@ -35,7 +35,7 @@ const Contact = () => {
         theme === "dark" ? "contact-dark" : "contact-light"
       }`}
     >
-      <Row gutter={[32, 32]} justify="center" className="contact-container">
+      <Row gutter={[32, 32]} justify="center">
         <Col span={24}>
           <Title level={2} className={`contact-title ${theme}`}>
             Contact Us
