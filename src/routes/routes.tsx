@@ -1,4 +1,4 @@
-import OfferingWorkFormStep from '../pages/offeringWorkFormStep/OfferingWorkFormStep.tsx';
+import OfferingWorkFormStep from '../pages/uploadWork/UploadWork.tsx';
 import LookingWorkFormStep from '../pages/lookingWorkFormStep/LookingWorkFormStep.tsx';
 import NotFound from '../components/notFound/NotFound';
 import { createBrowserRouter } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Contact from '../pages/contact/Contact';
 import About from '../pages/About/About.tsx';
 import Home from '../pages/home/Home';
 import { ROUTES } from './paths';
+import UploadWork from '../pages/uploadWork/UploadWork.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -53,11 +54,7 @@ export const router = createBrowserRouter([
     element: <ResumeForm />,
   },
   {
-    path: ROUTES.LOOKING_STEP_PATH,
-    element: <LookingWorkFormStep />,
-  },
-  {
-    path: ROUTES.OFFERING_STEP_PATH,
-    element: <OfferingWorkFormStep />,
+    path: ROUTES.UPLOAD_WORK,
+    element: <UploadWork />,
   },
 ]);

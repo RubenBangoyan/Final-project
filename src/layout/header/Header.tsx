@@ -156,6 +156,9 @@ const Header = () => {
             {isAuth ? (
               <>
                 <Col>
+                <div>
+                  <button onClick={() => navigate(ROUTES.UPLOAD_WORK)} >upload Work</button>
+                </div>
                   <Button
                     type="default"
                     onClick={() => navigate(ROUTES.RESUME_PATH)}

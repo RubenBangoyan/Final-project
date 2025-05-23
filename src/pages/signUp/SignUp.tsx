@@ -3,19 +3,20 @@ import {
   inMemoryPersistence,
   browserLocalPersistence,
   createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { auth } from "../../services/firebse-config/index";
-import { Button, Checkbox, Form, Input, Select } from "antd";
-import { setUser } from "../../features/user/userSlice";
-import { useAppDispatch } from "../../app/hook";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
-import type { FormProps } from "antd";
-import { useState } from "react";
-import "./SignUp.css";
+} from 'firebase/auth';
+import { auth } from '../../services/firebse-config/index';
+import { Button, Checkbox, Form, Input } from 'antd';
+import { setUser } from '../../features/user/userSlice';
+import { useAppDispatch } from '../../app/hook';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import type { FormProps } from 'antd';
+import { useState } from 'react';
+import './SignUp.css';
+import { db } from '../../services/firebse-config/index';
+import { collection, setDoc, doc } from 'firebase/firestore';
 
 type FieldType = {
-  role: string;
   email: string;
   lastName: string;
   password: string;
@@ -28,10 +29,11 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-    const { password, confirmPassword, email, role, remember } = values;
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+    const { password, confirmPassword, email, remember, firstName, lastName } =
+      values;
 
     if (password !== confirmPassword) {
       setError("Passwords didn't match.");
@@ -54,33 +56,32 @@ const SignUp = () => {
       const token = await user.getIdToken();
 
       const userData = {
-        email: user.email || "",
+        email: user.email || '',
         token,
         id: user.uid,
       };
 
+      await setDoc(doc(db, 'users', user.uid), {
+        email,
+        firstName,
+        lastName,
+      });
+
       dispatch(setUser(userData));
-
-      if (role === "looking") {
-        navigate(ROUTES.LOOKING_STEP_PATH);
-      }
-
-      if (role === "offering") {
-        navigate(ROUTES.OFFERING_STEP_PATH);
-      }
+      navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
-        form.setFieldsValue({ password: "", confirmPassword: "" });
+        form.setFieldsValue({ password: '', confirmPassword: '' });
       }
       console.log(error);
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
     errorInfo
   ) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
   return (
     <div className="sign-up-container">
@@ -95,32 +96,21 @@ const SignUp = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{
-          width: "100vw",
+          width: '100vw',
           maxWidth: 670,
           minWidth: 300,
-          boxSizing: "border-box",
+          boxSizing: 'border-box',
           height: 520,
         }}
       >
-        <Form.Item<FieldType>
-          name="role"
-          label="Role"
-          rules={[{ required: true, message: "Please select your role!" }]}
-        >
-          <Select placeholder="Select your role">
-            <Select.Option value="looking">Looking for a job</Select.Option>
-            <Select.Option value="offering">Offering a job</Select.Option>
-          </Select>
-        </Form.Item>
-
         <Form.Item<FieldType>
           label="Email"
           name="email"
           rules={[
             {
-              type: "email",
+              type: 'email',
               required: true,
-              message: "Please input your Email!",
+              message: 'Please input your Email!',
             },
           ]}
         >
@@ -130,7 +120,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           label="First Name"
           name="firstName"
-          rules={[{ required: true, message: "Please input your first name!" }]}
+          rules={[{ required: true, message: 'Please input your first name!' }]}
         >
           <Input />
         </Form.Item>
@@ -138,7 +128,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           label="Last Name"
           name="lastName"
-          rules={[{ required: true, message: "Please input your last name!" }]}
+          rules={[{ required: true, message: 'Please input your last name!' }]}
         >
           <Input />
         </Form.Item>
@@ -146,7 +136,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="password"
           label="Password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password />
         </Form.Item>
@@ -154,13 +144,13 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="confirmPassword"
           label="Confirm Password"
-          rules={[{ required: true, message: "Please confirm your password!" }]}
+          rules={[{ required: true, message: 'Please confirm your password!' }]}
         >
           <Input.Password />
         </Form.Item>
 
         <div>
-          <h3 className="error" style={{ color: "red" }}>
+          <h3 className="error" style={{ color: 'red' }}>
             {error}
           </h3>
         </div>
