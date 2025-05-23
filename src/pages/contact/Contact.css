@@ -1,9 +1,28 @@
+:root {
+  --bg-light: #f0f5ff;
+  --bg-dark: #122f49;
+  --text-light: #f0f0f0;
+  --text-dark: #001529;
+}
+
 .contact-container {
   margin: 2rem auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  min-height: 86vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-light {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.contact-dark {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
 }
 
 h2 {
@@ -40,8 +59,15 @@ h2 {
   align-items: center;
   gap: 0.5rem;
   font-size: 1.1rem;
-  color: #333;
   margin: 0;
+}
+
+.contact-light .contact-info-content p {
+  color: #333;
+}
+
+.contact-dark .contact-info-content p {
+  color: var(--text-light);
 }
 
 .contact-info-content p svg {
@@ -61,9 +87,16 @@ h2 {
   align-items: center;
   gap: 0.5rem;
   font-size: 1.1rem;
-  color: #333;
   text-decoration: none;
   transition: color 0.3s ease;
+}
+
+.contact-light .social-media-btn a {
+  color: #333;
+}
+
+.contact-dark .social-media-btn a {
+  color: var(--text-light);
 }
 
 .social-media-btn a:hover {
@@ -72,4 +105,86 @@ h2 {
 
 .social-media-btn a svg {
   font-size: 1.8rem;
+}
+
+.contact-icon.light {
+  color: black;
+}
+
+.contact-icon.dark {
+  color: white;
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.contact-info.light {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #d9d9d9;
+}
+
+.contact-info.dark {
+  background-color: #1e1e2f;
+  color: #ffffff;
+  border: 1px solid #434343;
+}
+
+.form.light {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+}
+
+.form.dark {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #434343;
+}
+
+/* Make input fields match theme */
+.form.light input,
+.form.light textarea {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #d9d9d9;
+}
+
+.form.dark input,
+.form.dark textarea {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border-color: #555;
+}
+
+/* Optional: override label color */
+.form.light .ant-form-item-label > label {
+  color: #000;
+}
+
+.form.dark .ant-form-item-label > label {
+  color: #fff;
+}
+
+.contact-header {
+  text-align: center;
+  border-radius: 12px;
+}
+
+.contact-title.light {
+  color: #000000;
+}
+
+.contact-title.dark {
+  color: #ffffff;
+}
+
+.contact-title {
+  transition: color 0.3s;
 }

@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, message } from "antd";
+import { Button, Card, Form, Input, message, Typography } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {
   PhoneFilled,
@@ -9,6 +9,9 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 import "./Contact.css";
+import { useTheme } from "../../contexts/ThemeContext";
+
+const { Title } = Typography;
 
 interface FormValues {
   name: string;
@@ -18,6 +21,7 @@ interface FormValues {
 
 const Contact = () => {
   const [form] = Form.useForm<FormValues>();
+  const { theme } = useTheme();
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
@@ -26,25 +30,38 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-container">
-      <h2>Contact Us</h2>
+    <div
+      className={`contact-container ${
+        theme === "dark" ? "contact-dark" : "contact-light"
+      }`}
+    >
+      <header className="contact-header">
+        <Title level={2} className={`contact-title ${theme}`}>
+          Contact Us
+        </Title>
+      </header>
 
-      <Card className="contact-info">
+      <Card className={`contact-info ${theme}`}>
         <div className="contact-info-content">
           <p>
-            <PhoneFilled /> +374 00 00-00-00
+            <PhoneFilled className={`contact-icon ${theme}`} /> +374 00 00-00-00
           </p>
           <p>
-            <MailFilled /> example@gmail.com
+            <MailFilled className={`contact-icon ${theme}`} /> example@gmail.com
           </p>
           <p>
-            <GlobalOutlined /> Yerevan, Armenia
+            <GlobalOutlined className={`contact-icon ${theme}`} /> Yerevan,
+            Armenia
           </p>
         </div>
       </Card>
 
       <div className="form-map-wrapper">
-        <Form<FormValues> className="form" form={form} onFinish={handleSubmit}>
+        <Form<FormValues>
+          className={`form ${theme}`}
+          form={form}
+          onFinish={handleSubmit}
+        >
           <Form.Item
             label="Name"
             name="name"
@@ -88,7 +105,7 @@ const Contact = () => {
         />
       </div>
 
-      <Card className="social-media-card">
+      <Card className={`contact-info ${theme}`}>
         <h2>Our Social Media</h2>
         <div className="social-media-btn">
           <a

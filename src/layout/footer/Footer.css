@@ -1,28 +1,23 @@
 footer {
-  background: #14213d;
-  color: #ccc;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
   padding: 60px 20px 30px;
-}
-
-.footer-dark {
-  background-color: #001529;
-  color: #f0f0f0;
-  border-top: 1px solid #444;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 footer a.ant-typography {
-  color: #ccc !important;
+  color: var(--footer-link-color) !important;
   transition: color 0.3s ease;
   text-decoration: none;
 }
 
 footer a.ant-typography:hover {
-  color: #40a9ff !important;
+  color: var(--footer-link-hover-color) !important;
   text-decoration: underline;
   cursor: pointer;
 }
 
 footer a.ant-typography:hover svg {
-  color: #40a9ff !important;
+  color: var(--footer-link-hover-color) !important;
   transition: color 0.3s ease;
 }

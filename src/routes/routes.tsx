@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
     element: <SignUp />,
   },
   {
-    path: "*",
+    path: ROUTES.NOT_FOUND_PATH,
     element: <NotFound />,
   },
   {

@@ -139,7 +139,7 @@ const Header = () => {
               </Select>
             </Col>
             <Col>
-              {theme === "dark" ? (
+              {theme === "light" ? (
                 <MoonFilled
                   onClick={handleClick}
                   style={{ fontSize: 18, cursor: "pointer" }}
@@ -159,12 +159,24 @@ const Header = () => {
             {isAuth ? (
               <>
                 <Col>
-                  <Button onClick={() => navigate(ROUTES.UPLOAD_WORK)}>
-                    Upload Work
-                  </Button>
-                  {" "}
                   <Button
                     type="default"
+                    style={{
+                      backgroundColor:
+                        theme === "light" ? "#1890ff" : "#001529",
+                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                    }}
+                    onClick={() => navigate(ROUTES.UPLOAD_WORK)}
+                  >
+                    Upload Work
+                  </Button>{" "}
+                  <Button
+                    type="default"
+                    style={{
+                      backgroundColor:
+                        theme === "light" ? "#1890ff" : "#001529",
+                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                    }}
                     onClick={() => navigate(ROUTES.RESUME_PATH)}
                   >
                     Profile / Resume
@@ -180,7 +192,12 @@ const Header = () => {
               <>
                 <Col>
                   <Button
-                    type="primary"
+                    style={{
+                      backgroundColor:
+                        theme === "light" ? "#1890ff" : "#001529",
+                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                    }}
+                    type="default"
                     onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
                   >
                     Sign In
@@ -188,6 +205,11 @@ const Header = () => {
                 </Col>
                 <Col>
                   <Button
+                    style={{
+                      backgroundColor:
+                        theme === "light" ? "#1890ff" : "#001529",
+                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                    }}
                     type="default"
                     onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
                   >
