@@ -1,75 +1,50 @@
 .contact-container {
-  margin: 2rem auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+  padding: 2rem;
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 1rem;
 }
 
-.form-map-wrapper {
+.contact-col {
   display: flex;
-  justify-content: space-between;
-  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-form-map-row {
   flex-wrap: wrap;
 }
 
-.form {
-  width: 50%;
-  min-width: 300px;
+.contact-form-map-row .ant-col {
+  display: flex;
+  flex-direction: column;
 }
 
-.contact-info {
+iframe {
   width: 100%;
+  height: 100%;
+  border: none;
 }
 
-.contact-info-content {
+.social-media-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.contact-info-content p {
+.social-media-card a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 1.1rem;
-  color: #333;
-  margin: 0;
-}
-
-.contact-info-content p svg {
-  font-size: 1.5rem;
-  color: #1890ff;
-}
-
-.social-media-btn {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.social-media-btn a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
+  min-width: 150px;
   color: #333;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.social-media-btn a:hover {
+.social-media-card a:hover {
   color: #1890ff;
-}
-
-.social-media-btn a svg {
-  font-size: 1.8rem;
 }
