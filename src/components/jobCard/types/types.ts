@@ -1,4 +1,3 @@
-
 export interface Job {
   id: string;
   companyName: string;
@@ -13,5 +12,5 @@ export interface Job {
   requirements: string;
   salaryFrom: number;
   salaryTo: number;
-  technologies: string[];
+  technologies: string[]; 
 }
