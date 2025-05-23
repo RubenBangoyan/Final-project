@@ -14,13 +14,15 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    const storedTheme = StorageService.getItem<string>(THEME_STORAGE_KEY);
+    return storedTheme === "dark" || storedTheme === "light"
+      ? storedTheme
+      : "light";
+  });
 
   useEffect(() => {
-    const storedTheme = StorageService.getItem<string>(
-      THEME_STORAGE_KEY,
-      "string"
-    );
+    const storedTheme = StorageService.getItem<string>(THEME_STORAGE_KEY);
     if (storedTheme === "dark" || storedTheme === "light") {
       setTheme(storedTheme);
     }
@@ -28,11 +30,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     StorageService.setItem(THEME_STORAGE_KEY, theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  function handleClick(): void {
+  const handleClick = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  }
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, handleClick }}>
