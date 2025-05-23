@@ -1,10 +1,11 @@
-import { Form, Input, Select, Button, InputNumber } from 'antd';
-import { doc, setDoc } from 'firebase/firestore';
-import { serverTimestamp } from 'firebase/firestore';
-import { auth } from '../../services/firebse-config';
-import { db } from '../../services/firebse-config';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hook';
+import { Form, Input, Select, Button, InputNumber, Modal } from "antd";
+import { doc, setDoc } from "firebase/firestore";
+import { serverTimestamp } from "firebase/firestore";
+// import { auth } from "../../services/firebse-config";
+import { db } from "../../services/firebse-config";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hook";
+import { ROUTES } from "../../routes/paths";
 
 const { Option } = Select;
 
@@ -13,8 +14,8 @@ interface OfferingWorkFormValues {
   aboutCompany?: string;
   companyWebsite?: string;
   position: string;
-  category?: string; // Добавлено поле для категории работы
-  level?: 'intern' | 'junior' | 'mid' | 'senior' | 'lead';
+  category?: string;
+  level?: "intern" | "junior" | "mid" | "senior" | "lead";
   technologies?: string[];
   employmentType?: string[];
   location?: string;
@@ -27,12 +28,12 @@ interface OfferingWorkFormValues {
 
 const UploadWork = () => {
   const [form] = Form.useForm();
-  const currentUser = auth.currentUser;
+  // const currentUser = auth.currentUser;
   const navigate = useNavigate();
   const id = useAppSelector((state) => state.user.id);
 
   const onFinish = async (values: OfferingWorkFormValues) => {
-    console.log(values, 'values');
+    console.log(values, "values");
     try {
       const dataToSave = {
         ...values,
@@ -41,16 +42,27 @@ const UploadWork = () => {
       };
 
       if (!id) {
-        console.error('ID is null. Cannot create document.');
+        console.error("ID is null. Cannot create document.");
         return;
       }
 
-      await setDoc(doc(db, 'jobs', id), dataToSave);
-      console.log('Данные успешно сохранены!');
-      navigate('/');
+      await setDoc(doc(db, "jobs", id), dataToSave);
+      console.log("Данные успешно сохранены!");
+      navigate("/");
     } catch (error) {
-      console.error('Ошибка при сохранении:', error);
+      console.error("Ошибка при сохранении:", error);
     }
+  };
+
+  const handleGoBack = () => {
+    Modal.confirm({
+      title: "Discard Form?",
+      content:
+        "Are you sure you want to go back? All entered data will be lost.",
+      okText: "Yes, go back",
+      cancelText: "Cancel",
+      onOk: () => navigate(ROUTES.HOME_PATH),
+    });
   };
 
   return (
@@ -82,7 +94,7 @@ const UploadWork = () => {
       <Form.Item
         name="category"
         label="Job Category"
-        rules={[{ required: true, message: 'Please select a job category' }]}
+        rules={[{ required: true, message: "Please select a job category" }]}
       >
         <Select placeholder="Select job category">
           <Option value="softwareDevelopment">Software Development</Option>
@@ -131,11 +143,11 @@ const UploadWork = () => {
       </Form.Item>
 
       <Form.Item label="Salary From (USD)" name="salaryFrom">
-        <InputNumber min={0} step={100} style={{ width: '100%' }} />
+        <InputNumber min={0} step={100} style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item label="Salary To (USD)" name="salaryTo">
-        <InputNumber min={0} step={100} style={{ width: '100%' }} />
+        <InputNumber min={0} step={100} style={{ width: "100%" }} />
       </Form.Item>
 
       <Form.Item name="requirements" label="Candidate Requirements">
@@ -145,7 +157,7 @@ const UploadWork = () => {
       <Form.Item
         name="contactEmail"
         label="Contact Email"
-        rules={[{ type: 'email', required: true }]}
+        rules={[{ type: "email", required: true }]}
       >
         <Input />
       </Form.Item>
@@ -157,6 +169,10 @@ const UploadWork = () => {
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Save
+        </Button>
+        {" "}
+        <Button type="primary" htmlType="submit" onClick={handleGoBack}>
+          Go Back Home
         </Button>
       </Form.Item>
     </Form>

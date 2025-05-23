@@ -1,52 +1,27 @@
-.header-light {
+header {
   padding: 16px 32px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
   font-size: 1.2rem;
-}
-
-.header-dark {
-  padding: 16px 32px;
-  background-color: black;
-  color: whitesmoke;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  font-size: 1.2rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .list-container {
   list-style: none;
   display: flex;
   gap: 24px;
-  background-color: #ffffff;
-  color: #000000;
+  color: var(--text-color);
 }
 
-.language-select {
-  width: 140px;
-}
-
-.logo {
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 20px;
-  color: #1890ff;
-}
-.language-select-light .ant-select-selector {
-  background-color: #fff !important;
-  color: #000 !important;
-}
-
+.language-select-light .ant-select-selector,
 .language-select-dark .ant-select-selector {
-  background-color: #001529 !important;
-  color: #fff !important;
+  background-color: var(--header-bg) !important;
+  color: var(--header-text) !important;
 }
 
 .language-select .flag-icon {
@@ -59,6 +34,13 @@
 .option-item {
   display: flex;
   align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--logo-color);
 }
 
 .theme-toggle {

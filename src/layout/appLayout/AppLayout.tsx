@@ -2,16 +2,31 @@ import { Outlet } from "react-router-dom";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import "./AppLayout.css";
+import { useAuth } from "../../contexts/AuthContext";
+import LoadingRouter from "../../routes/LoadingRouter";
+import { Row, Col } from "antd";
 
 const AppLayout = () => {
+  const { authLoading } = useAuth();
+
+  if (authLoading) return <LoadingRouter />;
+
   return (
-    <div className="app-layout">
-      <Header />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <Row justify="center">
+      <Col span={24}>
+        <Header />
+      </Col>
+
+      <Col span={24}>
+        <main style={{ minHeight: "calc(100vh - 128px)" }}>
+          <Outlet />
+        </main>
+      </Col>
+
+      <Col span={24}>
+        <Footer />
+      </Col>
+    </Row>
   );
 };
 
