@@ -1,81 +1,134 @@
-import { Layout, Input, Button, Select, Card, Carousel } from "antd";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useTranslation } from "react-i18next";
-import { useFirebaseData } from "../../contexts/FirebaseDataContext";
-import React, { useRef, useEffect } from "react";
-import "./Home.css";
+import { Input, Select, Slider, Row, Col, Spin, Empty } from 'antd';
+import { getAllJobs } from '../../components/jobCard/JobService';
+import type { Job } from '../../components/jobCard/types/types';
+import JobCard from '../../components/jobCard/JobCard';
+import { useEffect, useState } from 'react';
 
-const { Content } = Layout;
+const { Search } = Input;
 const { Option } = Select;
 
-const Home: React.FC = () => {
-  const carouselRef = useRef<any>(null);
-  const { t } = useTranslation();
-  const { theme } = useTheme();
-  const { jobOffers, jobSeekers, loading, error } = useFirebaseData();
+const Home = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [query, setQuery] = useState('');
+  const [employmentFilter, setEmploymentFilter] = useState<
+    string | undefined
+  >();
+  const [techFilter, setTechFilter] = useState<string | undefined>();
+  const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 50000]);
+  const [loading, setLoading] = useState(true);
 
-  const next = () => carouselRef.current?.next();
-  const prev = () => carouselRef.current?.prev();
-
-  // Fetching test data from Firestore into the console (Home.tsx)
   useEffect(() => {
-    if (!loading && jobOffers.length > 0) {
-      console.log("Job Offers from Firebase:", jobOffers);
-    }
-    if (!loading && jobSeekers.length > 0) {
-      console.log("Job Seekers from Firebase:", jobSeekers);
-    }
+    const fetchJobs = async () => {
+      try {
+        const allJobs = await getAllJobs();
+        setJobs(allJobs);
+      } catch (error) {
+        console.error('Failed to load jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (error) {
-      console.error("Error fetching job offers:", error);
-    }
-  }, [jobOffers, loading, error]);
+    fetchJobs();
+  }, []);
+
+  const filteredJobs = jobs.filter((job) => {
+    const matchesQuery =
+      job.position.toLowerCase().includes(query.toLowerCase()) ||
+      job.location.toLowerCase().includes(query.toLowerCase()) ||
+      job.employmentType.some((type) =>
+        type.toLowerCase().includes(query.toLowerCase())
+      );
+
+    const matchesEmployment = employmentFilter
+      ? job.employmentType.includes(employmentFilter)
+      : true;
+
+    const matchesTech = techFilter
+      ? job.technologies.includes(techFilter)
+      : true;
+
+    const matchesSalary =
+      job.salaryFrom >= salaryRange[0] && job.salaryTo <= salaryRange[1];
+
+    return matchesQuery && matchesEmployment && matchesTech && matchesSalary;
+  });
+
+  const allEmploymentTypes = Array.from(
+    new Set(jobs.flatMap((job) => job.employmentType))
+  );
+  const allTechnologies = Array.from(
+    new Set(jobs.flatMap((job) => job.technologies))
+  );
 
   return (
-    <Layout className={`homepage homepage-${theme}`}>
-      <Content className="content">
-        <div className="hero">
-          <h1>{t("hero.title")}</h1>
-          <p>{t("hero.description")}</p>
-        </div>
-
-        <div className="search-section">
-          <Input placeholder={t("search.placeholder")} className="input" />
-          <Select placeholder={t("search.category")} className="select">
-            <Option value="cat1">{t("search.plumber")}</Option>
-            <Option value="cat2">{t("search.electrician")}</Option>
-            <Option value="cat3">{t("search.carpenter")}</Option>
-          </Select>
-          <Button type="primary" className="search-button">
-            {t("search.button")}
-          </Button>
-        </div>
-
-        <div className="section-title">⭐ {t("section.bestWorkers")} ⭐</div>
-
-        <div className="carousel-wrapper">
-          <Button onClick={prev} className="carousel-btn">
-            ←
-          </Button>
-          <Carousel ref={carouselRef} autoplay className="worker-carousel">
-            {Array.from({ length: 7 }).map((_, index) => (
-              <div key={index} className="carousel-slide">
-                <Card className="worker-card" variant="outlined">
-                  <p className="worker-rate">★★★★★</p>
-                  <div className="worker-image" />
-                  <p className="worker-name">{t("worker.name")}</p>
-                  <p className="worker-surname">{t("worker.surname")}</p>
-                  <p className="worker-profession">{t("worker.profession")}</p>
-                </Card>
-              </div>
+    <div style={{ padding: '2rem' }}>
+      <Row gutter={16} style={{ marginBottom: '1rem' }}>
+        <Col span={6}>
+          <Search
+            value={query}
+            allowClear
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by position, location, or type"
+          />
+        </Col>
+        <Col span={6}>
+          <Select
+            allowClear
+            value={employmentFilter}
+            style={{ width: '100%' }}
+            placeholder="Filter by employment type"
+            onChange={(value) => setEmploymentFilter(value)}
+          >
+            {allEmploymentTypes.map((type) => (
+              <Option key={type} value={type}>
+                {type}
+              </Option>
             ))}
-          </Carousel>
-          <Button onClick={next} className="carousel-btn">
-            →
-          </Button>
-        </div>
-      </Content>
-    </Layout>
+          </Select>
+        </Col>
+        <Col span={6}>
+          <Select
+            allowClear
+            value={techFilter}
+            placeholder="Filter by technology"
+            onChange={(value) => setTechFilter(value)}
+            style={{ width: '100%' }}
+          >
+            {allTechnologies.map((tech) => (
+              <Option key={tech} value={tech}>
+                {tech}
+              </Option>
+            ))}
+          </Select>
+        </Col>
+        <Col span={6}>
+          <Slider
+            range
+            min={0}
+            step={1000}
+            max={50000}
+            value={salaryRange}
+            onChange={(value) => setSalaryRange(value as [number, number])}
+            tooltip={{ formatter: (val) => `$${val}` }}
+          />
+        </Col>
+      </Row>
+
+      {loading ? (
+        <Spin size="large" />
+      ) : filteredJobs.length === 0 ? (
+        <Empty description="No jobs found matching your criteria." />
+      ) : (
+        <Row gutter={[16, 16]}>
+          {filteredJobs.map((job) => (
+            <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
+              <JobCard job={job} />
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
   );
 };
 

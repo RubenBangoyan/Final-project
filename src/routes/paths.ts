@@ -6,6 +6,7 @@ export const ROUTES = {
   SIGN_IN_PATH: '/sign-in',
   SIGN_UP_PATH: '/sign-up',
   CONTACT_US_PATH: '/contact-us',
-  LOOKING_STEP_PATH: '/sign-up/looking-work-form-step',
-  OFFERING_STEP_PATH: '/sign-up/offering-work-form-step',
+  UPLOAD_WORK: 'upload-work'
+
+
 } as const;

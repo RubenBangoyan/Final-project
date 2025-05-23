@@ -1,9 +1,10 @@
 import { Form, Input, Select, Button, InputNumber } from 'antd';
+import { doc, setDoc } from 'firebase/firestore';
 import { serverTimestamp } from 'firebase/firestore';
 import { auth } from '../../services/firebse-config';
-import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../services/firebse-config';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../app/hook';
 
 const { Option } = Select;
 
@@ -12,6 +13,7 @@ interface OfferingWorkFormValues {
   aboutCompany?: string;
   companyWebsite?: string;
   position: string;
+  category?: string; // Добавлено поле для категории работы
   level?: 'intern' | 'junior' | 'mid' | 'senior' | 'lead';
   technologies?: string[];
   employmentType?: string[];
@@ -23,21 +25,27 @@ interface OfferingWorkFormValues {
   telegram?: string;
 }
 
-const OfferingWorkFormStep = () => {
+const UploadWork = () => {
   const [form] = Form.useForm();
   const currentUser = auth.currentUser;
   const navigate = useNavigate();
+  const id = useAppSelector((state) => state.user.id);
 
   const onFinish = async (values: OfferingWorkFormValues) => {
+    console.log(values, 'values');
     try {
       const dataToSave = {
         ...values,
-        createdAt: serverTimestamp(), // для сортировки по дате
-        role: 'offering', // если ты различаешь пользователей
-        userId: currentUser?.uid || null, // если используешь Firebase Auth
+        ownerID: id,
+        createdAt: serverTimestamp(),
       };
 
-      await addDoc(collection(db, 'jobOffers'), dataToSave);
+      if (!id) {
+        console.error('ID is null. Cannot create document.');
+        return;
+      }
+
+      await setDoc(doc(db, 'jobs', id), dataToSave);
       console.log('Данные успешно сохранены!');
       navigate('/');
     } catch (error) {
@@ -71,6 +79,27 @@ const OfferingWorkFormStep = () => {
         <Input />
       </Form.Item>
 
+      <Form.Item
+        name="category"
+        label="Job Category"
+        rules={[{ required: true, message: 'Please select a job category' }]}
+      >
+        <Select placeholder="Select job category">
+          <Option value="softwareDevelopment">Software Development</Option>
+          <Option value="designCreative">Design & Creative</Option>
+          <Option value="marketingSales">Marketing & Sales</Option>
+          <Option value="dataScience">Data Science</Option>
+          <Option value="customerSupport">Customer Support</Option>
+          <Option value="education">Education</Option>
+          <Option value="productManagement">Product Management</Option>
+          <Option value="hrRecruiting">HR & Recruiting</Option>
+          <Option value="legal">Legal</Option>
+          <Option value="engineering">Engineering</Option>
+          <Option value="finance">Finance</Option>
+          <Option value="others">Others</Option>
+        </Select>
+      </Form.Item>
+
       <Form.Item name="level" label="Position Level">
         <Select placeholder="Select level">
           <Option value="intern">Intern</Option>
@@ -83,7 +112,7 @@ const OfferingWorkFormStep = () => {
 
       <Form.Item name="technologies" label="Technology Stack">
         <Select mode="tags" placeholder="e.g. React, Node.js, SQL">
-          {/* User can enter tags manually */}
+          {/* Пользователь может добавлять теги вручную */}
         </Select>
       </Form.Item>
 
@@ -134,4 +163,4 @@ const OfferingWorkFormStep = () => {
   );
 };
 
-export default OfferingWorkFormStep;
+export default UploadWork;
