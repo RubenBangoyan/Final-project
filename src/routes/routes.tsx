@@ -1,17 +1,15 @@
-import OfferingWorkFormStep from '../pages/uploadWork/UploadWork.tsx';
-import LookingWorkFormStep from '../pages/lookingWorkFormStep/LookingWorkFormStep.tsx';
+import UploadWork from '../pages/uploadWork/UploadWork.tsx';
 import NotFound from '../components/notFound/NotFound';
 import { createBrowserRouter } from 'react-router-dom';
 import AppLayout from '../layout/appLayout/AppLayout';
 import { ProtectedRouter } from './ProtectedRouter';
 import ResumeForm from '../pages/resume/Resume';
-import SignIn from '../pages/signIn/SignIn';
-import SignUp from '../pages/signUp/SignUp';
 import Contact from '../pages/contact/Contact';
+import SignIn from '../pages/signIn/SignIn';
 import About from '../pages/About/About.tsx';
+import SignUp from '../pages/signUp/SignUp';
 import Home from '../pages/home/Home';
 import { ROUTES } from './paths';
-import UploadWork from '../pages/uploadWork/UploadWork.tsx';
 
 export const router = createBrowserRouter([
   {

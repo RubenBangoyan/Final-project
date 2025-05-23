@@ -1,15 +1,15 @@
-import React from "react";
-import { MoonFilled, SunOutlined } from "@ant-design/icons";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useTheme } from "../../contexts/ThemeContext";
-import { ROUTES } from "../../routes/paths";
-import { useAuth } from "../../contexts/AuthContext";
-import { Button, Col, Row, Select, Modal } from "antd";
-import "./header.css";
+import { MoonFilled, SunOutlined } from '@ant-design/icons';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
+import { Button, Col, Row, Select, Modal } from 'antd';
+import { useAuth } from '../../contexts/AuthContext';
+import { ROUTES } from '../../routes/paths';
+import React from 'react';
+import './header.css';
 
-import usFlag from "../../images/flags/us.png";
-import hyFlag from "../../images/flags/am.png";
-import ruFlag from "../../images/flags/ru.png";
+import usFlag from '../../images/flags/us.png';
+import hyFlag from '../../images/flags/am.png';
+import ruFlag from '../../images/flags/ru.png';
 
 const { Option } = Select;
 
@@ -23,30 +23,30 @@ const Header = () => {
   const navigate = useNavigate();
   const { theme, handleClick } = useTheme();
   const { isAuth, logout } = useAuth();
-  const [language, setLanguage] = React.useState<"en" | "hy" | "ru">("en");
+  const [language, setLanguage] = React.useState<'en' | 'hy' | 'ru'>('en');
 
   React.useEffect(() => {
-    const savedLang = localStorage.getItem("appLang") as
-      | "en"
-      | "hy"
-      | "ru"
+    const savedLang = localStorage.getItem('appLang') as
+      | 'en'
+      | 'hy'
+      | 'ru'
       | null;
     if (savedLang && flags[savedLang]) {
       setLanguage(savedLang);
     }
   }, []);
 
-  const onLanguageChange = (lang: "en" | "hy" | "ru") => {
+  const onLanguageChange = (lang: 'en' | 'hy' | 'ru') => {
     setLanguage(lang);
-    localStorage.setItem("appLang", lang);
+    localStorage.setItem('appLang', lang);
   };
 
   const handleLogout = () => {
     Modal.confirm({
-      title: "Confirm Logout",
-      content: "Are you sure you want to log out?",
-      okText: "Yes",
-      cancelText: "No",
+      title: 'Confirm Logout',
+      content: 'Are you sure you want to log out?',
+      okText: 'Yes',
+      cancelText: 'No',
       onOk: logout,
       okButtonProps: {
         danger: true,
@@ -91,7 +91,7 @@ const Header = () => {
                   value="en"
                   label={
                     <div>
-                      <img src={flags.en} alt="English" className="flag-icon" />{" "}
+                      <img src={flags.en} alt="English" className="flag-icon" />{' '}
                       English
                     </div>
                   }
@@ -109,7 +109,7 @@ const Header = () => {
                         src={flags.hy}
                         alt="Armenian"
                         className="flag-icon"
-                      />{" "}
+                      />{' '}
                       Հայերեն
                     </div>
                   }
@@ -123,7 +123,7 @@ const Header = () => {
                   value="ru"
                   label={
                     <div>
-                      <img src={flags.ru} alt="Russian" className="flag-icon" />{" "}
+                      <img src={flags.ru} alt="Russian" className="flag-icon" />{' '}
                       Русский
                     </div>
                   }
@@ -136,15 +136,15 @@ const Header = () => {
               </Select>
             </Col>
             <Col>
-              {theme === "dark" ? (
+              {theme === 'dark' ? (
                 <MoonFilled
                   onClick={handleClick}
-                  style={{ fontSize: 18, cursor: "pointer" }}
+                  style={{ fontSize: 18, cursor: 'pointer' }}
                 />
               ) : (
                 <SunOutlined
                   onClick={handleClick}
-                  style={{ fontSize: 18, cursor: "pointer" }}
+                  style={{ fontSize: 18, cursor: 'pointer' }}
                 />
               )}
             </Col>
@@ -156,9 +156,10 @@ const Header = () => {
             {isAuth ? (
               <>
                 <Col>
-                <div>
-                  <button onClick={() => navigate(ROUTES.UPLOAD_WORK)} >upload Work</button>
-                </div>
+                  <Button onClick={() => navigate(ROUTES.UPLOAD_WORK)}>
+                    Upload Work
+                  </Button>
+
                   <Button
                     type="default"
                     onClick={() => navigate(ROUTES.RESUME_PATH)}

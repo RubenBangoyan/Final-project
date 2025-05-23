@@ -1,10 +1,10 @@
-// src/types.ts
+
 export interface Job {
   id: string;
   companyName: string;
   companyWebsite: string;
   contactEmail: string;
-  createdAt: any; // можно использовать Timestamp если хочешь точность
+  createdAt: any; 
   employmentType: string[];
   level: string;
   location: string;
