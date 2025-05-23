@@ -1,18 +1,11 @@
-:root {
-  --bg-light: #f0f5ff;
-  --bg-dark: #122f49;
-  --text-light: #f0f0f0;
-  --text-dark: #001529;
+.contact-container {
+  padding: 2rem;
+  gap: 3rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.contact-container {
-  margin: 2rem auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  min-height: 86vh;
-  transition: background-color 0.3s, color 0.3s;
+h2 {
+  text-align: center;
 }
 
 .contact-light {
@@ -25,113 +18,62 @@
   color: var(--text-light);
 }
 
-h2 {
+.contact-title.light {
+  color: #000000;
+}
+
+.contact-title.dark {
+  color: #ffffff;
+}
+
+.contact-title {
+  transition: color 0.3s;
   text-align: center;
-  margin-bottom: 1rem;
 }
 
-.form-map-wrapper {
+.contact-col {
   display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.form {
-  width: 50%;
-  min-width: 300px;
-}
-
-.contact-info {
-  width: 100%;
-}
-
-.contact-info-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
   justify-content: center;
   align-items: center;
 }
 
-.contact-info-content p {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-  margin: 0;
+/* Card Theme Fix */
+.contact-dark .ant-card {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border-color: #434343;
 }
 
-.contact-light .contact-info-content p {
-  color: #333;
-}
-
-.contact-dark .contact-info-content p {
-  color: var(--text-light);
-}
-
-.contact-info-content p svg {
-  font-size: 1.5rem;
-  color: #1890ff;
-}
-
-.social-media-btn {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.social-media-btn a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.contact-light .social-media-btn a {
-  color: #333;
-}
-
-.contact-dark .social-media-btn a {
-  color: var(--text-light);
-}
-
-.social-media-btn a:hover {
-  color: #1890ff;
-}
-
-.social-media-btn a svg {
-  font-size: 1.8rem;
-}
-
-.contact-icon.light {
-  color: black;
-}
-
-.contact-icon.dark {
-  color: white;
-}
-
-.contact-icon {
-  font-size: 1.5rem;
-  margin-right: 0.5rem;
-}
-
-.contact-info.light {
+.contact-light .ant-card {
   background-color: #ffffff;
   color: #000000;
-  border: 1px solid #d9d9d9;
+  border-color: #d9d9d9;
 }
 
-.contact-info.dark {
-  background-color: #1e1e2f;
+.contact-dark .ant-card-head,
+.contact-dark .ant-card-body {
+  background-color: #1f1f1f;
   color: #ffffff;
-  border: 1px solid #434343;
 }
 
+.contact-light .ant-card-head,
+.contact-light .ant-card-body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Ensure Paragraphs inside cards adapt to theme */
+.contact-dark .ant-typography,
+.contact-dark .ant-typography p {
+  color: #ffffff;
+}
+
+.contact-light .ant-typography,
+.contact-light .ant-typography p {
+  color: #000000;
+}
+
+/* Form styles */
 .form.light {
   background-color: #ffffff;
   color: #000000;
@@ -148,7 +90,6 @@ h2 {
   border: 1px solid #434343;
 }
 
-/* Make input fields match theme */
 .form.light input,
 .form.light textarea {
   background-color: #ffffff;
@@ -163,7 +104,6 @@ h2 {
   border-color: #555;
 }
 
-/* Optional: override label color */
 .form.light .ant-form-item-label > label {
   color: #000;
 }
@@ -172,19 +112,76 @@ h2 {
   color: #fff;
 }
 
-.contact-header {
-  text-align: center;
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.social-media-card a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  min-width: 150px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-media-card a:hover {
+  color: #1890ff;
+}
+
+.contact-info {
+  width: 100%;
   border-radius: 12px;
 }
 
-.contact-title.light {
-  color: #000000;
+.contact-info-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
 }
 
-.contact-title.dark {
-  color: #ffffff;
+.contact-info-content p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  margin: 0;
 }
 
-.contact-title {
-  transition: color 0.3s;
+.contact-form-map-row {
+  flex-wrap: wrap;
+}
+
+.contact-form-map-row .ant-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-col .ant-typography {
+  font-size: 1.25rem; /* ~20px */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-col .anticon {
+  font-size: 1.5rem;
+}
+
+.contact-info .ant-typography a {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contact-info .anticon {
+  font-size: 1.5rem;
 }

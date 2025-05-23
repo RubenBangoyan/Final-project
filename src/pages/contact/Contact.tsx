@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, message, Typography } from "antd";
+import { Button, Card, Form, Input, message, Col, Row, Typography } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {
   PhoneFilled,
@@ -10,8 +10,6 @@ import {
 } from "@ant-design/icons";
 import "./Contact.css";
 import { useTheme } from "../../contexts/ThemeContext";
-
-const { Title } = Typography;
 
 interface FormValues {
   name: string;
@@ -29,111 +27,168 @@ const Contact = () => {
     form.resetFields();
   };
 
+  const { Title, Paragraph, Link } = Typography;
+
   return (
     <div
       className={`contact-container ${
         theme === "dark" ? "contact-dark" : "contact-light"
       }`}
     >
-      <header className="contact-header">
-        <Title level={2} className={`contact-title ${theme}`}>
-          Contact Us
-        </Title>
-      </header>
+      <Row gutter={[32, 32]} justify="center" className="contact-container">
+        <Col span={24}>
+          <Title level={2} className={`contact-title ${theme}`}>
+            Contact Us
+          </Title>
+        </Col>
 
-      <Card className={`contact-info ${theme}`}>
-        <div className="contact-info-content">
-          <p>
-            <PhoneFilled className={`contact-icon ${theme}`} /> +374 00 00-00-00
-          </p>
-          <p>
-            <MailFilled className={`contact-icon ${theme}`} /> example@gmail.com
-          </p>
-          <p>
-            <GlobalOutlined className={`contact-icon ${theme}`} /> Yerevan,
-            Armenia
-          </p>
-        </div>
-      </Card>
+        <Col span={24} xs={24} sm={24} md={24} lg={20} xl={18}>
+          <Card className={`contact-info ${theme}`}>
+            <Row justify="center" gutter={[16, 16]}>
+              <Col xs={24} sm={8} className="contact-col">
+                <Paragraph>
+                  <PhoneFilled className={`contact-icon ${theme}`} /> +374 00
+                  00-00-00
+                </Paragraph>
+              </Col>
+              <Col xs={24} sm={8} className="contact-col">
+                <Paragraph>
+                  <MailFilled className={`contact-icon ${theme}`} />{" "}
+                  example@gmail.com
+                </Paragraph>
+              </Col>
+              <Col xs={24} sm={8} className="contact-col">
+                <Paragraph>
+                  <GlobalOutlined className={`contact-icon ${theme}`} />{" "}
+                  Yerevan, Armenia
+                </Paragraph>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
 
-      <div className="form-map-wrapper">
-        <Form<FormValues>
-          className={`form ${theme}`}
-          form={form}
-          onFinish={handleSubmit}
-        >
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please enter your name!" }]}
+        <Col span={24} xs={24} sm={24} md={24} lg={20} xl={18}>
+          <Row
+            gutter={[32, 32]}
+            justify="center"
+            className="contact-form-map-row"
           >
-            <Input placeholder="Your name" />
-          </Form.Item>
+            <Col xs={24} md={12}>
+              <Card className="contact-form-card">
+                <Form
+                  className={`form ${theme}`}
+                  form={form}
+                  layout="vertical"
+                  onFinish={handleSubmit}
+                >
+                  <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[
+                      { required: true, message: "Please enter your name!" },
+                    ]}
+                  >
+                    <Input placeholder="Your name" />
+                  </Form.Item>
 
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please enter your email!" },
-              { type: "email", message: "Invalid email format!" },
-            ]}
-          >
-            <Input type="email" placeholder="Your email" />
-          </Form.Item>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      { required: true, message: "Please enter your email!" },
+                      { type: "email", message: "Invalid email format!" },
+                    ]}
+                  >
+                    <Input placeholder="Your email" />
+                  </Form.Item>
 
-          <Form.Item
-            label="Message"
-            name="message"
-            rules={[{ required: true, message: "Please enter your message!" }]}
-          >
-            <TextArea placeholder="Your message" />
-          </Form.Item>
+                  <Form.Item
+                    label="Message"
+                    name="message"
+                    rules={[
+                      { required: true, message: "Please enter your message!" },
+                    ]}
+                  >
+                    <TextArea rows={4} placeholder="Your message" />
+                  </Form.Item>
 
-          <Button htmlType="submit" type="primary">
-            Send
-          </Button>
-        </Form>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Send
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </Col>
 
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3047.4895820631767!2d44.50349097652643!3d40.17720097939326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4041bcd487aa1f7d%3A0x78f7de0b4f4f5c!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1689758479185!5m2!1sen!2s"
-          width="600px"
-          height="300"
-          style={{ border: 0, borderRadius: 8 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-      </div>
+            <Col xs={24} md={12}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3047.4895820631767!2d44.50349097652643!3d40.17720097939326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4041bcd487aa1f7d%3A0x78f7de0b4f4f5c!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1689758479185!5m2!1sen!2s"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Map"
+              />
+            </Col>
+          </Row>
+        </Col>
 
-      <Card className={`contact-info ${theme}`}>
-        <h2>Our Social Media</h2>
-        <div className="social-media-btn">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FacebookOutlined style={{ color: "#3b5998" }} />
-            Facebook
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <InstagramOutlined style={{ color: "#e1306c" }} />
-            Instagram
-          </a>
-          <a
-            href="https://www.linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <LinkedinOutlined style={{ color: "#0A66C2" }} />
-            LinkedIn
-          </a>
-        </div>
-      </Card>
+        <Col span={24} xs={24} sm={24} md={24} lg={20} xl={18}>
+          <Card className={`contact-info ${theme}`}>
+            <Title level={2}>Our Social Media</Title>
+            <Row gutter={[32, 32]} justify="center">
+              <Col
+                xs={24}
+                sm={8}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Link
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FacebookOutlined
+                    style={{ color: "#3b5998", fontSize: 24 }}
+                  />{" "}
+                  Facebook
+                </Link>
+              </Col>
+              <Col
+                xs={24}
+                sm={8}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Link
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <InstagramOutlined
+                    style={{ color: "#e1306c", fontSize: 24 }}
+                  />{" "}
+                  Instagram
+                </Link>
+              </Col>
+              <Col
+                xs={24}
+                sm={8}
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Link
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <LinkedinOutlined
+                    style={{ color: "#0A66C2", fontSize: 24 }}
+                  />{" "}
+                  LinkedIn
+                </Link>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
