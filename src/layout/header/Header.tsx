@@ -1,10 +1,13 @@
+import React from "react";
 import { MoonFilled, SunOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Button, Col, Row, Select, Modal } from "antd";
 import { useAuth } from "../../contexts/AuthContext";
 import { ROUTES } from "../../routes/paths";
-import React from "react";
+import { useTranslation } from "react-i18next";
+import { StorageService } from "../../services/StorageService";
+import { LANGUAGE_STORAGE_KEY } from "../../constants/storageKeys";
 import "./header.css";
 
 import usFlag from "../../images/flags/us.png";
@@ -24,9 +27,10 @@ const Header = () => {
   const { theme, handleClick } = useTheme();
   const { isAuth, logout } = useAuth();
   const [language, setLanguage] = React.useState<"en" | "hy" | "ru">("en");
+  const { t, i18n } = useTranslation();
 
   React.useEffect(() => {
-    const savedLang = localStorage.getItem("appLang") as
+    const savedLang = StorageService.getItem(LANGUAGE_STORAGE_KEY) as
       | "en"
       | "hy"
       | "ru"
@@ -38,15 +42,16 @@ const Header = () => {
 
   const onLanguageChange = (lang: "en" | "hy" | "ru") => {
     setLanguage(lang);
-    localStorage.setItem("appLang", lang);
+    i18n.changeLanguage(lang);
+    StorageService.setItem(LANGUAGE_STORAGE_KEY, lang);
   };
 
   const handleLogout = () => {
     Modal.confirm({
-      title: "Confirm Logout",
-      content: "Are you sure you want to log out?",
-      okText: "Yes",
-      cancelText: "No",
+      title: t("confirmLogoutTitle"),
+      content: t("confirmLogoutContent"),
+      okText: t("yes"),
+      cancelText: t("no"),
       onOk: async () => {
         logout();
         navigate(ROUTES.HOME_PATH);
@@ -71,13 +76,15 @@ const Header = () => {
               <nav>
                 <ul className="list-container">
                   <li>
-                    <NavLink to={ROUTES.HOME_PATH}>Home</NavLink>
+                    <NavLink to={ROUTES.HOME_PATH}>{t("home")}</NavLink>
                   </li>
                   <li>
-                    <NavLink to={ROUTES.ABOUT_PATH}>About</NavLink>
+                    <NavLink to={ROUTES.ABOUT_PATH}>{t("about")}</NavLink>
                   </li>
                   <li>
-                    <NavLink to={ROUTES.CONTACT_US_PATH}>Contact Us</NavLink>
+                    <NavLink to={ROUTES.CONTACT_US_PATH}>
+                      {t("contact")}
+                    </NavLink>
                   </li>
                 </ul>
               </nav>
@@ -164,27 +171,27 @@ const Header = () => {
                     style={{
                       backgroundColor:
                         theme === "light" ? "#1890ff" : "#001529",
-                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                      color: "#ffffff",
                     }}
                     onClick={() => navigate(ROUTES.UPLOAD_WORK)}
                   >
-                    Upload Work
+                    {t("uploadWork")}
                   </Button>{" "}
                   <Button
                     type="default"
                     style={{
                       backgroundColor:
                         theme === "light" ? "#1890ff" : "#001529",
-                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                      color: "#ffffff",
                     }}
                     onClick={() => navigate(ROUTES.RESUME_PATH)}
                   >
-                    Profile / Resume
+                    {t("resume")}
                   </Button>
                 </Col>
                 <Col>
                   <Button type="primary" danger onClick={handleLogout}>
-                    Logout
+                    {t("logout")}
                   </Button>
                 </Col>
               </>
@@ -195,12 +202,12 @@ const Header = () => {
                     style={{
                       backgroundColor:
                         theme === "light" ? "#1890ff" : "#001529",
-                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                      color: "#ffffff",
                     }}
                     type="default"
                     onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
                   >
-                    Sign In
+                    {t("signIn")}
                   </Button>
                 </Col>
                 <Col>
@@ -208,12 +215,12 @@ const Header = () => {
                     style={{
                       backgroundColor:
                         theme === "light" ? "#1890ff" : "#001529",
-                      color: theme === "light" ? "#ffffff" : "#ffffff",
+                      color: "#ffffff",
                     }}
                     type="default"
                     onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
                   >
-                    Sign Up
+                    {t("signUp")}
                   </Button>
                 </Col>
               </>
@@ -224,4 +231,5 @@ const Header = () => {
     </header>
   );
 };
+
 export default Header;
