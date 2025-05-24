@@ -2,87 +2,89 @@ import { Row, Col, Typography, Space, Divider } from "antd";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
-const { Title, Text, Link } = Typography;
 import {
   InstagramOutlined,
   LinkedinOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
+
+const { Title, Text, Link } = Typography;
 
 const Footer = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <footer className={`footer footer-${theme}`}>
       <Row gutter={[32, 16]}>
         <Col xs={24} sm={12} md={6}>
           <Title level={4} style={{ color: "#fff" }}>
-            MyApp
+            Job Hunter!
           </Title>
-          <Text style={{ color: "#ccc" }}>Building the future, today.</Text>
+          <Text style={{ color: "#ccc" }}>{t("tagline")}</Text>
         </Col>
 
         <Col xs={24} sm={12} md={6}>
           <Title level={5} style={{ color: "#fff" }}>
-            Explore
+            {t("explore")}
           </Title>
           <Space direction="vertical">
             <Link
               onClick={() => navigate("/features")}
               style={{ color: "#ccc" }}
             >
-              Features
+              {t("features")}
             </Link>
             <Link
               onClick={() => navigate("/pricing")}
               style={{ color: "#ccc" }}
             >
-              Pricing
+              {t("pricing")}
             </Link>
             <Link onClick={() => navigate("/docs")} style={{ color: "#ccc" }}>
-              Docs
+              {t("docs")}
             </Link>
           </Space>
         </Col>
 
         <Col xs={24} sm={12} md={6}>
           <Title level={5} style={{ color: "#fff" }}>
-            Company
+            {t("company")}
           </Title>
           <Space direction="vertical">
             <Link
               onClick={() => navigate(ROUTES.ABOUT_PATH)}
               style={{ color: "#ccc" }}
             >
-              About
+              {t("about")}
             </Link>
             <Link onClick={() => navigate("/team")} style={{ color: "#ccc" }}>
-              Team
+              {t("team")}
             </Link>
             <Link
               onClick={() => navigate("/careers")}
               style={{ color: "#ccc" }}
             >
-              Careers
+              {t("careers")}
             </Link>
           </Space>
         </Col>
 
         <Col xs={24} sm={12} md={6}>
           <Title level={5} style={{ color: "#fff" }}>
-            Follow Us
+            {t("followUs")}
           </Title>
           <Space direction="vertical">
             <Link
-              className="footer-link"
               href="https://instagram.com"
               target="_blank"
               style={{ color: "#ccc" }}
             >
               <InstagramOutlined style={{ marginRight: 8 }} />
-              Instagram
+              {t("instagram")}
             </Link>
             <Link
               href="https://linkedin.com"
@@ -90,7 +92,7 @@ const Footer = () => {
               style={{ color: "#ccc" }}
             >
               <LinkedinOutlined style={{ marginRight: 8 }} />
-              LinkedIn
+              {t("linkedin")}
             </Link>
             <Link
               href="https://twitter.com"
@@ -98,7 +100,7 @@ const Footer = () => {
               style={{ color: "#ccc" }}
             >
               <TwitterOutlined style={{ marginRight: 8 }} />
-              Twitter
+              {t("twitter")}
             </Link>
           </Space>
         </Col>
@@ -108,7 +110,7 @@ const Footer = () => {
 
       <Row justify="center">
         <Text style={{ color: "#888" }}>
-          © {new Date().getFullYear()} All rights reserved.
+          © {new Date().getFullYear()} {t("copyright")}
         </Text>
       </Row>
     </footer>
