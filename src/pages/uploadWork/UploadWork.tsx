@@ -31,7 +31,6 @@ const UploadWork = () => {
   const id = useAppSelector((state) => state.user.id);
   const unicID = uuid();
 
-  // Убирает undefined значения из объекта
   const cleanObject = (obj: Record<string, any>) =>
     Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined));
 
