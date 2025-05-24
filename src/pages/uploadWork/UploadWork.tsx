@@ -1,54 +1,47 @@
 import { Form, Input, Select, Button, InputNumber, Modal } from "antd";
-import { doc, setDoc } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
-// import { auth } from "../../services/firebse-config";
-import { db } from "../../services/firebse-config";
+// import { auth } from "../../services/firebse-config"; // неиспользуемый импорт можно убрать
+// import { db } from "../../services/firebse-config"; // неиспользуемый импорт можно убрать
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hook";
 import { ROUTES } from "../../routes/paths";
+import { addJob } from "../../components/jobCard/JobService";
+import type { OfferingWorkFormValues } from "./types/types";
 
 const { Option } = Select;
 
-interface OfferingWorkFormValues {
-  companyName: string;
-  aboutCompany?: string;
-  companyWebsite?: string;
-  position: string;
-  category?: string;
-  level?: "intern" | "junior" | "mid" | "senior" | "lead";
-  technologies?: string[];
-  employmentType?: string[];
-  location?: string;
-  salaryFrom?: number;
-  salaryTo?: number;
-  requirements?: string;
-  contactEmail: string;
-  telegram?: string;
-}
-
 const UploadWork = () => {
   const [form] = Form.useForm();
-  // const currentUser = auth.currentUser;
   const navigate = useNavigate();
   const id = useAppSelector((state) => state.user.id);
 
   const onFinish = async (values: OfferingWorkFormValues) => {
-    console.log(values, "values");
     try {
-      const dataToSave = {
-        ...values,
-        ownerID: id,
-        createdAt: serverTimestamp(),
-      };
-
       if (!id) {
         console.error("ID is null. Cannot create document.");
         return;
       }
 
-      await setDoc(doc(db, "jobs", id), dataToSave);
-      console.log("Данные успешно сохранены!");
-      navigate("/");
+      const dataToSave = {
+        ...values,
+        companyWebsite: values.companyWebsite || "",
+        aboutCompany: values.aboutCompany || "",
+        category: values.category || "",
+        level: values.level || "",
+        technologies: values.technologies || [],
+        employmentType: values.employmentType || [],
+        location: values.location || "",
+        requirements: values.requirements || "",
+        telegram: values.telegram || "",
+        salaryFrom: values.salaryFrom !== undefined ? values.salaryFrom : 0,
+        salaryTo: values.salaryTo !== undefined ? values.salaryTo : 0,
+        ownerID: id,
+        createdAt: serverTimestamp(),
+      };
+
+      const newJobId = await addJob(dataToSave);
+      console.log("Данные успешно сохранены!", newJobId);
+      navigate(ROUTES.HOME_PATH);
     } catch (error) {
       console.error("Ошибка при сохранении:", error);
     }
@@ -70,7 +63,7 @@ const UploadWork = () => {
       <Form.Item
         name="companyName"
         label="Company Name"
-        rules={[{ required: true }]}
+        rules={[{ required: true, message: "Please input company name" }]}
       >
         <Input />
       </Form.Item>
@@ -86,7 +79,7 @@ const UploadWork = () => {
       <Form.Item
         name="position"
         label="Open Position"
-        rules={[{ required: true }]}
+        rules={[{ required: true, message: "Please input position" }]}
       >
         <Input />
       </Form.Item>
@@ -123,9 +116,7 @@ const UploadWork = () => {
       </Form.Item>
 
       <Form.Item name="technologies" label="Technology Stack">
-        <Select mode="tags" placeholder="e.g. React, Node.js, SQL">
-          {/* Пользователь может добавлять теги вручную */}
-        </Select>
+        <Select mode="tags" placeholder="e.g. React, Node.js, SQL" />
       </Form.Item>
 
       <Form.Item name="employmentType" label="Employment Type">
@@ -157,7 +148,13 @@ const UploadWork = () => {
       <Form.Item
         name="contactEmail"
         label="Contact Email"
-        rules={[{ type: "email", required: true }]}
+        rules={[
+          {
+            type: "email",
+            required: true,
+            message: "Please input a valid email",
+          },
+        ]}
       >
         <Input />
       </Form.Item>
@@ -168,12 +165,9 @@ const UploadWork = () => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Save
-        </Button>
-        {" "}
-        <Button type="primary" htmlType="submit" onClick={handleGoBack}>
-          Go Back Home
-        </Button>
+          Create
+        </Button>{" "}
+        <Button onClick={handleGoBack}>Go Back Home</Button>
       </Form.Item>
     </Form>
   );

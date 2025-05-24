@@ -4,6 +4,7 @@ import type { Job } from "../../components/jobCard/types/types";
 import JobCard from "../../components/jobCard/JobCard";
 import { useEffect, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Home.css";
 
 const { Search } = Input;
@@ -20,6 +21,9 @@ const Home = () => {
   const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 50000]);
   const [loading, setLoading] = useState(true);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -34,6 +38,13 @@ const Home = () => {
 
     fetchJobs();
   }, []);
+
+  useEffect(() => {
+    if (location.state?.newJob) {
+      setJobs((prevJobs) => [location.state.newJob, ...prevJobs]);
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const filteredJobs = jobs.filter((job) => {
     const matchesQuery =
@@ -63,7 +74,12 @@ const Home = () => {
   const allTechnologies = Array.from(
     new Set(jobs.flatMap((job) => job.technologies))
   );
-
+  const handleDeleteJob = (deletedId: string) => {
+    setJobs(jobs.filter((job) => job.id !== deletedId));
+  };
+  const handleUpdateJob = (updatedJob: Job) => {
+    setJobs(jobs.map((job) => (job.id === updatedJob.id ? updatedJob : job)));
+  };
   return (
     <div
       className={theme === "dark" ? "homepage-dark" : "homepage-light"}
@@ -132,7 +148,12 @@ const Home = () => {
         <Row gutter={[16, 16]}>
           {filteredJobs.map((job) => (
             <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-              <JobCard job={job} />
+              <JobCard
+                job={job}
+                key={job.id}
+                onDelete={handleDeleteJob}
+                onUpdate={handleUpdateJob}
+              />
             </Col>
           ))}
         </Row>
