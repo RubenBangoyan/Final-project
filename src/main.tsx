@@ -1,14 +1,14 @@
+import { FirebaseDataProvider } from "./contexts/FirebaseDataContext";
 import { ThemeProvider } from "./contexts/ThemeContext.tsx";
 import { AuthProvider } from "./contexts/AuthContext";
-import { FirebaseDataProvider } from "./contexts/FirebaseDataContext";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import { StrictMode } from "react";
 import App from "./App.tsx";
-import "./index.css";
 import "./styles/theme.css";
-import "./i18n";
+import "./index.css";
+import "./i18n.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

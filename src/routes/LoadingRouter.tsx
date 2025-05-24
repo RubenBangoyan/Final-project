@@ -1,4 +1,4 @@
-import { Row, Col, Spin, Typography } from "antd";
+import { Row, Col, Spin, Typography } from 'antd';
 
 const { Text } = Typography;
 
@@ -7,10 +7,12 @@ const LoadingRouter = () => {
     <Row
       justify="center"
       align="middle"
-      style={{ minHeight: "100vh", textAlign: "center" }}
+      style={{ minHeight: '100vh', textAlign: 'center' }}
     >
       <Col>
-        <Spin size="large" tip={<Text>Restoring session...</Text>} />
+        <Spin size="large" tip={<Text>Loading...</Text>}>
+          <div style={{ height: 100, width: 100 }} />
+        </Spin>
       </Col>
     </Row>
   );

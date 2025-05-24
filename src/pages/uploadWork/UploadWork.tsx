@@ -1,49 +1,61 @@
 import { Form, Input, Select, Button, InputNumber, Modal } from "antd";
-import { serverTimestamp } from "firebase/firestore";
-// import { auth } from "../../services/firebse-config"; // неиспользуемый импорт можно убрать
-// import { db } from "../../services/firebse-config"; // неиспользуемый импорт можно убрать
+import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import { db } from "../../services/firebse-config"; // Проверь правильность пути!
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hook";
 import { ROUTES } from "../../routes/paths";
-import { addJob } from "../../components/jobCard/JobService";
-import type { OfferingWorkFormValues } from "./types/types";
+import { v4 as uuid } from "uuid";
 
 const { Option } = Select;
+
+interface OfferingWorkFormValues {
+  companyName: string;
+  aboutCompany?: string;
+  companyWebsite?: string;
+  position: string;
+  category?: string;
+  level?: "intern" | "junior" | "mid" | "senior" | "lead";
+  technologies?: string[];
+  employmentType?: string[];
+  location?: string;
+  salaryFrom?: number;
+  salaryTo?: number;
+  requirements?: string;
+  contactEmail: string;
+  telegram?: string;
+}
 
 const UploadWork = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const id = useAppSelector((state) => state.user.id);
+  const unicID = uuid();
+
+  // Убирает undefined значения из объекта
+  const cleanObject = (obj: Record<string, any>) =>
+    Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined));
 
   const onFinish = async (values: OfferingWorkFormValues) => {
     try {
       if (!id) {
-        console.error("ID is null. Cannot create document.");
+        console.error("User ID is null. Cannot create document.");
         return;
       }
 
+      const cleanedValues = cleanObject(values);
+
       const dataToSave = {
-        ...values,
-        companyWebsite: values.companyWebsite || "",
-        aboutCompany: values.aboutCompany || "",
-        category: values.category || "",
-        level: values.level || "",
-        technologies: values.technologies || [],
-        employmentType: values.employmentType || [],
-        location: values.location || "",
-        requirements: values.requirements || "",
-        telegram: values.telegram || "",
-        salaryFrom: values.salaryFrom !== undefined ? values.salaryFrom : 0,
-        salaryTo: values.salaryTo !== undefined ? values.salaryTo : 0,
+        ...cleanedValues,
         ownerID: id,
         createdAt: serverTimestamp(),
       };
 
-      const newJobId = await addJob(dataToSave);
-      console.log("Данные успешно сохранены!", newJobId);
+      await setDoc(doc(db, "jobs", unicID), dataToSave);
+      console.log("Job successfully saved with ID:", unicID);
+
       navigate(ROUTES.HOME_PATH);
     } catch (error) {
-      console.error("Ошибка при сохранении:", error);
+      console.error("Error saving document:", error);
     }
   };
 
@@ -165,9 +177,11 @@ const UploadWork = () => {
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Create
+          Save
         </Button>{" "}
-        <Button onClick={handleGoBack}>Go Back Home</Button>
+        <Button type="default" onClick={handleGoBack}>
+          Go Back Home
+        </Button>
       </Form.Item>
     </Form>
   );

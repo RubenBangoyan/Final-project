@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import { COLLECTION_NAMES } from "../constants/collectionNames";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../services/firebse-config";
-import { COLLECTION_NAMES } from "../constants/collectionNames";
+import type { ReactNode } from "react";
 
 type JobOffer = {
   id: string;

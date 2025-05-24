@@ -2,10 +2,12 @@ import { Input, Select, Slider, Row, Col, Spin, Empty } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import JobCard from "../../components/jobCard/JobCard";
-import { useEffect, useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import "./Home.css";
+import ChatHelper from "../../components/chatHelper/ChatHelper";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -138,7 +140,9 @@ const Home = () => {
       </Row>
 
       {loading ? (
-        <Spin size="large" />
+        <Spin tip="Loading..." size="large">
+          <div style={{ height: "200px" }} />
+        </Spin>
       ) : filteredJobs.length === 0 ? (
         <Empty
           className={theme === "dark" ? "empty-dark" : "empty-light"}
@@ -158,6 +162,7 @@ const Home = () => {
           ))}
         </Row>
       )}
+      <ChatHelper />
     </div>
   );
 };
