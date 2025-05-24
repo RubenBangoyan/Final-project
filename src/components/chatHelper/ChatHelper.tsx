@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Drawer, FloatButton, Button, Input } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
+import { Drawer, FloatButton, Button, Input, Typography, Space, Card } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
 import './ChatHelper.css';
 
 const { TextArea } = Input;
+const { Text } = Typography;
 
 interface Message {
   id: number;
   text: string;
   from: 'user' | 'bot';
+  time: string;
 }
 
 const ChatHelper: React.FC = () => {
@@ -16,33 +18,53 @@ const ChatHelper: React.FC = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const welcomeMessage: Message = {
-        id: Date.now(),
-        text: 'Здравствуйте! Чем могу помочь?',
-        from: 'bot',
-      };
-      setMessages((prev) => [...prev, welcomeMessage]);
-      setShowPreview(true);
-    }, 9000); 
+    const greeted = localStorage.getItem('botGreeted');
+    if (!greeted) {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const timer = setTimeout(() => {
+        const welcomeMessage: Message = {
+          id: Date.now(),
+          text: 'Здравствуйте! Чем могу помочь?',
+          from: 'bot',
+          time: `${hours}:${minutes < 10 ? '0' : ''}${minutes}`,
+        };
+        setMessages((prev) => [...prev, welcomeMessage]);
+        setShowPreview(true);
+        localStorage.setItem('botGreeted', 'true');
+      }, 9000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
+
+  useEffect(() => {
+    if (open && inputRef.current) {
+      (inputRef.current as any).focus();
+    }
+  }, [open]);
 
   const toggleDrawer = () => {
     setOpen((prev) => !prev);
-    setShowPreview(false); 
+    setShowPreview(false);
   };
 
   const handleSend = () => {
     if (!input.trim()) return;
 
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
     const userMessage: Message = {
       id: Date.now(),
       text: input.trim(),
       from: 'user',
+      time: `${hours}:${minutes < 10 ? '0' : ''}${minutes}`,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -51,28 +73,40 @@ const ChatHelper: React.FC = () => {
 
   return (
     <>
-
       <Drawer
-        title="Онлайн-помощник"
-        placement="right"
-        onClose={toggleDrawer}
         open={open}
+        maskClosable
         size="default"
-        maskClosable={true}
+        placement="right"
+        title="AI Assistant"
+        onClose={toggleDrawer}
       >
-        <div className="chat-messages">
+        <Space
+          direction="vertical"
+          style={{ width: '100%', maxHeight: '60vh', overflowY: 'auto' }}
+        >
           {messages.map((msg) => (
-            <div
+            <Card
               key={msg.id}
-              className={`chat-message ${msg.from === 'user' ? 'user' : 'bot'}`}
+              type="inner"
+              size="small"
+              style={{
+                backgroundColor: msg.from === 'user' ? '#e6f7ff' : '#f6ffed',
+                alignSelf: msg.from === 'user' ? 'flex-end' : 'flex-start',
+              }}
             >
-              {msg.text}
-            </div>
+              <Text type="secondary" style={{ fontSize: 12 }}>
+                {msg.time}
+              </Text>
+              <br />
+              <Text>{msg.text}</Text>
+            </Card>
           ))}
-        </div>
+        </Space>
 
-        <div className="chat-input-wrapper">
+        <Space direction="vertical" style={{ width: '100%', marginTop: 16 }}>
           <TextArea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={2}
@@ -84,20 +118,29 @@ const ChatHelper: React.FC = () => {
               }
             }}
           />
-          <Button type="primary" onClick={handleSend} style={{ marginTop: 8 }}>
+          <Button type="primary" onClick={handleSend}>
             Отправить
           </Button>
-        </div>
+        </Space>
       </Drawer>
 
-      {/* Preview Message */}
       {showPreview && !open && (
-        <div className="chat-preview-message" onClick={toggleDrawer}>
-          Здравствуйте! Чем могу помочь?
-        </div>
+        <Card
+          className="chat-preview-message"
+          style={{
+            position: 'fixed',
+            bottom: 100,
+            right: 24,
+            cursor: 'pointer',
+            backgroundColor: '#f6ffed',
+            borderColor: '#b7eb8f',
+          }}
+          onClick={toggleDrawer}
+        >
+          <Text>Здравствуйте! Чем могу помочь?</Text>
+        </Card>
       )}
 
-    
       <FloatButton
         type="primary"
         onClick={toggleDrawer}
@@ -114,3 +157,4 @@ const ChatHelper: React.FC = () => {
 };
 
 export default ChatHelper;
+
