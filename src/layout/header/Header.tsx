@@ -184,7 +184,7 @@ const Header = () => {
                         theme === "light" ? "#1890ff" : "#001529",
                       color: "#ffffff",
                     }}
-                    onClick={() => navigate(ROUTES.RESUME_PATH)}
+                    onClick={() => navigate(ROUTES.PROFILE_PATH)}
                   >
                     {t("resume")}
                   </Button>

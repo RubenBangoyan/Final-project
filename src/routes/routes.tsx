@@ -7,9 +7,9 @@ import ResumeForm from "../pages/resume/Resume";
 import Contact from "../pages/contact/Contact";
 import SignIn from "../pages/signIn/SignIn";
 import About from "../pages/About/About.tsx";
-import SignUp from "../pages/signUp/SignUp";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
+import ProfilePage from "../pages/profilePage/ProfilePage.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +31,10 @@ export const router = createBrowserRouter([
             path: ROUTES.CONTACT_US_PATH,
             element: <Contact />,
           },
+          {
+            path: ROUTES.PROFILE_PATH,
+            element: <ProfilePage />,
+          },
         ],
       },
     ],
@@ -38,10 +42,6 @@ export const router = createBrowserRouter([
   {
     path: ROUTES.SIGN_IN_PATH,
     element: <SignIn />,
-  },
-  {
-    path: ROUTES.SIGN_UP_PATH,
-    element: <SignUp />,
   },
   {
     path: ROUTES.NOT_FOUND_PATH,
