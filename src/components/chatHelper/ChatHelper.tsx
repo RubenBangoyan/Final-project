@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Drawer, FloatButton, Button, Input, Typography, Space, Card } from 'antd';
+import {
+  Drawer,
+  FloatButton,
+  Button,
+  Input,
+  Typography,
+  Space,
+  Card,
+} from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
 import './ChatHelper.css';
 
@@ -21,37 +29,38 @@ const ChatHelper: React.FC = () => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const greeted = localStorage.getItem('botGreeted');
-    if (!greeted) {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const timer = setTimeout(() => {
-        const welcomeMessage: Message = {
-          id: Date.now(),
-          text: 'Здравствуйте! Чем могу помочь?',
-          from: 'bot',
-          time: `${hours}:${minutes < 10 ? '0' : ''}${minutes}`,
-        };
-        setMessages((prev) => [...prev, welcomeMessage]);
-        setShowPreview(true);
-        localStorage.setItem('botGreeted', 'true');
-      }, 9000);
-
-      return () => clearTimeout(timer);
+    const savedMessages = sessionStorage.getItem('chatMessages');
+    if (savedMessages) {
+      const parsedMessages = JSON.parse(savedMessages);
+      if (Array.isArray(parsedMessages) && parsedMessages.length > 0) {
+        setMessages(parsedMessages);
+        return;
+      }
     }
+
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+
+    const welcomeMessage: Message = {
+      id: Date.now(),
+      text: 'Здравствуйте! Чем могу помочь?',
+      from: 'bot',
+      time: `${hours}:${minutes < 10 ? '0' : ''}${minutes}`,
+    };
+    setMessages([welcomeMessage]);
+    setShowPreview(true);
   }, []);
 
   useEffect(() => {
-    if (open && inputRef.current) {
-      (inputRef.current as any).focus();
-    }
-  }, [open]);
+    sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
 
   const toggleDrawer = () => {
     setOpen((prev) => !prev);
     setShowPreview(false);
   };
+
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -134,6 +143,11 @@ const ChatHelper: React.FC = () => {
             cursor: 'pointer',
             backgroundColor: '#f6ffed',
             borderColor: '#b7eb8f',
+            width: 230,
+            height: 60,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
           onClick={toggleDrawer}
         >
@@ -157,4 +171,3 @@ const ChatHelper: React.FC = () => {
 };
 
 export default ChatHelper;
-
