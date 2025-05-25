@@ -48,8 +48,15 @@ const ChatHelper: React.FC = () => {
       from: 'bot',
       time: `${hours}:${minutes < 10 ? '0' : ''}${minutes}`,
     };
-    setMessages([welcomeMessage]);
-    setShowPreview(true);
+
+    const timer = setTimeout(() => {
+      setMessages([welcomeMessage]);
+      setShowPreview(true);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -60,7 +67,6 @@ const ChatHelper: React.FC = () => {
     setOpen((prev) => !prev);
     setShowPreview(false);
   };
-
 
   const handleSend = () => {
     if (!input.trim()) return;
