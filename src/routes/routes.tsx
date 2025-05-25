@@ -10,6 +10,7 @@ import About from "../pages/About/About.tsx";
 import SignUp from "../pages/signUp/SignUp";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
+import Jobs from "../pages/jobs/Jobs.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: ROUTES.JOBS_PATH,
+        element: <Jobs />,
       },
       {
         element: <ProtectedRouter />,
