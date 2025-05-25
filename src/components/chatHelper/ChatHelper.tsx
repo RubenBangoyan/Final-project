@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export const ChatHelper = () => {
 
-  // if (true) return null;
+  if (true) return null;
 
   useEffect(() => {
     const script = document.createElement('script');
