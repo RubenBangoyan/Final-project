@@ -1,29 +1,12 @@
-import {
-  setPersistence,
-  inMemoryPersistence,
-  browserLocalPersistence,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
-import { auth } from '../../services/firebse-config/index';
 import { Button, Checkbox, Form, Input } from 'antd';
-import { setUser } from '../../features/user/userSlice';
 import { useAppDispatch } from '../../app/hook';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
-import type { FormProps } from 'antd';
+import { onFinish } from './signUpService';
+import type { FieldType } from './types';
 import { useState } from 'react';
 import './SignUp.css';
-import { db } from '../../services/firebse-config/index';
-import { collection, setDoc, doc } from 'firebase/firestore';
 
-type FieldType = {
-  email: string;
-  lastName: string;
-  password: string;
-  remember: boolean;
-  firstName: string;
-  confirmPassword: string;
-};
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -31,70 +14,17 @@ const SignUp = () => {
   const dispatch = useAppDispatch();
   const [error, setError] = useState('');
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-    const { password, confirmPassword, email, remember, firstName, lastName } =
-      values;
-
-    if (password !== confirmPassword) {
-      setError("Passwords didn't match.");
-      return;
-    }
-
-    try {
-      const persistenceType = remember
-        ? browserLocalPersistence
-        : inMemoryPersistence;
-
-      await setPersistence(auth, persistenceType);
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      const token = await user.getIdToken();
-
-      const userData = {
-        email: user.email || '',
-        token,
-        id: user.uid,
-      };
-
-      await setDoc(doc(db, 'users', user.uid), {
-        email,
-        firstName,
-        lastName,
-      });
-
-      dispatch(setUser(userData));
-      navigate('/');
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-        form.setFieldsValue({ password: '', confirmPassword: '' });
-      }
-      console.log(error);
-    }
-  };
-
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
-    errorInfo
-  ) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <div className="sign-up-container">
       <Form
-        className="form"
         form={form}
         name="basic"
+        className="form"
         autoComplete="off"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        initialValues={{ remember: true }}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish({ setError, dispatch, navigate, form })}
         style={{
           width: '100vw',
           maxWidth: 670,
@@ -118,16 +48,16 @@ const SignUp = () => {
         </Form.Item>
 
         <Form.Item<FieldType>
-          label="First Name"
           name="firstName"
+          label="First Name"
           rules={[{ required: true, message: 'Please input your first name!' }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item<FieldType>
-          label="Last Name"
           name="lastName"
+          label="Last Name"
           rules={[{ required: true, message: 'Please input your last name!' }]}
         >
           <Input />
