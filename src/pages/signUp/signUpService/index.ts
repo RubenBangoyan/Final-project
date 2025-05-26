@@ -25,7 +25,6 @@ export const onFinish =
     form,
   }: SignUpDependencies): FormProps<FieldType>['onFinish'] =>
   async (values) => {
-    // console.log('form is:', form);
     const { email, password, confirmPassword, remember, firstName, lastName } =
       values;
 
