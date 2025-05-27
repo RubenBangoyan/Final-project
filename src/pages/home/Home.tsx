@@ -8,15 +8,27 @@ import aca from "../../images/aca.webp";
 import synopsys from "../../images/synopsys.webp";
 import picsart from "../../images/picsart.webp";
 import bostongene from "../../images/bostongene.webp";
+import { useDispatch } from "react-redux";
+import {
+  setCurrentPage,
+  setSearchValue,
+} from "../../features/filter/filterSlice";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
   const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value);
-  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    dispatch(setSearchValue(query));
+    dispatch(setCurrentPage(1));
+    navigate(ROUTES.JOBS_PATH);
+  };
 
   const MyCarousel = () => (
     <Carousel autoplay className="carousel-container">
@@ -59,12 +71,7 @@ const Home = () => {
           </Typography>
           <Space.Compact style={{ width: "100%" }}>
             <Input placeholder="search" value={query} onChange={handleChange} />
-            <Button
-              type="primary"
-              onClick={() =>
-                navigate(`${ROUTES.JOBS_PATH}?q=${encodeURIComponent(query)}`)
-              }
-            >
+            <Button type="primary" onClick={handleSearch}>
               Search
             </Button>
           </Space.Compact>
