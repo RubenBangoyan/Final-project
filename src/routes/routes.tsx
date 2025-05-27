@@ -38,26 +38,26 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: ROUTES.SIGN_IN_PATH,
+        element: <SignIn />,
+      },
+      {
+        path: ROUTES.SIGN_UP_PATH,
+        element: <SignUp />,
+      },
+      {
+        path: ROUTES.RESUME_PATH,
+        element: <ResumeForm />,
+      },
+      {
+        path: ROUTES.UPLOAD_WORK,
+        element: <UploadWork />,
+      },
+      {
+        path: ROUTES.NOT_FOUND_PATH,
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: ROUTES.SIGN_IN_PATH,
-    element: <SignIn />,
-  },
-  {
-    path: ROUTES.SIGN_UP_PATH,
-    element: <SignUp />,
-  },
-  {
-    path: ROUTES.NOT_FOUND_PATH,
-    element: <NotFound />,
-  },
-  {
-    path: ROUTES.RESUME_PATH,
-    element: <ResumeForm />,
-  },
-  {
-    path: ROUTES.UPLOAD_WORK,
-    element: <UploadWork />,
   },
 ]);

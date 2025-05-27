@@ -31,7 +31,7 @@ const Contact = () => {
 
   return (
     <div
-      className={`contact-container ${
+      className={`container contact-container ${
         theme === "dark" ? "contact-dark" : "contact-light"
       }`}
     >

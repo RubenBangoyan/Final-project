@@ -36,7 +36,7 @@ const Home = () => {
   );
 
   return (
-    <>
+    <div className="container">
       <Row
         justify="center"
         align="middle"
@@ -72,7 +72,7 @@ const Home = () => {
         </Col>
       </Row>
       <ChatHelper />
-    </>
+    </div>
   );
 };
 

@@ -112,7 +112,7 @@ const ResumeForm: React.FC = () => {
   }) => setFileList(newFileList);
 
   return (
-    <div className="resume-container">
+    <div className="container resume-container">
       <div className="resume-scroll">
         <Form
           form={form}

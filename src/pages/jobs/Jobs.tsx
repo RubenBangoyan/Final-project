@@ -92,8 +92,9 @@ const Jobs = () => {
 
   return (
     <div
-      className={theme === "dark" ? "homepage-dark" : "homepage-light"}
-      style={{ padding: "2rem" }}
+      className={`container ${
+        theme === "dark" ? "homepage-dark" : "homepage-light"
+      }`}
     >
       <Row gutter={16} style={{ marginBottom: "1rem" }}>
         <Col span={6}>
