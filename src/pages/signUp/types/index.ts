@@ -6,4 +6,3 @@ export type FieldType = {
   firstName: string;
   confirmPassword: string;
 };
-

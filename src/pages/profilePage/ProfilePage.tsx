@@ -1,287 +1,499 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../app/store';
+import { auth, db } from '../../services/firebse-config';
+import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import {
-    Input,
-    Button,
-    Row,
-    Col,
-    Card,
-    Typography,
-    Space,
-    Select,
-    Form,
-    message, Upload,
-} from "antd";
-import {useDispatch, useSelector} from "react-redux";
-import { updateProfile } from "../../features/user/userSlice";
-import { useNavigate } from "react-router-dom";
-import {RobotOutlined, UploadOutlined} from "@ant-design/icons";
-import {useEffect, useState} from "react";
-import {doc, setDoc} from "firebase/firestore";
-import { auth, db } from "../../services/firebse-config";
-import {StorageService} from "../../services/StorageService.tsx";
-import type {RootState} from "../../app/store.ts";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../services/firebse-config";
-import { Radio } from "antd";
-import { getUserProfileFromFirebase } from "../../services/fetchUserProfile";
-import { onAuthStateChanged } from "firebase/auth";
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Space,
+  Switch,
+  Tabs,
+  Typography,
+  message,
+  Descriptions,
+  Badge,
+  Progress,
+  Upload,
+  Modal,
+  Spin,
+} from 'antd';
+import {
+  UserOutlined,
+  MailOutlined,
+  LockOutlined,
+  EditOutlined,
+  SafetyOutlined,
+  ClockCircleOutlined,
+  CloudUploadOutlined,
+  DeleteOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import './ProfilePage.css';
 
-const { Title } = Typography;
-const { Option } = Select;
+const { Title, Text } = Typography;
+const { TabPane } = Tabs;
 
-export type UserProfile = {
-    name: string;
-    surname: string;
-    email: string;
-    phone: string;
-    city: string;
-    status: string;
-    avatarUrl?: string;
-};
+const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState<{
+    firstName?: string;
+    lastName?: string;
+    avatar?: string;
+    joinDate?: string;
+    lastLogin?: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [avatarLoading, setAvatarLoading] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
-const ProfilePage = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [form] = Form.useForm();
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const profile = useSelector((state: RootState) => state.user.profile);
-    const avatarSeeds = ["Alex", "Taylor", "Jordan", "Morgan", "George", "Quinn", "Jameson", "Jules"];
-    const avatarStyle = "micah";
-    const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    async function fetchUserData() {
+      const user = auth.currentUser;
+      if (!user) return;
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const profile = await getUserProfileFromFirebase(user.uid);
+      try {
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
 
-                if (
-                    profile?.name &&
-                    profile.surname &&
-                    profile.email &&
-                    profile.phone &&
-                    profile.city &&
-                    profile.status
-                ) {
-                    form.setFieldsValue(profile);
-                    dispatch(updateProfile(profile));
-                    setIsEditing(true);
-                } else {
-                    const draft = StorageService.getItem(`draftProfile_${user.uid}`);
-                    if (draft) {
-                        form.setFieldsValue(draft);
-                    }
-                    setIsEditing(false);
-                }
-            } else {
-                setIsEditing(false);
-            }
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-    useEffect(() => {
-        if (profile && isEditing) {
-            navigate("/");
-        }
-    }, [profile]);
-
-    const handleCreateResumeWithAI = () => {
-        const user = auth.currentUser;
-        if (user) {
-            const values = form.getFieldsValue();
-            StorageService.setItem(`draftProfile_${user.uid}`, values);
-            navigate("/resume");
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setProfile({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            avatar: data.avatar,
+            joinDate: data.joinDate || new Date().toISOString(),
+            lastLogin: data.lastLogin || new Date().toISOString(),
+          });
         } else {
-            message.error("You must be logged in to create a resume.");
+          console.log('No user profile found!');
         }
-    };
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        message.error('Failed to load profile data');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    const handleCreateProfile = async (values: any) => {
-        const user = auth.currentUser;
+    fetchUserData();
+  }, []);
 
-        if (!user) return;
+  const [form] = Form.useForm();
 
-        try {
-            let resumeURL = "";
+  const { name, surname, email } = useSelector(
+    (state: RootState) => state.user
+  );
 
-            if (uploadedFile) {
-                const resumeRef = ref(storage, `resumes/${user.uid}/${uploadedFile.name}`);
-                await uploadBytes(resumeRef, uploadedFile);
-                resumeURL = await getDownloadURL(resumeRef);
-            }
+  const handleSave = async (values: any) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
 
-            const profileData = {
-                ...values,
-                resumeURL,
-            };
+      const docRef = doc(db, 'users', user.uid);
+      await updateDoc(docRef, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+      });
 
-            await setDoc(doc(db, "profiles", user.uid), profileData);
-            dispatch(updateProfile(profileData));
-            StorageService.setItem(`draftProfile_${user.uid}`, null);
-            message.success(isEditing ? "Profile saved successfully!" : "Profile created successfully!");
-            navigate("/");
-        } catch (error) {
-            console.error("Error saving profile:", error);
-            message.error("Failed to save profile");
-        }
-    };
+      setProfile((prev) => ({
+        ...prev,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      }));
 
+      message.success('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      message.error('Failed to update profile');
+    }
+  };
+
+  const showDeleteConfirm = () => {
+    setIsDeleteModalVisible(true);
+  };
+
+  const handleDeleteAccount = () => {
+    setIsDeleteModalVisible(false);
+    message.warning('Account deletion is not implemented yet.');
+  };
+
+  if (loading) {
     return (
-        <div className="profile-page" style={{ padding: 32}}>
-            <Title level={3}>Create Profile</Title>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleCreateProfile}
-                onValuesChange={(_, values) => {
-                    const user = auth.currentUser;
-                    if (user) {
-                        StorageService.setItem(`draftProfile_${user.uid}`, values);
-                    }
-                }}
-                requiredMark="optional"
-            >
-                <Row gutter={[24, 24]} justify="center">
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Card title="Personal Info" bordered={false} style={{ borderRadius: 12 }}>
-                            <Form.Item label="Name" name="name" rules={[{ required: true }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="Surname" name="surname" rules={[{ required: true }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="City" name="city" rules={[{ required: true }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                label="Choose an Avatar"
-                                name="avatarUrl"
-                                rules={[{ required: true }]}
-                            >
-                                <Radio.Group
-                                    optionType="button"
-                                    style={{
-                                        display: "flex",
-                                        flexWrap: "wrap",
-                                        justifyContent: "center",
-                                        gap: 12,
-                                        maxWidth: "100%",
-                                    }}
-                                >
-                                    {avatarSeeds.map((seed) => {
-                                        const url = `https://api.dicebear.com/7.x/${avatarStyle}/svg?seed=${seed}&mouth=smile`;
-                                        return (
-                                            <Radio.Button
-                                                key={seed}
-                                                value={url}
-                                                style={{
-                                                    padding: 0,
-                                                    height: "auto",
-                                                    width: "auto",
-                                                    background: "transparent",
-                                                    border: "none",
-                                                    boxShadow: "none",
-                                                }}
-                                            >
-                                                <img
-                                                    src={url}
-                                                    alt={`avatar-${seed}`}
-                                                    style={{
-                                                        width: 60,
-                                                        height: 60,
-                                                        borderRadius: "50%",
-                                                        border:
-                                                            form.getFieldValue("avatarUrl") === url
-                                                                ? "2px solid #1890ff"
-                                                                : "2px solid transparent",
-                                                        transition: "border 0.2s",
-                                                    }}
-                                                />
-                                            </Radio.Button>
-                                        );
-                                    })}
-                                </Radio.Group>
-                            </Form.Item>
-
-
-                        </Card>
-                    </Col>
-
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                        <Card title="Status & Resume" bordered={false} style={{ borderRadius: 12 }}>
-                            <Form.Item name="status" label="Status" rules={[{ required: true }]}>
-                                <Select placeholder="Select status">
-                                    <Option value="Available for work">Available for work</Option>
-                                    <Option value="Open to opportunities">Open to opportunities</Option>
-                                    <Option value="Freelance only">Freelance only</Option>
-                                    <Option value="Internship seeking">Internship seeking</Option>
-                                    <Option value="Part-time only">Part-time only</Option>
-                                    <Option value="Remote only">Remote only</Option>
-                                    <Option value="Not looking right now">Not looking right now</Option>
-                                </Select>
-                            </Form.Item>
-
-                            <Form.Item label="Resume Upload">
-                                <Space align="center">
-                                    <Upload
-                                        name="resume"
-                                        accept=".pdf,.doc,.docx"
-                                        showUploadList={false}
-                                        multiple={false}
-                                        beforeUpload={(file) => {
-                                            setUploadedFile(file);
-                                            message.success(`Uploaded: ${file.name}`);
-                                            return false;
-                                        }}
-                                    >
-                                        <Button icon={<UploadOutlined />}>Upload Resume</Button>
-                                    </Upload>
-
-                                    {uploadedFile && (
-                                        <Space>
-                                        <span style={{ fontWeight: 500 }}>
-                                            <strong>{uploadedFile.name}</strong>
-                                        </span>
-                                            <Button
-                                                type="text"
-                                                size="small"
-                                                danger
-                                                onClick={() => setUploadedFile(null)}
-                                                style={{ padding: 0 }}
-                                            >
-                                                x
-                                            </Button>
-                                        </Space>
-                                    )}
-                                </Space>
-                            </Form.Item>
-
-
-                            <Button
-                                type="primary"
-                                icon={<RobotOutlined />}
-                                onClick={handleCreateResumeWithAI}
-                            >
-                                Create Resume with AI
-                            </Button>
-                        </Card>
-                    </Col>
-                </Row>
-
-                <Row justify="center" style={{ marginTop: 32 }}>
-                    <Button type="primary" size="large" htmlType="submit">
-                        {isEditing ? "Save" : "Create Profile"}
-                    </Button>
-                </Row>
-            </Form>
-        </div>
+      <div className="container flex justify-center items-center h-64">
+        <Spin size="large" />
+      </div>
     );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <Card
+        className="shadow-lg rounded-xl mb-6 border-0"
+        bodyStyle={{ padding: 0 }}
+      >
+        <div className="profile-header bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-t-xl">
+          <Row gutter={[24, 24]} align="middle">
+            <Col xs={24} sm={8} className="text-center">
+              <Badge offset={[-10, 90]}>
+                <Avatar
+                  size={128}
+                  src={profile?.avatar}
+                  icon={<UserOutlined />}
+                  className="border-4 border-white shadow-lg"
+                />
+              </Badge>
+              {avatarLoading && (
+                <div className="mt-2">
+                  <Progress percent={50} status="active" showInfo={false} />
+                </div>
+              )}
+            </Col>
+
+            <Col xs={24} sm={16}>
+              <Title level={2} className="text-white mb-1">
+                {profile?.firstName} {profile?.lastName}
+              </Title>
+              <Text className="text-white text-lg block mb-2">{email}</Text>
+              <div className="flex flex-wrap gap-4 mt-4"></div>
+            </Col>
+          </Row>
+        </div>
+
+        <div className="p-6">
+          <Descriptions bordered column={{ xs: 1, sm: 2 }}>
+            <Descriptions.Item label="Joined Date">
+              {new Date(profile?.joinDate || '').toLocaleDateString()}
+            </Descriptions.Item>
+            <Descriptions.Item label="Last Login">
+              {new Date(profile?.lastLogin || '').toLocaleString()}
+            </Descriptions.Item>
+            <Descriptions.Item label="Status">
+              <Badge status="success" text="Active" />
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
+      </Card>
+
+      <Tabs defaultActiveKey="1" className="custom-tabs">
+        <TabPane
+          tab={
+            <span>
+              <UserOutlined />
+              Profile
+            </span>
+          }
+          key="1"
+        >
+          <Card className="shadow-lg rounded-xl border-0">
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSave}
+              initialValues={{
+                firstName: profile?.firstName || name || '',
+                lastName: profile?.lastName || surname || '',
+                email: email || '',
+              }}
+            >
+              <Row gutter={24}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="First Name"
+                    name="firstName"
+                    rules={[
+                      { required: true, message: 'Please enter first name' },
+                    ]}
+                  >
+                    <Input
+                      prefix={<UserOutlined className="text-gray-400" />}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="Last Name"
+                    name="lastName"
+                    rules={[
+                      { required: true, message: 'Please enter last name' },
+                    ]}
+                  >
+                    <Input
+                      prefix={<UserOutlined className="text-gray-400" />}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={24}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        type: 'email',
+                        message: 'Enter a valid email',
+                      },
+                    ]}
+                  >
+                    <Input
+                      prefix={<MailOutlined className="text-gray-400" />}
+                      size="large"
+                      disabled
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="Dark Mode"
+                    name="darkMode"
+                    valuePropName="checked"
+                  >
+                    <Switch
+                      checkedChildren="On"
+                      unCheckedChildren="Off"
+                      defaultChecked
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Divider />
+
+              <Row justify="space-between">
+                <Col>
+                  <Space>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      size="large"
+                      className="px-6"
+                    >
+                      Save Changes
+                    </Button>
+                    <Button size="large" onClick={() => form.resetFields()}>
+                      Reset
+                    </Button>
+                  </Space>
+                </Col>
+                <Col>
+                  <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    size="large"
+                    onClick={showDeleteConfirm}
+                  >
+                    Delete Account
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <SafetyOutlined />
+              Security
+            </span>
+          }
+          key="2"
+        >
+          <Card className="shadow-lg rounded-xl border-0">
+            <Title level={4} className="mb-6">
+              Password Settings
+            </Title>
+            <Form layout="vertical">
+              <Row gutter={24}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="Current Password"
+                    name="currentPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please enter current password',
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined className="text-gray-400" />}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={24}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="New Password"
+                    name="newPassword"
+                    rules={[
+                      { required: true, message: 'Please enter new password' },
+                      {
+                        min: 6,
+                        message: 'Password must be at least 6 characters',
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined className="text-gray-400" />}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    label="Confirm Password"
+                    name="confirmPassword"
+                    dependencies={['newPassword']}
+                    rules={[
+                      { required: true, message: 'Please confirm password' },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (
+                            !value ||
+                            getFieldValue('newPassword') === value
+                          ) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error('The two passwords do not match!')
+                          );
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined className="text-gray-400" />}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Divider />
+
+              <Button type="primary" size="large" className="px-6">
+                Update Password
+              </Button>
+            </Form>
+
+            <Divider />
+
+            <Title level={4} className="mb-6">
+              Login Activity
+            </Title>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="flex items-center mb-4">
+                <ClockCircleOutlined className="text-lg mr-3 text-gray-500" />
+                <div>
+                  <Text strong>Last login</Text>
+                  <Text className="block text-gray-600">
+                    {new Date(profile?.lastLogin || '').toLocaleString()}
+                  </Text>
+                </div>
+              </div>
+              <Button type="link" className="pl-0">
+                View all activity
+              </Button>
+            </div>
+          </Card>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <ClockCircleOutlined />
+              Activity
+            </span>
+          }
+          key="3"
+        >
+          <Card className="shadow-lg rounded-xl border-0">
+            <Title level={4} className="mb-6">
+              Recent Activity
+            </Title>
+            <div className="activity-timeline">
+              <div className="timeline-item">
+                <div className="timeline-badge bg-blue-500"></div>
+                <div className="timeline-content">
+                  <Text strong>Profile updated</Text>
+                  <Text className="block text-gray-600">2 hours ago</Text>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-badge bg-green-500"></div>
+                <div className="timeline-content">
+                  <Text strong>Password changed</Text>
+                  <Text className="block text-gray-600">3 days ago</Text>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-badge bg-purple-500"></div>
+                <div className="timeline-content">
+                  <Text strong>Logged in from new device</Text>
+                  <Text className="block text-gray-600">1 week ago</Text>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </TabPane>
+      </Tabs>
+
+      <Card className="shadow-lg rounded-xl border-0 mt-6">
+        <Title level={4} className="mb-4">
+          Quick Actions
+        </Title>
+        <Space size="large">
+          <Button
+            type="primary"
+            icon={<CloudUploadOutlined />}
+            size="large"
+            onClick={() => navigate(ROUTES.UPLOAD_WORK)}
+          >
+            Upload Work
+          </Button>
+          <Button
+            type="default"
+            size="large"
+            onClick={() => navigate(ROUTES.RESUME_PATH)}
+          >
+            View Resume
+          </Button>
+        </Space>
+      </Card>
+
+      <Modal
+        title="Confirm Account Deletion"
+        visible={isDeleteModalVisible}
+        onOk={handleDeleteAccount}
+        onCancel={() => setIsDeleteModalVisible(false)}
+        okText="Delete"
+        okButtonProps={{ danger: true }}
+        cancelButtonProps={{ type: 'text' }}
+      >
+        <Text>
+          Are you sure you want to delete your account? This action cannot be
+          undone. All your data will be permanently removed.
+        </Text>
+      </Modal>
+    </div>
+  );
 };
 
 export default ProfilePage;

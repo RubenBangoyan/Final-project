@@ -28,6 +28,8 @@ export const onFinish =
     const { email, password, confirmPassword, remember, firstName, lastName } =
       values;
 
+    console.log(firstName, lastName);
+
     if (password !== confirmPassword) {
       setError("Passwords didn't match.");
       form.setFieldsValue({ password: '', confirmPassword: '' });
@@ -52,6 +54,8 @@ export const onFinish =
         email: user.email || '',
         token,
         id: user.uid,
+        name: firstName,
+        surname: lastName,
       };
 
       await setDoc(doc(db, 'users', user.uid), {

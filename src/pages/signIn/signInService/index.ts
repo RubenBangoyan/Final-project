@@ -7,9 +7,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../../../services/firebse-config';
-import { setUser,updateProfile } from '../../../features/user/userSlice';
-import { getUserProfileFromFirebase } from '../../../services/fetchUserProfile';
-
+import { setUser } from '../../../features/user/userSlice';
 
 type SignInDependencies = {
   setError: (msg: string) => void;
@@ -19,9 +17,14 @@ type SignInDependencies = {
 };
 
 export const onFinish =
-  ({ setError, dispatch, navigate, form }: SignInDependencies): FormProps<FieldType>['onFinish'] =>
+  ({
+    setError,
+    dispatch,
+    navigate,
+    form,
+  }: SignInDependencies): FormProps<FieldType>['onFinish'] =>
   async (values) => {
-    const { email, password, remember } = values;
+    const { email, password, remember, firstName, lastName } = values;
 
     try {
       const persistenceType = remember
@@ -30,7 +33,11 @@ export const onFinish =
 
       await setPersistence(auth, persistenceType);
 
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       const token = await user.getIdToken();
 
@@ -38,13 +45,12 @@ export const onFinish =
         email: user.email || '',
         token,
         id: user.uid,
+        name: firstName,
+        surname: lastName,
       };
 
       dispatch(setUser(userData));
-      const profile = await getUserProfileFromFirebase(user.uid);
-      if (profile) {
-        dispatch(updateProfile(profile));
-      }
+
       navigate('/');
     } catch (error) {
       if (error instanceof Error) {

@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { UserProfile } from "../../pages/profilePage/ProfilePage.tsx";
 
 interface UserState {
   email: string | null;
@@ -7,7 +6,6 @@ interface UserState {
   id: string | null;
   name: string | null;
   surname: string | null;
-  profile: UserProfile | null;
 }
 
 const initialState: UserState = {
@@ -16,7 +14,6 @@ const initialState: UserState = {
   id: null,
   name: null,
   surname: null,
-  profile: null,
 };
 
 const userSlice = createSlice({
@@ -24,15 +21,17 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (
-        state,
-        action: PayloadAction<{
-          email: string;
-          token: string;
-          id: string;
-          name?: string;
-          surname?: string;
-        }>
+      state,
+      action: PayloadAction<{
+        email: string;
+        token: string;
+        id: string;
+        name?: string;
+        surname?: string;
+      }>
     ) => {
+      console.log('USER SET IN REDUCER:', action.payload);
+
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.id = action.payload.id;
@@ -43,17 +42,10 @@ const userSlice = createSlice({
         state.surname = action.payload.surname;
       }
     },
-    updateProfile: (
-        state,
-        action: PayloadAction<UserProfile>
-    ) => {
-      state.name = action.payload.name;
-      state.surname = action.payload.surname;
-      state.profile = action.payload;
-    },
+
     removeUser: () => initialState,
   },
 });
 
-export const { setUser, updateProfile, removeUser } = userSlice.actions;
+export const { setUser, removeUser } = userSlice.actions;
 export default userSlice.reducer;
