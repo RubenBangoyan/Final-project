@@ -1,5 +1,5 @@
 export const ROUTES = {
-  HOME_PATH: "/",
+   HOME_PATH: "/",
   NOT_FOUND_PATH: "*",
   ABOUT_PATH: "/about",
   RESUME_PATH: "/resume",
@@ -8,5 +8,7 @@ export const ROUTES = {
   CONTACT_US_PATH: "/contact-us",
   UPLOAD_WORK: "/upload-work",
   JOBS_PATH: "/jobs",
-  PROFILE_PATH: '/profile',
+  JOB_DETAIL_PATH: "/jobs/:id",
+  PROFILE_PATH: "/profile", 
 } as const;
+
