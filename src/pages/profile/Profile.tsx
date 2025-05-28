@@ -34,7 +34,7 @@ import {
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
-import './ProfilePage.css';
+import './Profile.css';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -474,7 +474,7 @@ const ProfilePage: React.FC = () => {
 
       <Modal
         title="Confirm Account Deletion"
-        visible={isDeleteModalVisible}
+        // visible={isDeleteModalVisible}
         onOk={handleDeleteAccount}
         onCancel={() => setIsDeleteModalVisible(false)}
         okText="Delete"

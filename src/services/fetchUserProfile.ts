@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebse-config';
-import type { UserProfile } from '../pages/profilePage/Profile';
+import type { UserProfile } from '../pages/profile/Profile';
 
 export const getUserProfileFromFirebase = async (
   uid: string
