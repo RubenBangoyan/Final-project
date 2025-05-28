@@ -70,8 +70,13 @@ const Home = () => {
             </Paragraph>
           </Typography>
           <Space.Compact style={{ width: "100%" }}>
-            <Input placeholder="search" value={query} onChange={handleChange} />
-            <Button type="primary" onClick={handleSearch}>
+            <Input
+              placeholder="search"
+              value={query}
+              onChange={handleChange}
+              size="large"
+            />
+            <Button type="primary" onClick={handleSearch} size="large">
               Search
             </Button>
           </Space.Compact>
