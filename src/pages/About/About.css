@@ -1,12 +1,3 @@
-:root {
-  --primary-color: #1890ff;
-  --bg-light: #e0f4ff;
-  --bg-dark: #122f49;
-  --text-dark: #001529;
-  --text-light: #f0f0f0;
-  transition: background-color 0.3s, color 0.3s;
-}
-
 .about-container {
   display: flex;
   flex-direction: column;

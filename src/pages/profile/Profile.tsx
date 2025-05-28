@@ -379,7 +379,6 @@ const ProfilePage: React.FC = () => {
                   </Form.Item>
                 </Col>
               </Row>
-
               <Divider />
 
               <Button type="primary" size="large" className="px-6">
@@ -467,14 +466,14 @@ const ProfilePage: React.FC = () => {
             size="large"
             onClick={() => navigate(ROUTES.RESUME_PATH)}
           >
-            View Resume
+            Generate Resume
           </Button>
         </Space>
       </Card>
 
       <Modal
         title="Confirm Account Deletion"
-        // visible={isDeleteModalVisible}
+        open={isDeleteModalVisible}
         onOk={handleDeleteAccount}
         onCancel={() => setIsDeleteModalVisible(false)}
         okText="Delete"

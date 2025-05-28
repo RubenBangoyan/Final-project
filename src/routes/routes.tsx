@@ -1,18 +1,18 @@
 import UploadWork from '../pages/uploadWork/UploadWork.tsx';
 import NotFound from '../components/notFound/NotFound';
 import { createBrowserRouter } from 'react-router-dom';
+import ProfilePage from '../pages/profile/Profile.tsx';
 import AppLayout from '../layout/appLayout/AppLayout';
+import JobDetail from '../pages/jobs/JobDetail.tsx';
 import { ProtectedRouter } from './ProtectedRouter';
 import ResumeForm from '../pages/resume/Resume';
 import Contact from '../pages/contact/Contact';
+import About from '../pages/About/About.tsx';
 import SignIn from '../pages/signIn/SignIn';
 import SignUp from '../pages/signUp/SignUp';
-import ProfilePage from '../pages/profile/Profile.tsx';
-import About from '../pages/About/About.tsx';
+import Jobs from '../pages/jobs/Jobs.tsx';
 import Home from '../pages/home/Home';
 import { ROUTES } from './paths';
-import Jobs from '../pages/jobs/Jobs.tsx';
-import JobDetail from '../pages/jobs/JobDetail.tsx';
 
 export const router = createBrowserRouter([
   {
