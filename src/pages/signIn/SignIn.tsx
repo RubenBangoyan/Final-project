@@ -13,6 +13,9 @@ import { useAppDispatch } from "../../app/hook";
 import { setUser } from "../../features/user/userSlice";
 import "./SignIn.css";
 import { ROUTES } from "../../routes/paths";
+import { updateProfile } from "../../features/user/userSlice";
+import { getUserProfileFromFirebase } from "../../services/fetchUserProfile";
+
 
 type FieldType = {
   email: string;
@@ -43,7 +46,6 @@ const SignIn = () => {
       );
       const user = userCredential.user;
       const token = await user.getIdToken();
-
       const userData = {
         email: user.email || "",
         token,
@@ -51,6 +53,11 @@ const SignIn = () => {
       };
 
       dispatch(setUser(userData));
+
+      const profile = await getUserProfileFromFirebase(user.uid);
+      if (profile) {
+        dispatch(updateProfile(profile));
+      }
 
       console.log(userData, "test print userdata");
       console.log(remember, "test print remember");

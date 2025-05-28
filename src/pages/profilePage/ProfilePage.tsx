@@ -1,578 +1,287 @@
-
-//
-//
-// import {
-//     Avatar,
-//     Button,
-//     Card,
-//     Col,
-//     Input,
-//     Row,
-//     Tag,
-//     Typography,
-//     Upload,
-// } from 'antd';
-// import {
-//     UploadOutlined,
-//     SettingOutlined,
-//     PlusOutlined,
-// } from '@ant-design/icons';
-// import './ProfilePage.css';
-//
-// const { Text, Paragraph } = Typography;
-//
-// import { useState } from 'react';
-//
-// const ProfilePage = () => {
-//     const [skills, setSkills] = useState(['React', 'JavaScript']);
-//     const [inputVisible, setInputVisible] = useState(false);
-//     const [inputValue, setInputValue] = useState('');
-//     const [bio, setBio] = useState('Open to new opportunities in web development.');
-//
-//     const handleClose = (removedSkill: string) => {
-//         setSkills(skills.filter(skill => skill !== removedSkill));
-//     };
-//
-//     const handleInputConfirm = () => {
-//         if (inputValue && !skills.includes(inputValue)) {
-//             setSkills([...skills, inputValue]);
-//         }
-//         setInputVisible(false);
-//         setInputValue('');
-//     };
-//
-//     return (
-//         <div className="profile-page">
-//             <Card className="profile-card">
-//                 <Row gutter={[32, 32]}>
-//                     <Col span={6}>
-//                         <Upload showUploadList={false}>
-//                             <Avatar size={128} icon={<UploadOutlined />} className="avatar" />
-//                         </Upload>
-//                         <div className="info-labels">
-//                             <Text strong>Email:</Text>
-//                             <Text> user@example.com </Text>
-//                         </div>
-//                         <Button icon={<SettingOutlined />} type="primary">
-//                             Settings
-//                         </Button>
-//                     </Col>
-//
-//                     <Col span={18}>
-//                         <Card title="Resume">
-//                             <Button type="primary">Download or Create with AI</Button>
-//                         </Card>
-//
-//                         <Card title="Status">
-//                             <Text>Available for work</Text>
-//                         </Card>
-//
-//                         <Card title="Skills">
-//                             {skills.map(skill => (
-//                                 <Tag
-//                                     key={skill}
-//                                     closable
-//                                     onClose={() => handleClose(skill)}
-//                                     color="blue"
-//                                 >
-//                                     {skill}
-//                                 </Tag>
-//                             ))}
-//                             {inputVisible ? (
-//                                 <Input
-//                                     type="text"
-//                                     size="small"
-//                                     style={{ width: 120 }}
-//                                     value={inputValue}
-//                                     onChange={e => setInputValue(e.target.value)}
-//                                     onBlur={handleInputConfirm}
-//                                     onPressEnter={handleInputConfirm}
-//                                     autoFocus
-//                                 />
-//                             ) : (
-//                                 <Tag onClick={() => setInputVisible(true)} className="add-skill-tag">
-//                                     <PlusOutlined /> New Skill
-//                                 </Tag>
-//                             )}
-//                         </Card>
-//
-//                         <Card title="Bio">
-//                             <Paragraph
-//                                 editable={{
-//                                     onChange: setBio,
-//                                 }}
-//                             >
-//                                 {bio}
-//                             </Paragraph>
-//                         </Card>
-//                     </Col>
-//                 </Row>
-//             </Card>
-//         </div>
-//     );
-// };
-//
-// export default ProfilePage;
-
-
-
-
-
-
-
-
-
-
-
-
-// import {
-//     Avatar,
-//     Button,
-//     Card,
-//     Col,
-//     Input,
-//     Row,
-//     Tag,
-//     Typography,
-//     Upload,
-// } from 'antd';
-// import {
-//     UploadOutlined,
-//     SettingOutlined,
-//     PlusOutlined,
-//     DownloadOutlined,
-// } from '@ant-design/icons';
-// import './ProfilePage.css';
-//
-// const { Text, Paragraph } = Typography;
-//
-// import { useState } from 'react';
-//
-// const ProfilePage = () => {
-//     const [skills, setSkills] = useState(['React', 'JavaScript']);
-//     const [inputVisible, setInputVisible] = useState(false);
-//     const [inputValue, setInputValue] = useState('');
-//     const [bio, setBio] = useState('Open to new opportunities in web development.');
-//
-//     const handleClose = (removedSkill: string) => {
-//         setSkills(skills.filter(skill => skill !== removedSkill));
-//     };
-//
-//     const handleInputConfirm = () => {
-//         if (inputValue && !skills.includes(inputValue)) {
-//             setSkills([...skills, inputValue]);
-//         }
-//         setInputVisible(false);
-//         setInputValue('');
-//     };
-//
-//     const handleDownloadResume = () => {
-//         console.log('Downloading resume...');
-//         // TODO: Add real file download logic here
-//     };
-//
-//     return (
-//         <div className="profile-page">
-//             <Card className="profile-card">
-//                 <Row gutter={[32, 32]}>
-//                     <Col span={6}>
-//                         <Upload showUploadList={false}>
-//                             <Avatar size={128} icon={<UploadOutlined />} className="avatar" />
-//                         </Upload>
-//                         <div className="info-labels">
-//                             <Text strong>Email:</Text>
-//                             <Text> user@example.com </Text>
-//                         </div>
-//                         <Button icon={<SettingOutlined />} type="primary">
-//                             Settings
-//                         </Button>
-//                     </Col>
-//
-//                     <Col span={18}>
-//                         <Card title="Resume">
-//                             <Button
-//                                 type="primary"
-//                                 icon={<DownloadOutlined />}
-//                                 onClick={handleDownloadResume}
-//                             >
-//                                 Download Resume
-//                             </Button>
-//                         </Card>
-//
-//                         <Card title="Status">
-//                             <Text>Available for work</Text>
-//                         </Card>
-//
-//                         <Card title="Skills">
-//                             {skills.map(skill => (
-//                                 <Tag
-//                                     key={skill}
-//                                     closable
-//                                     onClose={() => handleClose(skill)}
-//                                     color="blue"
-//                                 >
-//                                     {skill}
-//                                 </Tag>
-//                             ))}
-//                             {inputVisible ? (
-//                                 <Input
-//                                     type="text"
-//                                     size="small"
-//                                     style={{ width: 120 }}
-//                                     value={inputValue}
-//                                     onChange={e => setInputValue(e.target.value)}
-//                                     onBlur={handleInputConfirm}
-//                                     onPressEnter={handleInputConfirm}
-//                                     autoFocus
-//                                 />
-//                             ) : (
-//                                 <Tag onClick={() => setInputVisible(true)} className="add-skill-tag">
-//                                     <PlusOutlined /> New Skill
-//                                 </Tag>
-//                             )}
-//                         </Card>
-//
-//                         <Card title="Bio">
-//                             <Paragraph
-//                                 editable={{
-//                                     onChange: setBio,
-//                                 }}
-//                             >
-//                                 {bio}
-//                             </Paragraph>
-//                         </Card>
-//                     </Col>
-//                 </Row>
-//             </Card>
-//         </div>
-//     );
-// };
-//
-// export default ProfilePage;
-
-
-
-
-
-
-
-
-
-
-
-
 import {
-    Avatar,
-    Button,
-    Card,
-    Col,
     Input,
+    Button,
     Row,
-    Tag,
+    Col,
+    Card,
     Typography,
-    Upload,
-    message,
-} from 'antd';
-import {
-    UploadOutlined,
-    SettingOutlined,
-    PlusOutlined,
-    FileAddOutlined,
-} from '@ant-design/icons';
-import './ProfilePage.css';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from "../../routes/paths.ts"
+    Space,
+    Select,
+    Form,
+    message, Upload,
+} from "antd";
+import {useDispatch, useSelector} from "react-redux";
+import { updateProfile } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import {RobotOutlined, UploadOutlined} from "@ant-design/icons";
+import {useEffect, useState} from "react";
+import {doc, setDoc} from "firebase/firestore";
+import { auth, db } from "../../services/firebse-config";
+import {StorageService} from "../../services/StorageService.tsx";
+import type {RootState} from "../../app/store.ts";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../services/firebse-config";
+import { Radio } from "antd";
+import { getUserProfileFromFirebase } from "../../services/fetchUserProfile";
+import { onAuthStateChanged } from "firebase/auth";
 
-const { Text, Paragraph } = Typography;
+const { Title } = Typography;
+const { Option } = Select;
+
+export type UserProfile = {
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+    city: string;
+    status: string;
+    avatarUrl?: string;
+};
 
 const ProfilePage = () => {
-    const [skills, setSkills] = useState(['React', 'JavaScript']);
-    const [inputVisible, setInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const [bio, setBio] = useState('Open to new opportunities in web development.');
-    const [resumeFile, setResumeFile] = useState<File | null>(null);
-
-    const handleClose = (removedSkill: string) => {
-        setSkills(skills.filter(skill => skill !== removedSkill));
-    };
-
-    const handleInputConfirm = () => {
-        if (inputValue && !skills.includes(inputValue)) {
-            setSkills([...skills, inputValue]);
-        }
-        setInputVisible(false);
-        setInputValue('');
-    };
-
-    const handleUploadChange = (info: any) => {
-        const file = info.file.originFileObj;
-        setResumeFile(file);
-        message.success(`${file.name} uploaded successfully.`);
-    };
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [form] = Form.useForm();
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const profile = useSelector((state: RootState) => state.user.profile);
+    const avatarSeeds = ["Alex", "Taylor", "Jordan", "Morgan", "George", "Quinn", "Jameson", "Jules"];
+    const avatarStyle = "micah";
+    const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const profile = await getUserProfileFromFirebase(user.uid);
+
+                if (
+                    profile?.name &&
+                    profile.surname &&
+                    profile.email &&
+                    profile.phone &&
+                    profile.city &&
+                    profile.status
+                ) {
+                    form.setFieldsValue(profile);
+                    dispatch(updateProfile(profile));
+                    setIsEditing(true);
+                } else {
+                    const draft = StorageService.getItem(`draftProfile_${user.uid}`);
+                    if (draft) {
+                        form.setFieldsValue(draft);
+                    }
+                    setIsEditing(false);
+                }
+            } else {
+                setIsEditing(false);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (profile && isEditing) {
+            navigate("/");
+        }
+    }, [profile]);
+
+    const handleCreateResumeWithAI = () => {
+        const user = auth.currentUser;
+        if (user) {
+            const values = form.getFieldsValue();
+            StorageService.setItem(`draftProfile_${user.uid}`, values);
+            navigate("/resume");
+        } else {
+            message.error("You must be logged in to create a resume.");
+        }
+    };
+
+    const handleCreateProfile = async (values: any) => {
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        try {
+            let resumeURL = "";
+
+            if (uploadedFile) {
+                const resumeRef = ref(storage, `resumes/${user.uid}/${uploadedFile.name}`);
+                await uploadBytes(resumeRef, uploadedFile);
+                resumeURL = await getDownloadURL(resumeRef);
+            }
+
+            const profileData = {
+                ...values,
+                resumeURL,
+            };
+
+            await setDoc(doc(db, "profiles", user.uid), profileData);
+            dispatch(updateProfile(profileData));
+            StorageService.setItem(`draftProfile_${user.uid}`, null);
+            message.success(isEditing ? "Profile saved successfully!" : "Profile created successfully!");
+            navigate("/");
+        } catch (error) {
+            console.error("Error saving profile:", error);
+            message.error("Failed to save profile");
+        }
+    };
 
     return (
-        <div className="profile-page">
-            <Card className="profile-card">
-                <Row gutter={[32, 32]}>
-                    <Col span={6}>
-                        <Upload showUploadList={false}>
-                            <Avatar size={128} icon={<UploadOutlined />} className="avatar" />
-                        </Upload>
-                        <div className="info-labels">
-                            <Text strong>Email:</Text>
-                            <Text> user@example.com </Text>
-                        </div>
-                        <Button icon={<SettingOutlined />} type="primary">
-                            Settings
-                        </Button>
+        <div className="profile-page" style={{ padding: 32}}>
+            <Title level={3}>Create Profile</Title>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleCreateProfile}
+                onValuesChange={(_, values) => {
+                    const user = auth.currentUser;
+                    if (user) {
+                        StorageService.setItem(`draftProfile_${user.uid}`, values);
+                    }
+                }}
+                requiredMark="optional"
+            >
+                <Row gutter={[24, 24]} justify="center">
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Card title="Personal Info" bordered={false} style={{ borderRadius: 12 }}>
+                            <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="Surname" name="surname" rules={[{ required: true }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="Phone" name="phone" rules={[{ required: true }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item label="City" name="city" rules={[{ required: true }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item
+                                label="Choose an Avatar"
+                                name="avatarUrl"
+                                rules={[{ required: true }]}
+                            >
+                                <Radio.Group
+                                    optionType="button"
+                                    style={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        justifyContent: "center",
+                                        gap: 12,
+                                        maxWidth: "100%",
+                                    }}
+                                >
+                                    {avatarSeeds.map((seed) => {
+                                        const url = `https://api.dicebear.com/7.x/${avatarStyle}/svg?seed=${seed}&mouth=smile`;
+                                        return (
+                                            <Radio.Button
+                                                key={seed}
+                                                value={url}
+                                                style={{
+                                                    padding: 0,
+                                                    height: "auto",
+                                                    width: "auto",
+                                                    background: "transparent",
+                                                    border: "none",
+                                                    boxShadow: "none",
+                                                }}
+                                            >
+                                                <img
+                                                    src={url}
+                                                    alt={`avatar-${seed}`}
+                                                    style={{
+                                                        width: 60,
+                                                        height: 60,
+                                                        borderRadius: "50%",
+                                                        border:
+                                                            form.getFieldValue("avatarUrl") === url
+                                                                ? "2px solid #1890ff"
+                                                                : "2px solid transparent",
+                                                        transition: "border 0.2s",
+                                                    }}
+                                                />
+                                            </Radio.Button>
+                                        );
+                                    })}
+                                </Radio.Group>
+                            </Form.Item>
+
+
+                        </Card>
                     </Col>
 
-                    <Col span={18}>
-                        <Card title="Resume">
-                            <Row gutter={16}>
-                                <Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Card title="Status & Resume" bordered={false} style={{ borderRadius: 12 }}>
+                            <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+                                <Select placeholder="Select status">
+                                    <Option value="Available for work">Available for work</Option>
+                                    <Option value="Open to opportunities">Open to opportunities</Option>
+                                    <Option value="Freelance only">Freelance only</Option>
+                                    <Option value="Internship seeking">Internship seeking</Option>
+                                    <Option value="Part-time only">Part-time only</Option>
+                                    <Option value="Remote only">Remote only</Option>
+                                    <Option value="Not looking right now">Not looking right now</Option>
+                                </Select>
+                            </Form.Item>
+
+                            <Form.Item label="Resume Upload">
+                                <Space align="center">
                                     <Upload
+                                        name="resume"
+                                        accept=".pdf,.doc,.docx"
                                         showUploadList={false}
-                                        beforeUpload={() => false}
-                                        onChange={handleUploadChange}
+                                        multiple={false}
+                                        beforeUpload={(file) => {
+                                            setUploadedFile(file);
+                                            message.success(`Uploaded: ${file.name}`);
+                                            return false;
+                                        }}
                                     >
-                                        <Button
-                                            type="primary"
-                                            icon={<UploadOutlined />}
-                                        >
-                                            Upload Resume
-                                        </Button>
+                                        <Button icon={<UploadOutlined />}>Upload Resume</Button>
                                     </Upload>
-                                </Col>
-                                <Col>
-                                    <Button
-                                        type="default"
-                                        icon={<FileAddOutlined />}
-                                        onClick={() => navigate(ROUTES.RESUME_PATH)}
-                                    >
-                                        Create Resume
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Card>
 
-                        <Card title="Status">
-                            <Text>Available for work</Text>
-                        </Card>
+                                    {uploadedFile && (
+                                        <Space>
+                                        <span style={{ fontWeight: 500 }}>
+                                            <strong>{uploadedFile.name}</strong>
+                                        </span>
+                                            <Button
+                                                type="text"
+                                                size="small"
+                                                danger
+                                                onClick={() => setUploadedFile(null)}
+                                                style={{ padding: 0 }}
+                                            >
+                                                x
+                                            </Button>
+                                        </Space>
+                                    )}
+                                </Space>
+                            </Form.Item>
 
-                        <Card title="Skills">
-                            {skills.map(skill => (
-                                <Tag
-                                    key={skill}
-                                    closable
-                                    onClose={() => handleClose(skill)}
-                                    color="blue"
-                                >
-                                    {skill}
-                                </Tag>
-                            ))}
-                            {inputVisible ? (
-                                <Input
-                                    type="text"
-                                    size="small"
-                                    style={{ width: 120 }}
-                                    value={inputValue}
-                                    onChange={e => setInputValue(e.target.value)}
-                                    onBlur={handleInputConfirm}
-                                    onPressEnter={handleInputConfirm}
-                                    autoFocus
-                                />
-                            ) : (
-                                <Tag onClick={() => setInputVisible(true)} className="add-skill-tag">
-                                    <PlusOutlined /> New Skill
-                                </Tag>
-                            )}
-                        </Card>
 
-                        <Card title="Bio">
-                            <Paragraph editable={{ onChange: setBio }}>
-                                {bio}
-                            </Paragraph>
+                            <Button
+                                type="primary"
+                                icon={<RobotOutlined />}
+                                onClick={handleCreateResumeWithAI}
+                            >
+                                Create Resume with AI
+                            </Button>
                         </Card>
                     </Col>
                 </Row>
-            </Card>
+
+                <Row justify="center" style={{ marginTop: 32 }}>
+                    <Button type="primary" size="large" htmlType="submit">
+                        {isEditing ? "Save" : "Create Profile"}
+                    </Button>
+                </Row>
+            </Form>
         </div>
     );
 };
 
 export default ProfilePage;
-
-
-
-
-
-
-
-
-// import React, { useState } from 'react';
-// import {
-//     Avatar,
-//     Button,
-//     Card,
-//     Col,
-//     Input,
-//     Row,
-//     Space,
-//     Tag,
-//     Typography,
-//     Upload,
-//     Switch,
-// } from 'antd';
-// import {
-//     UploadOutlined,
-//     LogoutOutlined,
-//     SettingOutlined,
-//     PlusOutlined,
-//     HomeOutlined,
-// } from '@ant-design/icons';
-// import { useNavigate } from 'react-router-dom';
-// import './ProfilePage.css';
-//
-// const { Title, Text, Paragraph } = Typography;
-//
-// const ProfilePage = () => {
-//     const [darkMode, setDarkMode] = useState(false);
-//     const [skills, setSkills] = useState(['React', 'JavaScript']);
-//     const [inputVisible, setInputVisible] = useState(false);
-//     const [inputValue, setInputValue] = useState('');
-//     const [bio, setBio] = useState('Open to new opportunities in web development.');
-//     const navigate = useNavigate();
-//
-//     const handleClose = (removedSkill: string) => {
-//         setSkills(skills.filter(skill => skill !== removedSkill));
-//     };
-//
-//     const handleInputConfirm = () => {
-//         if (inputValue && !skills.includes(inputValue)) {
-//             setSkills([...skills, inputValue]);
-//         }
-//         setInputVisible(false);
-//         setInputValue('');
-//     };
-//
-//     const uploadProps = {
-//         showUploadList: false,
-//         beforeUpload: () => false,
-//     };
-//
-//     const handleLogout = () => {
-//         localStorage.removeItem('token'); // or your auth key
-//         navigate('/login');
-//     };
-//
-//     const handleGoHome = () => {
-//         navigate('/home');
-//     };
-//
-//     return (
-//         <div className={darkMode ? 'profile-page dark' : 'profile-page'}>
-//             <Card className="profile-card">
-//                 <Row justify="space-between" align="middle" className="top-bar">
-//                     <Col>
-//                         <Button
-//                             type="link"
-//                             icon={<HomeOutlined />}
-//                             onClick={handleGoHome}
-//                             style={{ fontSize: '16px' }}
-//                         >
-//                             Home
-//                         </Button>
-//                     </Col>
-//                     <Col>
-//                         <Space>
-//                             <Switch
-//                                 checked={darkMode}
-//                                 onChange={checked => setDarkMode(checked)}
-//                                 checkedChildren="Dark"
-//                                 unCheckedChildren="Light"
-//                             />
-//                             <Button
-//                                 icon={<LogoutOutlined />}
-//                                 type="primary"
-//                                 danger
-//                                 onClick={handleLogout}
-//                             >
-//                                 Log Out
-//                             </Button>
-//                         </Space>
-//                     </Col>
-//                 </Row>
-//
-//                 <Row gutter={[32, 32]}>
-//                     <Col span={6}>
-//                         <Upload {...uploadProps}>
-//                             <Avatar size={128} icon={<UploadOutlined />} className="avatar" />
-//                         </Upload>
-//                         <div className="info-labels">
-//                             <Text strong>Email:</Text>
-//                             <Text> user@example.com </Text>
-//                         </div>
-//                         <Button icon={<SettingOutlined />} type="primary">
-//                             Settings
-//                         </Button>
-//                     </Col>
-//
-//                     <Col span={18}>
-//                         <Card title="Resume">
-//                             <Button type="primary">Download or Create with AI</Button>
-//                         </Card>
-//
-//                         <Card title="Status">
-//                             <Text>Available for work</Text>
-//                         </Card>
-//
-//                         <Card title="Skills">
-//                             {skills.map(skill => (
-//                                 <Tag
-//                                     key={skill}
-//                                     closable
-//                                     onClose={() => handleClose(skill)}
-//                                     color="blue"
-//                                 >
-//                                     {skill}
-//                                 </Tag>
-//                             ))}
-//                             {inputVisible ? (
-//                                 <Input
-//                                     type="text"
-//                                     size="small"
-//                                     style={{ width: 120 }}
-//                                     value={inputValue}
-//                                     onChange={e => setInputValue(e.target.value)}
-//                                     onBlur={handleInputConfirm}
-//                                     onPressEnter={handleInputConfirm}
-//                                     autoFocus
-//                                 />
-//                             ) : (
-//                                 <Tag onClick={() => setInputVisible(true)} className="add-skill-tag">
-//                                     <PlusOutlined /> New Skill
-//                                 </Tag>
-//                             )}
-//                         </Card>
-//
-//                         <Card title="Bio">
-//                             <Paragraph
-//                                 editable={{
-//                                     onChange: setBio,
-//                                 }}
-//                             >
-//                                 {bio}
-//                             </Paragraph>
-//                         </Card>
-//                     </Col>
-//                 </Row>
-//             </Card>
-//         </div>
-//     );
-// };
-//
-// export default ProfilePage;
