@@ -1,4 +1,4 @@
-import notFoundImg from "../../images/not-found-page.png";
+import notFoundImg from '../../assets/images/not-found-page.png'
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 import { Button, Row, Col } from "antd";

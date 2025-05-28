@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { LANGUAGE_STORAGE_KEY } from '../../constants/storageKeys';
+import { StorageService } from '../../services/StorageService';
+import { MoonFilled, SunOutlined } from '@ant-design/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Button, Col, Row, Select, Modal } from 'antd';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { StorageService } from '../../services/StorageService';
-import { LANGUAGE_STORAGE_KEY } from '../../constants/storageKeys';
+import { useEffect, useState } from 'react';
 import { ROUTES } from '../../routes/paths';
-import { MoonFilled, SunOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Select, Modal } from 'antd';
 import './header.css';
 
-import usFlag from '../../images/flags/us.png';
-import hyFlag from '../../images/flags/am.png';
-import ruFlag from '../../images/flags/ru.png';
+import usFlag from '../../assets/images/flags/us.png'
+import hyFlag from '../../assets/images/flags/am.png';
+import ruFlag from '../../assets/images/flags/ru.png'
 
 const flags = {
   en: usFlag,

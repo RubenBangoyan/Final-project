@@ -1,18 +1,18 @@
-import { ChatHelper } from "../../components/chatHelper/ChatHelper";
 import { Input, Button, Space, Typography, Row, Col, Carousel } from "antd";
-import "./Home.css";
-import { useState } from "react";
+import { ChatHelper } from "../../components/chatHelper/ChatHelper";
+import bostongene from "../../assets/images/bostongene.webp";
+import synopsys from "../../assets/images/synopsys.webp";
+import picsart from "../../assets/images/picsart.webp";
 import { useNavigate } from "react-router-dom";
+import aca from '../../assets/images/aca.webp'
 import { ROUTES } from "../../routes/paths";
-import aca from "../../images/aca.webp";
-import synopsys from "../../images/synopsys.webp";
-import picsart from "../../images/picsart.webp";
-import bostongene from "../../images/bostongene.webp";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 import {
   setCurrentPage,
   setSearchValue,
 } from "../../features/filter/filterSlice";
+import "./Home.css";
 
 const { Title, Paragraph } = Typography;
 

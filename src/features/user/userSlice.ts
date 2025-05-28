@@ -30,7 +30,6 @@ const userSlice = createSlice({
         surname?: string;
       }>
     ) => {
-      console.log('USER SET IN REDUCER:', action.payload);
 
       state.email = action.payload.email;
       state.token = action.payload.token;

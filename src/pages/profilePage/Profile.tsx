@@ -20,7 +20,6 @@ import {
   Descriptions,
   Badge,
   Progress,
-  Upload,
   Modal,
   Spin,
 } from 'antd';
@@ -28,12 +27,10 @@ import {
   UserOutlined,
   MailOutlined,
   LockOutlined,
-  EditOutlined,
   SafetyOutlined,
   ClockCircleOutlined,
   CloudUploadOutlined,
   DeleteOutlined,
-  LogoutOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
@@ -52,7 +49,7 @@ const ProfilePage: React.FC = () => {
     lastLogin?: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [avatarLoading, setAvatarLoading] = useState(false);
+  const [avatarLoading] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   useEffect(() => {
@@ -136,10 +133,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card
-        className="shadow-lg rounded-xl mb-6 border-0"
-        bodyStyle={{ padding: 0 }}
-      >
+      <Card className="shadow-lg rounded-xl mb-6 border-0">
         <div className="profile-header bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-t-xl">
           <Row gutter={[24, 24]} align="middle">
             <Col xs={24} sm={8} className="text-center">
