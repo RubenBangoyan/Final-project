@@ -35,12 +35,15 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
 import './Profile.css';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 const ProfilePage: React.FC = () => {
+  const { theme, handleClick } = useTheme();
   const navigate = useNavigate();
+
   const [profile, setProfile] = useState<{
     firstName?: string;
     lastName?: string;
@@ -254,11 +257,13 @@ const ProfilePage: React.FC = () => {
                     label="Dark Mode"
                     name="darkMode"
                     valuePropName="checked"
+                    initialValue={theme === 'dark'}
                   >
                     <Switch
+                      checked={theme === 'dark'}
+                      onChange={handleClick}
                       checkedChildren="On"
                       unCheckedChildren="Off"
-                      defaultChecked
                     />
                   </Form.Item>
                 </Col>
