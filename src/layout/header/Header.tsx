@@ -1,9 +1,10 @@
+
 import { LANGUAGE_STORAGE_KEY } from '../../constants/storageKeys';
 import { StorageService } from '../../services/StorageService';
 import { MoonFilled, SunOutlined } from '@ant-design/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Button, Col, Row, Select, Modal } from 'antd';
+import { Button, Flex, Select, Modal, Space } from 'antd';
 import { useAuth } from '../../contexts/AuthContext';
 import logo from '../../assets/images/logo3.png';
 import { useTranslation } from 'react-i18next';
@@ -66,111 +67,91 @@ const Header = () => {
     </Select.Option>
   );
 
+  const AuthButtons = () => (
+    <Space.Compact className="auth-buttons">
+      {isAuth ? (
+        <>
+          <Button onClick={() => navigate(ROUTES.PROFILE_PATH)}>
+            {t('Profile')}
+          </Button>
+          <Button type="primary" danger onClick={handleLogout}>
+            {t('Logout')}
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            className="sign-in-btn"
+            onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
+          >
+            {t('signIn')}
+          </Button>
+          <Button
+            className="sign-up-btn"
+            onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
+          >
+            {t('signUp')}
+          </Button>
+        </>
+      )}
+    </Space.Compact>
+  );
+
   return (
     <header className={`header-${theme}`}>
-      <Row justify="space-between" align="middle" wrap={false}>
-        <Col flex="auto">
-          <Row align="middle" gutter={32} wrap={false}>
-            <Col>
-              <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
-                <img className='logo-image' src={logo} alt="" />
-              </div>
-            </Col>
-            <Col>
-              <nav>
-                <ul className="list-container">
-                  <li>
-                    <NavLink to={ROUTES.HOME_PATH}>{t('home')}</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={ROUTES.ABOUT_PATH}>{t('about')}</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={ROUTES.CONTACT_US_PATH}>
-                      {t('contact')}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to={ROUTES.JOBS_PATH}>Jobs</NavLink>
-                  </li>
-                </ul>
-              </nav>
-            </Col>
-            <Col>
-              <Select
-                className={`language-select language-select-${theme}`}
-                value={language}
-                onChange={onLanguageChange}
-                popupMatchSelectWidth={false}
-                optionLabelProp="label"
-              >
-                {renderFlagOption('en', 'English')}
-                {renderFlagOption('hy', 'Հայերեն')}
-                {renderFlagOption('ru', 'Русский')}
-              </Select>
-            </Col>
-            <Col>
-              {theme === 'light' ? (
-                <MoonFilled
-                  onClick={handleClick}
-                  style={{ fontSize: 18, cursor: 'pointer' }}
-                />
-              ) : (
-                <SunOutlined
-                  onClick={handleClick}
-                  style={{ fontSize: 18, cursor: 'pointer' }}
-                />
-              )}
-            </Col>
-          </Row>
-        </Col>
+      <Flex
+        justify="space-between"
+        align="center"
+        wrap="nowrap"
+        className="header-container"
+      >
+        <Flex align="center" gap="middle" className="left-section">
+          <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
+            <img className="logo-image" src={logo} alt="" />
+          </div>
 
-        <Col>
-          <Row gutter={12} wrap={false}>
-            {isAuth ? (
-              <>
-                <Col>
-                  <Button onClick={() => navigate(ROUTES.PROFILE_PATH)}>
-                    Profile
-                  </Button>
-                </Col>
-                <Col>
-                  <Button type="primary" danger onClick={handleLogout}>
-                    {t('logout')}
-                  </Button>
-                </Col>
-              </>
+          <nav className="nav-container">
+            <ul className="list-container">
+              <li>
+                <NavLink to={ROUTES.HOME_PATH}>{t('home')}</NavLink>
+              </li>
+              <li>
+                <NavLink to={ROUTES.ABOUT_PATH}>{t('about')}</NavLink>
+              </li>
+              <li>
+                <NavLink to={ROUTES.CONTACT_US_PATH}>{t('contact')}</NavLink>
+              </li>
+              <li>
+                <NavLink to={ROUTES.JOBS_PATH}>{t('Jobs')}</NavLink>
+              </li>
+            </ul>
+          </nav>
+        </Flex>
+
+        <Flex align="center" gap="middle" className="right-section">
+          <Select
+            className={`language-select language-select-${theme}`}
+            value={language}
+            onChange={onLanguageChange}
+            popupMatchSelectWidth={false}
+            optionLabelProp="label"
+          >
+            {renderFlagOption('en', 'English')}
+            {renderFlagOption('hy', 'Հայերեն')}
+            {renderFlagOption('ru', 'Русский')}
+          </Select>
+
+          <div className="theme-toggle" onClick={handleClick}>
+            {theme === 'light' ? (
+              <MoonFilled className="theme-icon" />
             ) : (
-              <>
-                <Col>
-                  <Button
-                    style={{
-                      backgroundColor:
-                        theme === 'light' ? '#1890ff' : '#001529',
-                      color: '#ffffff',
-                    }}
-                    onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
-                  >
-                    {t('signIn')}
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    style={{
-                      backgroundColor:
-                        theme === 'light' ? '#1890ff' : '#001529',
-                      color: '#ffffff',
-                    }}
-                    onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
-                  >
-                    {t('signUp')}
-                  </Button>
-                </Col>
-              </>
+              <SunOutlined className="theme-icon" />
             )}
-          </Row>
-        </Col>
-      </Row>
+          </div>
+
+          <AuthButtons />
+        </Flex>
+      </Flex>
     </header>
   );
 };
