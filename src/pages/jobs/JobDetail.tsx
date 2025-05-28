@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Button, Row, Col, Spin, Typography } from "antd";
-import { getJobById } from "../../components/jobCard/JobService";
+import { Button, Card, Col, Row, Tag, Typography } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import "./JobDetail.css";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const JobDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchJob = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        if (id) {
-          const fetchedJob = await getJobById(id);
-          setJob(fetchedJob);
-        }
-      } catch {
+        const allJobs = await getAllJobs();
+        const foundJob = allJobs.find((job) => job.id === id) || null;
+        setJob(foundJob);
       } finally {
         setLoading(false);
       }
@@ -29,57 +28,93 @@ const JobDetail = () => {
     fetchJob();
   }, [id]);
 
-  const handleApplyClick = () => {
-    alert("Apply clicked! Implement application process here.");
-  };
-
-  if (loading) {
+  if (loading)
     return (
-      <div className="job-detail-loading">
-        <Spin size="large" tip="Loading job details..." />
-      </div>
-    );
-  }
-
-  if (!job) {
-    return <div className="job-detail-no-job">Job not found.</div>;
-  }
-
-  return (
-    <div className="job-detail-container">
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Title level={2}>{job.position}</Title>
-          <Paragraph>
-            <strong>Company:</strong> {job.companyName}
-          </Paragraph>
-          <Paragraph>
-            <strong>Location:</strong> {job.location}
-          </Paragraph>
-          <Paragraph>
-            <strong>Employment Type:</strong> {job.employmentType.join(", ")}
-          </Paragraph>
-          <Paragraph>
-            <strong>Salary Range:</strong> ${job.salaryFrom} - ${job.salaryTo}
-          </Paragraph>
-          <Paragraph>
-            <strong>Technologies:</strong> {job.technologies.join(", ")}
-          </Paragraph>
-          <Paragraph>
-            <strong>Requirements:</strong> {job.requirements}
-          </Paragraph>
-          
+      <Row justify="center" style={{ marginTop: "5rem" }}>
+        <Col>
+          <Text strong>Loading...</Text>
         </Col>
       </Row>
+    );
 
-      <Row justify="center" style={{ marginTop: 24 }}>
+  if (!job)
+    return (
+      <Row justify="center" style={{ marginTop: "5rem" }}>
         <Col>
-          <Button type="primary" size="large" onClick={handleApplyClick}>
+          <Text type="secondary" strong>
+            Job not found
+          </Text>
+        </Col>
+      </Row>
+    );
+
+  return (
+    <Card className="job-detail-card">
+      <Row justify="space-between" align="middle" className="job-header">
+        <Col>
+          <Title level={2}>{job.position}</Title>
+        </Col>
+        <Col>
+          <Button type="primary" size="large" onClick={() => alert("Applied!")}>
             Apply
           </Button>
         </Col>
       </Row>
-    </div>
+
+      <Row gutter={[16, 16]} className="job-info">
+        <Col span={12}>
+          <Text strong>Company:</Text> {job.companyName}
+        </Col>
+        <Col span={12}>
+          <Text strong>Location:</Text> {job.location}
+        </Col>
+        <Col span={12}>
+          <Text strong>Employment Type:</Text>{" "}
+          {job.employmentType.map((type) => (
+            <Tag color="blue" key={type}>
+              {type}
+            </Tag>
+          ))}
+        </Col>
+        <Col span={12}>
+          <Text strong>Salary Range:</Text> ${job.salaryFrom} - ${job.salaryTo}
+        </Col>
+        <Col span={24}>
+          <Text strong>Technologies:</Text>{" "}
+          {job.technologies.map((tech) => (
+            <Tag color="green" key={tech}>
+              {tech}
+            </Tag>
+          ))}
+        </Col>
+      </Row>
+
+      <Row style={{ marginTop: 30 }}>
+        <Col span={24}>
+          <Title level={3} className="section-title">
+            About the Job
+          </Title>
+          <Paragraph className="section-content">{job.position}</Paragraph>
+        </Col>
+      </Row>
+
+      <Row style={{ marginTop: 20 }}>
+        <Col span={24}>
+          <Title level={3} className="section-title">
+            Job Requirements
+          </Title>
+          <Paragraph className="section-content">{job.requirements}</Paragraph>
+        </Col>
+      </Row>
+
+      <Row justify="center" style={{ marginTop: 40 }}>
+        <Col>
+          <Button type="default" size="large" onClick={() => navigate("/jobs")}>
+            Go Jobs Page
+          </Button>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 
