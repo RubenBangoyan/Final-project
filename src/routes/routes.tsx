@@ -9,8 +9,7 @@ import SignIn from "../pages/signIn/SignIn";
 import About from "../pages/About/About.tsx";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
-import ProfilePage from "../pages/profilePage/ProfilePage.tsx";
-import SignUp from "../pages/signUp/SignUp.tsx";
+import Jobs from "../pages/jobs/Jobs.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +19,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: ROUTES.JOBS_PATH,
+        element: <Jobs />,
       },
       {
         element: <ProtectedRouter />,
@@ -38,26 +41,26 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: ROUTES.SIGN_IN_PATH,
+        element: <SignIn />,
+      },
+      {
+        path: ROUTES.SIGN_UP_PATH,
+        element: <SignUp />,
+      },
+      {
+        path: ROUTES.RESUME_PATH,
+        element: <ResumeForm />,
+      },
+      {
+        path: ROUTES.UPLOAD_WORK,
+        element: <UploadWork />,
+      },
+      {
+        path: ROUTES.NOT_FOUND_PATH,
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: ROUTES.SIGN_IN_PATH,
-    element: <SignIn />,
-  },
-  {
-    path: ROUTES.SIGN_UP_PATH,
-    element: <SignUp />,
-  },
-  {
-    path: ROUTES.NOT_FOUND_PATH,
-    element: <NotFound />,
-  },
-  {
-    path: ROUTES.RESUME_PATH,
-    element: <ResumeForm />,
-  },
-  {
-    path: ROUTES.UPLOAD_WORK,
-    element: <UploadWork />,
   },
 ]);

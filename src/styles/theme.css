@@ -24,7 +24,7 @@
 }
 
 [data-theme="dark"] {
-  --footer-bg: rgb(24, 24, 24);;
+  --footer-bg: rgb(24, 24, 24);
   --footer-text: #f0f0f0;
   --footer-link-color: #f0f0f0;
   --footer-link-hover-color: #40a9ff;

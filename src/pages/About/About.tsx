@@ -42,13 +42,15 @@ const About = () => {
 
   return (
     <div
-      className={`about-container ${
+      className={`container about-container ${
         theme === "dark" ? "about-dark" : "about-light"
       }`}
     >
-      <header className="about-header">
-        <Title level={2} className="section-title">About Us</Title>
-      </header>
+      <section className="about-header">
+        <Title level={2} className="section-title">
+          About Us
+        </Title>
+      </section>
 
       <section className="our-team">
         <Card className="team-card">

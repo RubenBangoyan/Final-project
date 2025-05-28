@@ -23,5 +23,5 @@
   "linkedin": "LinkedIn",
   "twitter": "Twitter",
   "tagline": "Building the future, today.",
-  "copyright": "All rights reserved."
+  "copyright": "© {{date}} All rights reserved."
 }

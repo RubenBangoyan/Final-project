@@ -112,6 +112,9 @@ const Header = () => {
                       {t("contact")}
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink to={ROUTES.JOBS_PATH}>Jobs</NavLink>
+                  </li>
                 </ul>
               </nav>
             </Col>

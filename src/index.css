@@ -3,3 +3,14 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.container {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+#root {
+  overflow: hidden;
+  min-height: 320px;
+}
