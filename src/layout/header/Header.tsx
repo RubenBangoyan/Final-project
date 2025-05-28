@@ -5,14 +5,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Button, Col, Row, Select, Modal } from 'antd';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/images/logo3.png';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../routes/paths';
 import './header.css';
 
-import usFlag from '../../assets/images/flags/us.png'
+import usFlag from '../../assets/images/flags/us.png';
 import hyFlag from '../../assets/images/flags/am.png';
-import ruFlag from '../../assets/images/flags/ru.png'
+import ruFlag from '../../assets/images/flags/ru.png';
 
 const flags = {
   en: usFlag,
@@ -72,7 +73,7 @@ const Header = () => {
           <Row align="middle" gutter={32} wrap={false}>
             <Col>
               <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
-                Logo
+                <img className='logo-image' src={logo} alt="" />
               </div>
             </Col>
             <Col>
