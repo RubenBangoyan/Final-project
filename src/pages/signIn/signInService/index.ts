@@ -7,7 +7,9 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../../../services/firebse-config';
-import { setUser } from '../../../features/user/userSlice';
+import { setUser,updateProfile } from '../../../features/user/userSlice';
+import { getUserProfileFromFirebase } from '../../../services/fetchUserProfile';
+
 
 type SignInDependencies = {
   setError: (msg: string) => void;
@@ -39,6 +41,10 @@ export const onFinish =
       };
 
       dispatch(setUser(userData));
+      const profile = await getUserProfileFromFirebase(user.uid);
+      if (profile) {
+        dispatch(updateProfile(profile));
+      }
       navigate('/');
     } catch (error) {
       if (error instanceof Error) {

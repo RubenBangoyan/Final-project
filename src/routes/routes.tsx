@@ -6,6 +6,8 @@ import { ProtectedRouter } from "./ProtectedRouter";
 import ResumeForm from "../pages/resume/Resume";
 import Contact from "../pages/contact/Contact";
 import SignIn from "../pages/signIn/SignIn";
+import SignUp from "../pages/signUp/SignUp";
+import ProfilePage from "../pages/profilePage/ProfilePage";
 import About from "../pages/About/About.tsx";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
