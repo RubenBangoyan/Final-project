@@ -8,4 +8,5 @@ export const ROUTES = {
   CONTACT_US_PATH: "/contact-us",
   UPLOAD_WORK: "/upload-work",
   JOBS_PATH: "/jobs",
+  PROFILE_PATH: '/profile',
 } as const;

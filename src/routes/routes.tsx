@@ -7,7 +7,6 @@ import ResumeForm from "../pages/resume/Resume";
 import Contact from "../pages/contact/Contact";
 import SignIn from "../pages/signIn/SignIn";
 import About from "../pages/About/About.tsx";
-import SignUp from "../pages/signUp/SignUp";
 import Home from "../pages/home/Home";
 import { ROUTES } from "./paths";
 import Jobs from "../pages/jobs/Jobs.tsx";
@@ -35,6 +34,10 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.CONTACT_US_PATH,
             element: <Contact />,
+          },
+          {
+            path: ROUTES.PROFILE_PATH,
+            element: <ProfilePage />,
           },
         ],
       },

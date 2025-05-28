@@ -9,6 +9,16 @@ import { useTranslation } from "react-i18next";
 import { StorageService } from "../../services/StorageService";
 import { LANGUAGE_STORAGE_KEY } from "../../constants/storageKeys";
 import "./header.css";
+import type { RootState } from "../../app/store";
+import { Popover } from "antd";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../services/firebse-config";
+import { getUserProfileFromFirebase } from "../../services/fetchUserProfile";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../features/user/userSlice";
+
 
 import usFlag from "../../images/flags/us.png";
 import hyFlag from "../../images/flags/am.png";
@@ -28,6 +38,9 @@ const Header = () => {
   const { isAuth, logout } = useAuth();
   const [language, setLanguage] = React.useState<"en" | "hy" | "ru">("en");
   const { t, i18n } = useTranslation();
+  const profile = useSelector((state: RootState) => state.user.profile);
+  const dispatch = useDispatch();
+
 
   React.useEffect(() => {
     const savedLang = StorageService.getItem(LANGUAGE_STORAGE_KEY) as
@@ -38,6 +51,19 @@ const Header = () => {
     if (savedLang && flags[savedLang]) {
       setLanguage(savedLang);
     }
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const profile = await getUserProfileFromFirebase(user.uid);
+        if (profile) {
+          dispatch(updateProfile(profile));
+        }
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const onLanguageChange = (lang: "en" | "hy" | "ru") => {
@@ -166,6 +192,52 @@ const Header = () => {
 
         <Col>
           <Row gutter={12} wrap={false}>
+            {profile && (
+                <Col style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  {profile?.avatarUrl && (
+                      <img
+                          src={profile.avatarUrl}
+                          alt="avatar"
+                          style={{
+                            width: 32,
+                            height: 32,
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                      />
+                  )}
+                  <Popover
+                      content={
+                        <div>
+                          <p>
+                            <strong>{profile.name} {profile.surname}</strong>
+                          </p>
+                          <p>Email: {profile.email}</p>
+                          <p>Status: {profile.status}</p>
+                          <Button
+                              size="small"
+                              style={{
+                                fontSize: "12px",
+                                padding: "2px 8px",
+                                height: "auto",
+                                lineHeight: 1,
+                                marginTop: 8,
+                              }}
+                              onClick={() => navigate(ROUTES.PROFILE_PATH)}
+                          >
+                            Edit Profile
+                          </Button>
+                        </div>
+                      }
+                      trigger="click"
+                  >
+                  <span style={{ cursor: "pointer", fontWeight: 600 }}>
+                    {profile.name} {profile.surname}
+                  </span>
+                  </Popover>
+                </Col>
+            )}
+
             {isAuth ? (
               <>
                 <Col>
@@ -180,17 +252,17 @@ const Header = () => {
                   >
                     {t("uploadWork")}
                   </Button>{" "}
-                  <Button
+                  {!profile && (<Button
                     type="default"
                     style={{
                       backgroundColor:
                         theme === "light" ? "#1890ff" : "#001529",
                       color: "#ffffff",
                     }}
-                    onClick={() => navigate(ROUTES.RESUME_PATH)}
+                    onClick={() => navigate(ROUTES.PROFILE_PATH)}
                   >
                     {t("resume")}
-                  </Button>
+                  </Button>) }
                 </Col>
                 <Col>
                   <Button type="primary" danger onClick={handleLogout}>
