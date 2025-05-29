@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Input, Select, Slider, Row, Col, Spin, Empty, Button } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import JobCard from "../../components/jobCard/JobCard";
 import { useTheme } from "../../contexts/ThemeContext";
-import { ROUTES } from "../../routes/paths";
 import "./Jobs.css";
 import { useFilter } from "../../hooks/useFilter";
 
@@ -30,14 +28,9 @@ const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
-  const navigate = useNavigate();
 
-  const {
-    currentFilters,
-    updateFilter,
-    resetAllFilter,
-    canReset,
-  } = useFilter(initialFilters);
+  const { currentFilters, updateFilter, resetAllFilter, canReset } =
+    useFilter(initialFilters);
 
   const { searchValue, employmentFilter, techFilter, salaryRange } =
     currentFilters;
@@ -168,14 +161,7 @@ const Jobs = () => {
       ) : (
         <Row gutter={[16, 16]}>
           {filteredJobs.map((job) => (
-            <Col
-              key={job.id}
-              xs={24}
-              sm={12}
-              md={8}
-              lg={6}
-              onClick={() => navigate(`${ROUTES.JOBS_PATH}/${job.id}`)}
-            >
+            <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
               <JobCard job={job} />
             </Col>
           ))}
