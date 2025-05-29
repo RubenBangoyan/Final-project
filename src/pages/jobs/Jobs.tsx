@@ -32,8 +32,13 @@ const Jobs = () => {
   const [separateMyJobs, setSeparateMyJobs] = useState(false);
   const currentUserId = useAppSelector((state) => state.user.id);
 
-  const { currentFilters, updateFilter, resetAllFilter, canReset } =
-    useFilter(initialFilters);
+  const {
+    currentFilters,
+    updateFilter,
+    resetFilter,
+    resetAllFilter,
+    canReset,
+  } = useFilter(initialFilters);
 
   const { searchValue, employmentFilter, techFilter, salaryRange } =
     currentFilters;
@@ -148,15 +153,54 @@ const Jobs = () => {
               tooltip={{ formatter: (val) => `$${val}` }}
             />
           </Col>
-          {!!canReset && (
-            <Col span={6}>
-              <Button
-                onClick={resetAllFilter}
-                style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
-              >
-                Reset All Filters
-              </Button>
-            </Col>
+          {canReset && (
+            <Row gutter={[8, 8]} className="resetAll-btn">
+              <Col span={6} style={{ paddingRight: 150 }}>
+                <Button
+                  onClick={resetAllFilter}
+                  style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
+                >
+                  Reset All Filters
+                </Button>
+              </Col>
+              <Col span={24}>
+                <div className="filter-container">
+                  {Object.entries(currentFilters).map(([key, value]) => {
+                    const initialValue =
+                      initialFilters[key as keyof initialFiltersTypes];
+                    const isDefault =
+                      JSON.stringify(value) === JSON.stringify(initialValue);
+                    if (isDefault) return null;
+
+                    let label = "";
+                    if (key === "searchValue") {
+                      label = `Search: ${value}`;
+                    } else if (key === "employmentFilter") {
+                      label = `Employment: ${value}`;
+                    } else if (key === "techFilter") {
+                      label = `Technology: ${value}`;
+                    } else if (key === "salaryRange") {
+                      label = `Salary: $${(value as number[])[0]} - $${
+                        (value as number[])[1]
+                      }`;
+                    }
+
+                    return (
+                      <Button
+                        key={key}
+                        size="small"
+                        onClick={() =>
+                          resetFilter(key as keyof initialFiltersTypes)
+                        }
+                        className="filter-btn"
+                      >
+                        {label} ✕
+                      </Button>
+                    );
+                  })}
+                </div>
+              </Col>
+            </Row>
           )}
         </Row>
 

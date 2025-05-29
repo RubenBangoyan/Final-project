@@ -4,14 +4,11 @@ import bostongene from "../../assets/images/bostongene.webp";
 import synopsys from "../../assets/images/synopsys.webp";
 import picsart from "../../assets/images/picsart.webp";
 import { useNavigate } from "react-router-dom";
-import aca from '../../assets/images/aca.webp'
+import aca from "../../assets/images/aca.webp";
 import { ROUTES } from "../../routes/paths";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import {
-  setCurrentPage,
-  setSearchValue,
-} from "../../features/filter/filterSlice";
+import { setSearchValue } from "../../features/filter/filterSlice";
 import "./Home.css";
 
 const { Title, Paragraph } = Typography;
@@ -26,7 +23,6 @@ const Home = () => {
 
   const handleSearch = () => {
     dispatch(setSearchValue(query));
-    dispatch(setCurrentPage(1));
     navigate(ROUTES.JOBS_PATH);
   };
 
