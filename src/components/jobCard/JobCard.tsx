@@ -22,6 +22,8 @@ import "./JobCard.css";
 import { useAppSelector } from "../../app/hook";
 import { deleteJob, updateJob } from "./JobService";
 import EditJobModal from "./EditJobModal";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
 
 const { Text } = Typography;
 
@@ -37,26 +39,43 @@ const JobCard: FC<JobCardProps> = ({ job, onDelete, onUpdate }) => {
   const currentUserId = useAppSelector((state) => state.user.id);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const isOwner = currentUserId === job.ownerID;
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const isActionElement =
+      target.closest("button") ||
+      target.closest(".ant-modal") ||
+      target.closest(".ant-popover");
+
+    if (!isActionElement) {
+      navigate(`${ROUTES.JOBS_PATH}/${job.id}`);
+    }
+  };
 
   const handleDelete = async () => {
     try {
       await deleteJob(job.id);
       message.success("Job vacancy deleted successfully");
       onDelete?.(job.id);
+      navigate(0);
     } catch (error) {
       message.error("Error while deleting the job vacancy");
     }
   };
+
   const handleUpdate = async (updatedData: Partial<Job>) => {
     try {
       await updateJob(job.id, updatedData);
-      message.success("vacancy update!");
+      message.success("Vacancy updated!");
       onUpdate?.({ ...job, ...updatedData });
       setIsEditModalOpen(false);
+      navigate(0);
     } catch (error) {
-      message.error("Error while update the job vacancy");
+      message.error("Error while updating the job vacancy");
     }
   };
+
   return (
     <>
       <Card
@@ -64,18 +83,39 @@ const JobCard: FC<JobCardProps> = ({ job, onDelete, onUpdate }) => {
         title={`${job.position} @ ${job.companyName}`}
         className={`job-card ${isDark ? "job-card-dark" : "job-card-light"}`}
         style={{ marginBottom: 16 }}
+        onClick={handleCardClick}
         actions={
           isOwner
             ? [
-                <Button onClick={() => setIsEditModalOpen(true)}>Edit</Button>,
+                <Button
+                  key="edit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsEditModalOpen(true);
+                  }}
+                >
+                  Edit
+                </Button>,
                 <Popconfirm
+                  key="delete"
                   title="Delete job vacancy?"
                   description="Are you sure you want to delete this vacancy?"
-                  onConfirm={handleDelete}
+                  onConfirm={(e) => {
+                    e?.stopPropagation();
+                    handleDelete();
+                  }}
+                  onCancel={(e) => e?.stopPropagation()}
                   okText="Yes"
-                  cancelText="Cancle"
+                  cancelText="Cancel"
                 >
-                  <Button danger>Delete</Button>
+                  <Button
+                    danger
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    Delete
+                  </Button>
                 </Popconfirm>,
               ]
             : []
@@ -122,6 +162,7 @@ const JobCard: FC<JobCardProps> = ({ job, onDelete, onUpdate }) => {
           </Col>
         </Row>
       </Card>
+
       {isEditModalOpen && (
         <EditJobModal
           job={job}
