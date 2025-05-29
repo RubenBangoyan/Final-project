@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProfilePage from '../pages/profile/Profile.tsx';
 import AppLayout from '../layout/appLayout/AppLayout';
 import JobDetail from '../pages/jobs/JobDetail.tsx';
-// import JobApplicant from '../pages/jobs/JobApplicant.tsx';
+import JobApplicant from '../pages/jobs/JobApplicant.tsx';
 import { ProtectedRouter } from './ProtectedRouter';
 import ResumeForm from '../pages/resume/Resume';
 import Contact from '../pages/contact/Contact';
@@ -47,10 +47,10 @@ export const router = createBrowserRouter([
             path: ROUTES.JOB_DETAIL_PATH,
             element: <JobDetail />,
           },
-          // {
-          //   path: ROUTES.JOB_APPLICANTS,
-          //   element: <JobApplicant />,
-          // },
+          {
+            path: ROUTES.JOB_APPLICANTS,
+            element: <JobApplicant />,
+          },
         ],
       },
       {

@@ -1,0 +1,46 @@
+/* JobApplicants.css */
+
+.homepage-dark {
+  background-color: #1f1f1f;
+  color: #f0f0f0;
+}
+
+.homepage-light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.ant-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ant-list-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.homepage-dark .ant-list-item {
+  border-color: #333;
+}
+
+.ant-avatar {
+  background-color: #1890ff;
+}
+
+.ant-empty-description {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@media (max-width: 576px) {
+  .ant-card {
+    padding: 16px !important;
+  }
+
+  .ant-list-item-meta-title {
+    font-size: 16px;
+  }
+
+  .ant-list-item-meta-description {
+    font-size: 14px;
+  }
+}

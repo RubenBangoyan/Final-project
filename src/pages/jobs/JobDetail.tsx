@@ -64,7 +64,9 @@ const JobDetail = () => {
           </Text>
           <Row justify="center" style={{ marginTop: 16 }}>
             <Col>
-              <Button onClick={() => navigate(-1)}>Go Back</Button>
+              <Button onClick={() => navigate(ROUTES.JOBS_PATH)}>
+                Go Back
+              </Button>
             </Col>
           </Row>
         </Col>
@@ -101,7 +103,6 @@ const JobDetail = () => {
     <Row justify="center" style={{ marginTop: "2rem" }}>
       <Col xs={22} md={20} lg={16}>
         <Card
-          bordered
           className={theme === "dark" ? "homepage-dark" : "homepage-light"}
           style={{ borderRadius: 8 }}
         >
@@ -155,7 +156,10 @@ const JobDetail = () => {
                   )}
                 </Col>
                 <Col>
-                  <Button type="primary" onClick={() => navigate(-1)}>
+                  <Button
+                    type="primary"
+                    onClick={() => navigate(ROUTES.JOBS_PATH)}
+                  >
                     Back to Jobs
                   </Button>
                 </Col>
