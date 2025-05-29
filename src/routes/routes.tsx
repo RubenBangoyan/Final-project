@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProfilePage from '../pages/profile/Profile.tsx';
 import AppLayout from '../layout/appLayout/AppLayout';
 import JobDetail from '../pages/jobs/JobDetail.tsx';
+// import JobApplicant from '../pages/jobs/JobApplicant.tsx';
 import { ProtectedRouter } from './ProtectedRouter';
 import ResumeForm from '../pages/resume/Resume';
 import Contact from '../pages/contact/Contact';
@@ -24,14 +25,6 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: ROUTES.JOBS_PATH,
-        element: <Jobs />,
-      },
-      {
-        path: ROUTES.JOB_DETAIL_PATH,
-        element: <JobDetail />,
-      },
-      {
         element: <ProtectedRouter />,
         children: [
           {
@@ -46,6 +39,18 @@ export const router = createBrowserRouter([
             path: ROUTES.PROFILE_PATH,
             element: <ProfilePage />,
           },
+          {
+            path: ROUTES.JOBS_PATH,
+            element: <Jobs />,
+          },
+          {
+            path: ROUTES.JOB_DETAIL_PATH,
+            element: <JobDetail />,
+          },
+          // {
+          //   path: ROUTES.JOB_APPLICANTS,
+          //   element: <JobApplicant />,
+          // },
         ],
       },
       {

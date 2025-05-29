@@ -35,7 +35,6 @@ const Jobs = () => {
   const {
     currentFilters,
     updateFilter,
-    resetFilter,
     resetAllFilter,
     canReset,
   } = useFilter(initialFilters);
