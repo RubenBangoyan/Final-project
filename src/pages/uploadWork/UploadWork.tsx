@@ -47,6 +47,7 @@ const UploadWork = () => {
         ...cleanedValues,
         ownerID: id,
         createdAt: serverTimestamp(),
+        appliedUsers: [],
       };
 
       await setDoc(doc(db, "jobs", unicID), dataToSave);

@@ -4,8 +4,12 @@ import { Spin, Button, Card, Row, Col, Typography, Divider } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import { useTheme } from "../../contexts/ThemeContext";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../services/firebse-config";
+import { useAppSelector } from "../../app/hook";
+import { message } from "antd";
+import { ROUTES } from "../../routes/paths";
 import "./JobDetail.css";
-
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -16,6 +20,8 @@ const JobDetail = () => {
 
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasApplied, setHasApplied] = useState(false);
+  const userId = useAppSelector((state) => state.user.id);
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -24,6 +30,9 @@ const JobDetail = () => {
         const jobs = await getAllJobs();
         const foundJob = jobs.find((j) => j.id === id) || null;
         setJob(foundJob);
+        if (userId && foundJob?.appliedUsers?.includes(userId)) {
+          setHasApplied(true);
+        }
       } catch {
         setJob(null);
       } finally {
@@ -34,7 +43,7 @@ const JobDetail = () => {
     if (id) {
       fetchJob();
     }
-  }, [id]);
+  }, [id, userId]);
 
   if (loading) {
     return (
@@ -63,6 +72,31 @@ const JobDetail = () => {
     );
   }
 
+  const handleApply = async () => {
+    if (!userId || !id) {
+      console.error("Missing user ID or job ID.");
+      return;
+    }
+
+    try {
+      const jobRef = doc(db, "jobs", id);
+      await updateDoc(jobRef, {
+        appliedUsers: arrayUnion(userId),
+      });
+      message.success("Applied successfully");
+      setHasApplied(true);
+    } catch (error) {
+      console.error("Error applying to job:", error);
+      message.error("Failed to apply. Please try again.");
+    }
+  };
+
+  const handleViewAppliedUsers = () => {
+    if (job?.ownerID === userId && id) {
+      navigate(ROUTES.JOB_APPLICANTS.replace(":id", id));
+    }
+  };
+
   return (
     <Row justify="center" style={{ marginTop: "2rem" }}>
       <Col xs={22} md={20} lg={16}>
@@ -88,7 +122,9 @@ const JobDetail = () => {
               <Paragraph>{job.employmentType.join(", ")}</Paragraph>
 
               <Text strong>Salary:</Text>
-              <Paragraph>${job.salaryFrom} - ${job.salaryTo}</Paragraph>
+              <Paragraph>
+                ${job.salaryFrom} - ${job.salaryTo}
+              </Paragraph>
             </Col>
 
             <Col xs={24} sm={12}>
@@ -96,12 +132,28 @@ const JobDetail = () => {
               <Paragraph>{job.technologies.join(", ")}</Paragraph>
 
               <Text strong>Requirements:</Text>
-              <Paragraph style={{ whiteSpace: "pre-line" }}>{job.requirements}</Paragraph>
+              <Paragraph style={{ whiteSpace: "pre-line" }}>
+                {job.requirements}
+              </Paragraph>
             </Col>
 
-            
             <Col span={24}>
-              <Row justify="center">
+              <Row justify="center" gutter={16}>
+                <Col>
+                  {job.ownerID === userId ? (
+                    <Button type="default" onClick={handleViewAppliedUsers}>
+                      View All Applied Users
+                    </Button>
+                  ) : (
+                    <Button
+                      type="default"
+                      disabled={hasApplied}
+                      onClick={handleApply}
+                    >
+                      {hasApplied ? "Already Applied" : "Apply Now"}
+                    </Button>
+                  )}
+                </Col>
                 <Col>
                   <Button type="primary" onClick={() => navigate(-1)}>
                     Back to Jobs
