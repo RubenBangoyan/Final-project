@@ -1,13 +1,13 @@
 .job-filters {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 }
 
 .resetAll-btn {
   display: flex;
   justify-content: start;
-  align-items: center;
+  align-items: left;
   flex-wrap: nowrap;
 }
 

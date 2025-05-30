@@ -6,7 +6,8 @@ import JobCard from "../../components/jobCard/JobCard";
 import { useTheme } from "../../contexts/ThemeContext";
 import "./Jobs.css";
 import { useFilter } from "../../hooks/useFilter";
-import { useAppSelector } from "../../app/hook";
+import { useLocation } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -29,8 +30,6 @@ const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
-  const [separateMyJobs, setSeparateMyJobs] = useState(false);
-  const currentUserId = useAppSelector((state) => state.user.id);
 
   const {
     currentFilters,
@@ -84,8 +83,8 @@ const Jobs = () => {
     new Set(jobs.flatMap((job) => job.technologies))
   );
 
-  const myJobs = filteredJobs.filter((job) => job.ownerID === currentUserId);
-  const otherJobs = filteredJobs.filter((job) => job.ownerID !== currentUserId);
+  const location = useLocation();
+  const isInMyJobsPage = location.pathname === ROUTES.PROFILE_PATH;
 
   return (
     <Row
@@ -155,7 +154,7 @@ const Jobs = () => {
           </Col>
           {canReset && (
             <Row gutter={[8, 8]} className="resetAll-btn">
-              <Col span={6} style={{ paddingRight: 150 }}>
+              <Col span={6} style={{ paddingLeft: 12 }}>
                 <Button
                   onClick={resetAllFilter}
                   style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
@@ -204,14 +203,6 @@ const Jobs = () => {
           )}
         </Row>
 
-        <Row justify="start" style={{ marginBottom: 16 }}>
-          <Col>
-            <Button onClick={() => setSeparateMyJobs((prev) => !prev)}>
-              {separateMyJobs ? "Show All Jobs" : "Separate My Jobs"}
-            </Button>
-          </Col>
-        </Row>
-
         <Row>
           <Col span={24}>
             {loading ? (
@@ -223,41 +214,6 @@ const Jobs = () => {
                 className={theme === "dark" ? "empty-dark" : "empty-light"}
                 description="No jobs found matching your criteria."
               />
-            ) : separateMyJobs ? (
-              <>
-                {myJobs.length > 0 && (
-                  <>
-                    <Row style={{ marginBottom: 8 }}>
-                      <Col span={24}>
-                        <h2>My Jobs</h2>
-                      </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                      {myJobs.map((job) => (
-                        <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                          <JobCard job={job} />
-                        </Col>
-                      ))}
-                    </Row>
-                  </>
-                )}
-                {otherJobs.length > 0 && (
-                  <>
-                    <Row style={{ marginTop: 24, marginBottom: 8 }}>
-                      <Col span={24}>
-                        <h2>Other Jobs</h2>
-                      </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                      {otherJobs.map((job) => (
-                        <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                          <JobCard job={job} />
-                        </Col>
-                      ))}
-                    </Row>
-                  </>
-                )}
-              </>
             ) : (
               <Row gutter={[16, 16]}>
                 <Col span={24}>
@@ -265,7 +221,7 @@ const Jobs = () => {
                 </Col>
                 {filteredJobs.map((job) => (
                   <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                    <JobCard job={job} />
+                    <JobCard job={job} showActions={isInMyJobsPage} />
                   </Col>
                 ))}
               </Row>
