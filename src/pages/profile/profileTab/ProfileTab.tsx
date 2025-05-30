@@ -1,3 +1,6 @@
+import { UserOutlined, MailOutlined } from '@ant-design/icons';
+import { ROUTES } from '../../../routes/paths';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   Divider,
@@ -7,10 +10,8 @@ import {
   Col,
   Button,
   Space,
-  Switch,
   Skeleton,
 } from 'antd';
-import { UserOutlined, MailOutlined } from '@ant-design/icons';
 
 interface ProfileTabProps {
   profile: any;
@@ -28,12 +29,12 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
   name,
   surname,
   email,
-  theme,
-  handleClick,
   handleSave,
   loading,
 }) => {
   const [form] = Form.useForm();
+
+  const navigate = useNavigate();
 
   return (
     <Skeleton active loading={loading}>
@@ -85,19 +86,29 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
-              <Form.Item
-                label="Dark Mode"
-                name="darkMode"
-                valuePropName="checked"
-                initialValue={theme === 'dark'}
-              >
-                <Switch
-                  checked={theme === 'dark'}
-                  onChange={handleClick}
-                  checkedChildren="On"
-                  unCheckedChildren="Off"
-                />
-              </Form.Item>
+              <Row>
+                <Col
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '33px',
+                  }}
+                >
+                  <Button
+                    onClick={() => navigate(ROUTES.UPLOAD_WORK)}
+                    type="primary"
+                    style={{ marginRight: '40px' }}
+                  >
+                    Upload Work
+                  </Button>
+                  <Button
+                    onClick={() => navigate(ROUTES.RESUME_PATH)}
+                    type="primary"
+                  >
+                    Generate Resume
+                  </Button>
+                </Col>
+              </Row>
             </Col>
           </Row>
           <Divider />
