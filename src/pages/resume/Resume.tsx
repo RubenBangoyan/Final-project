@@ -1,4 +1,6 @@
+import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import type { ResumeData } from '../../components/resumeDisplay/types';
 import { formatResumePrompt } from '../../utils/resumeFormat';
 import { generateResumeFromGPT } from '../../api';
 import { db } from '../../services/firebse-config';
@@ -6,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { ResumeData } from '../../components/resumeDisplay/types';
 import {
   Button,
   DatePicker,
@@ -19,7 +20,7 @@ import {
   Modal,
 } from 'antd';
 import './Resume.css';
-import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
+import { useAppSelector } from '../../app/hook';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -27,6 +28,7 @@ const { RangePicker } = DatePicker;
 const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [parsedResume, setParsedResume] = useState<ResumeData | null>(null);
+  const id = useAppSelector((state) => state.user.id);
   const [form] = Form.useForm();
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const navigate = useNavigate();
@@ -48,13 +50,16 @@ const ResumeForm: React.FC = () => {
       const cleanResult = result.replace(/```json|```/g, '').trim();
 
       const parsedResume = JSON.parse(cleanResult);
-      console.log(parsedResume, 'parsedResume')
+      console.log(parsedResume, 'parsedResume');
       setParsedResume(parsedResume);
 
       await addDoc(collection(db, 'resume'), {
         ...parsedResume,
         createdAt: serverTimestamp(),
+        ownerID: id,
       });
+
+    
 
       setGeneratedResume(result);
       console.log('Resume saved to Firestore.');
