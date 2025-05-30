@@ -16,24 +16,28 @@
 }
 
 .about-light {
-  background-color: var(--bg-light);
+  background: linear-gradient(135deg, #f1f4ff 0%, #2a5298 100%);
   color: var(--text-dark);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-dark {
-  background-color: var(--bg-dark);
+  background: linear-gradient(110deg, #374b69 0%, #1e1e2f 100%);
   color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-header {
   text-align: center;
   border-radius: 12px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .our-team,
 .learn-more-section {
   display: flex;
   justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .team-card,
@@ -50,6 +54,7 @@
 .about-dark .learn-more-card {
   background-color: #1e1e2f;
   color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .team-images-section {
@@ -59,6 +64,7 @@
   gap: 1rem;
   flex-wrap: nowrap;
   overflow-x: auto;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .team-cards {
@@ -66,12 +72,14 @@
   gap: 1rem;
   padding: 1rem 0;
   flex-wrap: nowrap;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .member-card {
   width: 160px;
   text-align: center;
   border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .img-placeholder {
@@ -84,6 +92,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-footer {
@@ -92,37 +101,45 @@
   background-color: #ffffff;
   border-top: 1px solid #ddd;
   margin-top: auto;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .highlight-paragraph {
   font-size: 1rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-dark .highlight-paragraph {
   color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .section-title {
   color: inherit;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-dark .section-title {
   color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .member-light {
   background-color: #ffffff;
   color: #000000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .member-dark {
   background-color: #1e1e2f;
   color: #f0f0f0;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .about-dark .member-name,
 .about-dark .member-role {
   color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
 }

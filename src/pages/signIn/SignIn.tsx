@@ -1,16 +1,14 @@
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hook';
-import { ROUTES } from '../../routes/paths';
-import { onFinish } from './signInService';
-import type { FieldType } from './types';
-//import type { FormProps } from 'antd';
-import { useState } from 'react';
-import './SignIn.css';
-
+import { Button, Checkbox, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/hook";
+import { ROUTES } from "../../routes/paths";
+import { onFinish } from "./signInService";
+import type { FieldType } from "./types";
+import { useState } from "react";
+import "./SignIn.css";
 
 const SignIn = () => {
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
@@ -28,10 +26,10 @@ const SignIn = () => {
           onFinish={onFinish({ setError, dispatch, form, navigate })}
           autoComplete="off"
           style={{
-            width: '100vw',
+            width: "100vw",
             maxWidth: 550,
             minWidth: 280,
-            boxSizing: 'border-box',
+            boxSizing: "border-box",
             height: 340,
           }}
         >
@@ -40,9 +38,9 @@ const SignIn = () => {
             name="email"
             rules={[
               {
-                type: 'email',
+                type: "email",
                 required: true,
-                message: 'Please input your Email!',
+                message: "Please input your Email!",
               },
             ]}
           >
@@ -52,13 +50,13 @@ const SignIn = () => {
           <Form.Item<FieldType>
             name="password"
             label="Password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input.Password />
           </Form.Item>
 
           <div>
-            <h3 className="error" style={{ color: 'red' }}>
+            <h3 className="error" style={{ color: "red" }}>
               {error}
             </h3>
           </div>

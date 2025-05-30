@@ -1,20 +1,19 @@
+import { LANGUAGE_STORAGE_KEY } from "../../constants/storageKeys";
+import { StorageService } from "../../services/StorageService";
+import { MoonFilled, SunOutlined } from "@ant-design/icons";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
+import { Button, Col, Modal, Row, Select, Space } from "antd";
+import { useAuth } from "../../contexts/AuthContext";
+import logo from "../../assets/images/logo3.png";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { ROUTES } from "../../routes/paths";
+import "./header.css";
 
-import { LANGUAGE_STORAGE_KEY } from '../../constants/storageKeys';
-import { StorageService } from '../../services/StorageService';
-import { MoonFilled, SunOutlined } from '@ant-design/icons';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useTheme } from '../../contexts/ThemeContext';
-import { Button, Flex, Select, Modal, Space } from 'antd';
-import { useAuth } from '../../contexts/AuthContext';
-import logo from '../../assets/images/logo3.png';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
-import { ROUTES } from '../../routes/paths';
-import './header.css';
-
-import usFlag from '../../assets/images/flags/us.png';
-import hyFlag from '../../assets/images/flags/am.png';
-import ruFlag from '../../assets/images/flags/ru.png';
+import usFlag from "../../assets/images/flags/us.png";
+import hyFlag from "../../assets/images/flags/am.png";
+import ruFlag from "../../assets/images/flags/ru.png";
 
 const flags = {
   en: usFlag,
@@ -26,19 +25,19 @@ const Header = () => {
   const navigate = useNavigate();
   const { theme, handleClick } = useTheme();
   const { isAuth, logout } = useAuth();
-  const [language, setLanguage] = useState<'en' | 'hy' | 'ru'>('en');
+  const [language, setLanguage] = useState<"en" | "hy" | "ru">("en");
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const savedLang = StorageService.getItem(LANGUAGE_STORAGE_KEY) as
-      | 'en'
-      | 'hy'
-      | 'ru'
+      | "en"
+      | "hy"
+      | "ru"
       | null;
     if (savedLang) setLanguage(savedLang);
   }, []);
 
-  const onLanguageChange = (lang: 'en' | 'hy' | 'ru') => {
+  const onLanguageChange = (lang: "en" | "hy" | "ru") => {
     setLanguage(lang);
     i18n.changeLanguage(lang);
     StorageService.setItem(LANGUAGE_STORAGE_KEY, lang);
@@ -46,10 +45,10 @@ const Header = () => {
 
   const handleLogout = () => {
     Modal.confirm({
-      title: t('confirmLogoutTitle'),
-      content: t('confirmLogoutContent'),
-      okText: t('yes'),
-      cancelText: t('no'),
+      title: t("confirmLogoutTitle"),
+      content: t("confirmLogoutContent"),
+      okText: t("yes"),
+      cancelText: t("no"),
       onOk: async () => {
         logout();
         navigate(ROUTES.HOME_PATH);
@@ -58,24 +57,15 @@ const Header = () => {
     });
   };
 
-  const renderFlagOption = (lang: 'en' | 'hy' | 'ru', label: string) => (
-    <Select.Option value={lang} label={label}>
-      <div className="option-item">
-        <img src={flags[lang]} alt={label} className="flag-icon" />
-        {label}
-      </div>
-    </Select.Option>
-  );
-
   const AuthButtons = () => (
     <Space.Compact className="auth-buttons">
       {isAuth ? (
         <>
           <Button onClick={() => navigate(ROUTES.PROFILE_PATH)}>
-            {t('Profile')}
+            {t("Profile")}
           </Button>
           <Button type="primary" danger onClick={handleLogout}>
-            {t('Logout')}
+            {t("Logout")}
           </Button>
         </>
       ) : (
@@ -84,13 +74,13 @@ const Header = () => {
             className="sign-in-btn"
             onClick={() => navigate(ROUTES.SIGN_IN_PATH)}
           >
-            {t('signIn')}
+            {t("signIn")}
           </Button>
           <Button
             className="sign-up-btn"
             onClick={() => navigate(ROUTES.SIGN_UP_PATH)}
           >
-            {t('signUp')}
+            {t("signUp")}
           </Button>
         </>
       )}
@@ -99,59 +89,99 @@ const Header = () => {
 
   return (
     <header className={`header-${theme}`}>
-      <Flex
+      <Row
         justify="space-between"
-        align="center"
-        wrap="nowrap"
+        align="middle"
         className="header-container"
+        wrap={false}
       >
-        <Flex align="center" gap="middle" className="left-section">
-          <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
-            <img className="logo-image" src={logo} alt="" />
-          </div>
+        <Col>
+          <Row align="middle" gutter={16} className="left-section">
+            <Col>
+              <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
+                <img className="logo-image" src={logo} alt="logo" />
+              </div>
+            </Col>
 
-          <nav className="nav-container">
-            <ul className="list-container">
-              <li>
-                <NavLink to={ROUTES.HOME_PATH}>{t('home')}</NavLink>
-              </li>
-              <li>
-                <NavLink to={ROUTES.ABOUT_PATH}>{t('about')}</NavLink>
-              </li>
-              <li>
-                <NavLink to={ROUTES.CONTACT_US_PATH}>{t('contact')}</NavLink>
-              </li>
-              <li>
-                <NavLink to={ROUTES.JOBS_PATH}>{t('Jobs')}</NavLink>
-              </li>
-            </ul>
-          </nav>
-        </Flex>
+            <Col>
+              <nav className="nav-container">
+                <ul className="list-container">
+                  <li>
+                    <NavLink to={ROUTES.HOME_PATH}>{t("home")}</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={ROUTES.ABOUT_PATH}>{t("about")}</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={ROUTES.CONTACT_US_PATH}>
+                      {t("contact")}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={ROUTES.JOBS_PATH}>{t("Jobs")}</NavLink>
+                  </li>
+                </ul>
+              </nav>
+            </Col>
+          </Row>
+        </Col>
 
-        <Flex align="center" gap="middle" className="right-section">
-          <Select
-            className={`language-select language-select-${theme}`}
-            value={language}
-            onChange={onLanguageChange}
-            popupMatchSelectWidth={false}
-            optionLabelProp="label"
-          >
-            {renderFlagOption('en', 'English')}
-            {renderFlagOption('hy', 'Հայերեն')}
-            {renderFlagOption('ru', 'Русский')}
-          </Select>
+        <Col>
+          <Row align="middle" gutter={16} className="right-section">
+            <Col>
+              <Select
+                className={`language-select language-select-${theme}`}
+                value={language}
+                onChange={onLanguageChange}
+                popupMatchSelectWidth={false}
+                optionLabelProp="label"
+              >
+                {(["en", "hy", "ru"] as const).map((lang) => (
+                  <Select.Option
+                    key={lang}
+                    value={lang}
+                    label={
+                      <div className="option-item">
+                        <img
+                          src={flags[lang]}
+                          alt={lang}
+                          className="flag-icon"
+                        />
+                        {lang === "en"
+                          ? "English"
+                          : lang === "hy"
+                          ? "Հայերեն"
+                          : "Русский"}
+                      </div>
+                    }
+                  >
+                    <div className="option-item">
+                      <img src={flags[lang]} alt={lang} className="flag-icon" />
+                      {lang === "en"
+                        ? "English"
+                        : lang === "hy"
+                        ? "Հայերեն"
+                        : "Русский"}
+                    </div>
+                  </Select.Option>
+                ))}
+              </Select>
+            </Col>
 
-          <div className="theme-toggle" onClick={handleClick}>
-            {theme === 'light' ? (
-              <MoonFilled className="theme-icon" />
-            ) : (
-              <SunOutlined className="theme-icon" />
-            )}
-          </div>
+            <Col>
+              <div className="theme-toggle" onClick={handleClick}>
+                {theme === "light" ? (
+                  <MoonFilled className="theme-icon" />
+                ) : (
+                  <SunOutlined className="theme-icon" />
+                )}
+              </div>
+            </Col>
 
-          <AuthButtons />
-        </Flex>
-      </Flex>
+            <Col>{<AuthButtons />}</Col>
+          </Row>
+        </Col>
+      </Row>
     </header>
   );
 };

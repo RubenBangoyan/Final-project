@@ -94,9 +94,7 @@ const JobApplicants = () => {
               <Title level={3}>Applicants for: "{jobTitle}"</Title>
             </Col>
             <Col>
-              <Button onClick={() => navigate(-1)}>
-                Go Back
-              </Button>
+              <Button onClick={() => navigate(-1)}>Go Back</Button>
             </Col>
           </Row>
 

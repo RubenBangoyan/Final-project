@@ -1,18 +1,17 @@
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useAppDispatch } from '../../app/hook';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../routes/paths';
-import { onFinish } from './signUpService';
-import type { FieldType } from './types';
-import { useState } from 'react';
-import './SignUp.css';
-
+import { Button, Checkbox, Form, Input } from "antd";
+import { useAppDispatch } from "../../app/hook";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
+import { onFinish } from "./signUpService";
+import type { FieldType } from "./types";
+import { useState } from "react";
+import "./SignUp.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   return (
     <div className="sign-up-container">
@@ -26,10 +25,10 @@ const SignUp = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish({ setError, dispatch, navigate, form })}
         style={{
-          width: '100vw',
+          width: "100vw",
           maxWidth: 670,
           minWidth: 300,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           height: 520,
         }}
       >
@@ -38,9 +37,9 @@ const SignUp = () => {
           name="email"
           rules={[
             {
-              type: 'email',
+              type: "email",
               required: true,
-              message: 'Please input your Email!',
+              message: "Please input your Email!",
             },
           ]}
         >
@@ -50,7 +49,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="firstName"
           label="First Name"
-          rules={[{ required: true, message: 'Please input your first name!' }]}
+          rules={[{ required: true, message: "Please input your first name!" }]}
         >
           <Input />
         </Form.Item>
@@ -58,7 +57,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="lastName"
           label="Last Name"
-          rules={[{ required: true, message: 'Please input your last name!' }]}
+          rules={[{ required: true, message: "Please input your last name!" }]}
         >
           <Input />
         </Form.Item>
@@ -66,7 +65,7 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="password"
           label="Password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password />
         </Form.Item>
@@ -74,13 +73,13 @@ const SignUp = () => {
         <Form.Item<FieldType>
           name="confirmPassword"
           label="Confirm Password"
-          rules={[{ required: true, message: 'Please confirm your password!' }]}
+          rules={[{ required: true, message: "Please confirm your password!" }]}
         >
           <Input.Password />
         </Form.Item>
 
         <div>
-          <h3 className="error" style={{ color: 'red' }}>
+          <h3 className="error" style={{ color: "red" }}>
             {error}
           </h3>
         </div>
