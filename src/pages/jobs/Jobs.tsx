@@ -193,58 +193,58 @@ const Jobs = () => {
           </Col>
           {canReset && (
             <Col span={24}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
+              <Row
+                gutter={[16, 16]}
+                style={{ flexDirection: "column", gap: "10px" }}
               >
-                <div>
+                <Col>
                   <Button
                     onClick={resetAllFilter}
                     style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
                   >
                     Reset All Filters
                   </Button>
-                </div>
-                <div className="filter-container">
-                  {Object.entries(currentFilters).map(([key, value]) => {
-                    const initialValue =
-                      initialFilters[key as keyof initialFiltersTypes];
-                    const isDefault =
-                      JSON.stringify(value) === JSON.stringify(initialValue);
-                    if (isDefault || key === "page" || key === "limit")
-                      return null;
+                </Col>
+                <Col>
+                  <Row gutter={[8, 8]} className="filter-container">
+                    {Object.entries(currentFilters).map(([key, value]) => {
+                      const initialValue =
+                        initialFilters[key as keyof initialFiltersTypes];
+                      const isDefault =
+                        JSON.stringify(value) === JSON.stringify(initialValue);
+                      if (isDefault || key === "page" || key === "limit")
+                        return null;
 
-                    let label = "";
-                    if (key === "searchValue") {
-                      label = `Search: ${value}`;
-                    } else if (key === "employmentFilter") {
-                      label = `Employment: ${value}`;
-                    } else if (key === "techFilter") {
-                      label = `Technology: ${value}`;
-                    } else if (key === "salaryRange") {
-                      label = `Salary: $${(value as number[])[0]} - $${
-                        (value as number[])[1]
-                      }`;
-                    }
+                      let label = "";
+                      if (key === "searchValue") {
+                        label = `Search: ${value}`;
+                      } else if (key === "employmentFilter") {
+                        label = `Employment: ${value}`;
+                      } else if (key === "techFilter") {
+                        label = `Technology: ${value}`;
+                      } else if (key === "salaryRange") {
+                        label = `Salary: $${(value as number[])[0]} - $${
+                          (value as number[])[1]
+                        }`;
+                      }
 
-                    return (
-                      <Button
-                        key={key}
-                        size="small"
-                        onClick={() =>
-                          resetFilter(key as keyof initialFiltersTypes)
-                        }
-                        className="filter-btn"
-                      >
-                        {label} ✕
-                      </Button>
-                    );
-                  })}
-                </div>
-              </div>
+                      return (
+                        <Col key={key}>
+                          <Button
+                            size="small"
+                            onClick={() =>
+                              resetFilter(key as keyof initialFiltersTypes)
+                            }
+                            className="filter-btn"
+                          >
+                            {label} ✕
+                          </Button>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Col>
+              </Row>
             </Col>
           )}
         </Row>
