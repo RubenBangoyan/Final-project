@@ -18,6 +18,9 @@ export const useFilter = <T extends Record<string, any>>(initialState: T) => {
         ) {
           (parsed as any)[key] = parts;
         }
+      } else if (typeof defaultValue === "number") {
+        const num = Number(param);
+        (parsed as any)[key] = isNaN(num) ? defaultValue : num;
       } else {
         (parsed as any)[key] = param;
       }

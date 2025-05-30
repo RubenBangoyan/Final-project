@@ -1,20 +1,22 @@
-import { Input, Button, Space, Typography, Row, Col, Carousel } from "antd";
-import { ChatHelper } from "../../components/chatHelper/ChatHelper";
-import bostongene from "../../assets/images/bostongene.webp";
-import synopsys from "../../assets/images/synopsys.webp";
-import picsart from "../../assets/images/picsart.webp";
-import { useNavigate } from "react-router-dom";
-import aca from "../../assets/images/aca.webp";
-import { ROUTES } from "../../routes/paths";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { setSearchValue } from "../../features/filter/filterSlice";
-import "./Home.css";
+import { Input, Button, Space, Typography, Row, Col } from 'antd';
+import {
+  SearchOutlined,
+  SafetyOutlined,
+  TeamOutlined,
+  RocketOutlined,
+} from '@ant-design/icons';
+import { ChatHelper } from '../../components/chatHelper/ChatHelper';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { setSearchValue } from '../../features/filter/filterSlice';
+import './Home.css';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const Home = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,63 +24,82 @@ const Home = () => {
     setQuery(e.target.value);
 
   const handleSearch = () => {
+    if (!query.trim()) return;
     dispatch(setSearchValue(query));
     navigate(ROUTES.JOBS_PATH);
   };
 
-  const MyCarousel = () => (
-    <Carousel autoplay className="carousel-container">
-      <div>
-        <img className="carousel-img" src={aca} alt="aca" />
-      </div>
-      <div>
-        <img className="carousel-img" src={bostongene} alt="bosotongene" />
-      </div>
-      <div>
-        <img className="carousel-img" src={picsart} alt="picsart" />
-      </div>
-      <div>
-        <img className="carousel-img" src={synopsys} alt="synopsys" />
-      </div>
-    </Carousel>
-  );
-
   return (
-    <div className="container">
+    <div className="home-container">
       <Row
         justify="center"
         align="middle"
-        style={{ minHeight: "100vh", padding: "0 16px" }}
+        style={{ minHeight: '60vh', position: 'relative' }}
       >
-        <Col
-          xs={24}
-          sm={20}
-          md={16}
-          lg={12}
-          xl={10}
-          style={{ textAlign: "center" }}
-        >
-          <Typography>
-            <Title level={1}>Find Your Dream Job</Title>
-            <Paragraph>
-              Enter a job title or keyword below and click "Search" to explore
-              opportunities.
+        <div className="banner-overlay">
+          <Col
+            xs={24}
+            sm={20}
+            md={16}
+            lg={12}
+            xl={10}
+            style={{ textAlign: 'center', color: '#fff', zIndex: 10 }}
+          >
+            <Title level={1} style={{ fontWeight: 'bold' }}>
+              Find Your Dream Job
+            </Title>
+            <Paragraph style={{ fontSize: '1.2rem', marginBottom: 32 }}>
+              Enter a job title or keyword below and click{' '}
+              <Text strong>Search</Text> to explore opportunities.
             </Paragraph>
-          </Typography>
-          <Space.Compact style={{ width: "100%" }}>
-            <Input
-              placeholder="search"
-              value={query}
-              onChange={handleChange}
-              size="large"
-            />
-            <Button type="primary" onClick={handleSearch} size="large">
-              Search
-            </Button>
-          </Space.Compact>
-          <MyCarousel />
-        </Col>
+            <Space.Compact style={{ width: '100%' }}>
+              <Input
+                placeholder="Search jobs, keywords, companies..."
+                prefix={<SearchOutlined />}
+                value={query}
+                onChange={handleChange}
+                size="large"
+                onPressEnter={handleSearch}
+                style={{ borderRadius: '8px 0 0 8px' }}
+              />
+              <Button
+                type="primary"
+                onClick={handleSearch}
+                size="large"
+                style={{ borderRadius: '0 8px 8px 0' }}
+              >
+                Search
+              </Button>
+            </Space.Compact>
+          </Col>
+        </div>
       </Row>
+
+      <div
+        className="features-section"
+        style={{ padding: '60px 16px', textAlign: 'center' }}
+      >
+        <Row gutter={[32, 32]} justify="center">
+          <Col xs={24} sm={8}>
+            <SafetyOutlined style={{ fontSize: 48, color: '#1890ff' }} />
+            <Title level={4}>Trusted Companies</Title>
+            <Paragraph>Work with top companies you can rely on.</Paragraph>
+          </Col>
+          <Col xs={24} sm={8}>
+            <TeamOutlined style={{ fontSize: 48, color: '#1890ff' }} />
+            <Title level={4}>Diverse Positions</Title>
+            <Paragraph>Find roles across all industries and skills.</Paragraph>
+          </Col>
+          <Col xs={24} sm={8}>
+            <RocketOutlined style={{ fontSize: 48, color: '#1890ff' }} />
+            <Title level={4}>Fast Application</Title>
+            <Paragraph>
+              Apply quickly with our user-friendly platform.
+            </Paragraph>
+          </Col>
+        </Row>
+      </div>
+
       <ChatHelper />
     </div>
   );

@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Input, Select, Slider, Row, Col, Spin, Empty, Button } from "antd";
+import {
+  Input,
+  Select,
+  Slider,
+  Row,
+  Col,
+  Spin,
+  Empty,
+  Button,
+  Pagination,
+} from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import JobCard from "../../components/jobCard/JobCard";
@@ -17,6 +27,8 @@ type initialFiltersTypes = {
   employmentFilter: string | null;
   techFilter: string | null;
   salaryRange: number[];
+  page: number;
+  limit: number;
 };
 
 const initialFilters: initialFiltersTypes = {
@@ -24,6 +36,8 @@ const initialFilters: initialFiltersTypes = {
   employmentFilter: null,
   techFilter: null,
   salaryRange: [0, 100000],
+  page: 1,
+  limit: 10,
 };
 
 const Jobs = () => {
@@ -39,8 +53,30 @@ const Jobs = () => {
     canReset,
   } = useFilter(initialFilters);
 
-  const { searchValue, employmentFilter, techFilter, salaryRange } =
-    currentFilters;
+  const {
+    searchValue,
+    employmentFilter,
+    techFilter,
+    salaryRange,
+    page,
+    limit,
+  } = currentFilters;
+
+  const updateAndResetPage = <K extends keyof typeof initialFilters>(
+    key: K,
+    value: (typeof initialFilters)[K]
+  ) => {
+    updateFilter(key, value);
+    if (key !== "page") updateFilter("page", 1);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    updateFilter("page", newPage);
+  };
+  const handlePageSizeChange = (currentPage: number, newPageSize: number) => {
+    updateFilter("limit", newPageSize);
+    updateFilter("page", 1);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -75,6 +111,8 @@ const Jobs = () => {
     return matchesQuery && matchesEmployment && matchesTech && matchesSalary;
   });
 
+  const paginatedJobs = filteredJobs.slice((page - 1) * limit, page * limit);
+
   const allEmploymentTypes = Array.from(
     new Set(jobs.flatMap((job) => job.employmentType))
   );
@@ -101,8 +139,8 @@ const Jobs = () => {
             <Search
               value={searchValue}
               allowClear
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                updateFilter("searchValue", e.target.value)
+              onChange={(e) =>
+                updateAndResetPage("searchValue", e.target.value)
               }
               placeholder="Search by position, location, or type"
             />
@@ -113,8 +151,8 @@ const Jobs = () => {
               value={employmentFilter}
               style={{ width: "100%" }}
               placeholder="Filter by employment type"
-              onChange={(value: string | null) =>
-                updateFilter("employmentFilter", value)
+              onChange={(value) =>
+                updateAndResetPage("employmentFilter", value)
               }
             >
               {allEmploymentTypes.map((type) => (
@@ -129,9 +167,7 @@ const Jobs = () => {
               allowClear
               value={techFilter}
               placeholder="Filter by technology"
-              onChange={(value: string | null) =>
-                updateFilter("techFilter", value)
-              }
+              onChange={(value) => updateAndResetPage("techFilter", value)}
               style={{ width: "100%" }}
             >
               {allTechnologies.map((tech) => (
@@ -148,7 +184,9 @@ const Jobs = () => {
               step={1000}
               max={50000}
               value={salaryRange}
-              onChange={(value: number[]) => updateFilter("salaryRange", value)}
+              onChange={(value) =>
+                updateAndResetPage("salaryRange", value as number[])
+              }
               tooltip={{ formatter: (val) => `$${val}` }}
             />
           </Col>
@@ -169,7 +207,8 @@ const Jobs = () => {
                       initialFilters[key as keyof initialFiltersTypes];
                     const isDefault =
                       JSON.stringify(value) === JSON.stringify(initialValue);
-                    if (isDefault) return null;
+                    if (isDefault || key === "page" || key === "limit")
+                      return null;
 
                     let label = "";
                     if (key === "searchValue") {
@@ -215,16 +254,29 @@ const Jobs = () => {
                 description="No jobs found matching your criteria."
               />
             ) : (
-              <Row gutter={[16, 16]}>
-                <Col span={24}>
-                  <h2>All Jobs</h2>
-                </Col>
-                {filteredJobs.map((job) => (
-                  <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                    <JobCard job={job} showActions={isInMyJobsPage} />
+              <>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <h2>All Jobs</h2>
                   </Col>
-                ))}
-              </Row>
+                  {paginatedJobs.map((job) => (
+                    <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
+                      <JobCard job={job} showActions={isInMyJobsPage} />
+                    </Col>
+                  ))}
+                </Row>
+
+                <Row justify="center" style={{ marginTop: 20 }}>
+                  <Pagination
+                    current={page}
+                    pageSize={limit}
+                    total={filteredJobs.length}
+                    onChange={handlePageChange}
+                    showSizeChanger={false}
+                    onShowSizeChange={handlePageSizeChange}
+                  />
+                </Row>
+              </>
             )}
           </Col>
         </Row>
