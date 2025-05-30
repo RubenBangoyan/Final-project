@@ -27,11 +27,11 @@ const { RangePicker } = DatePicker;
 
 const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
+  const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const [parsedResume, setParsedResume] = useState<ResumeData | null>(null);
   const id = useAppSelector((state) => state.user.id);
-  const [form] = Form.useForm();
-  const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
   const addExperience = () => {
     setExperienceFields([...experienceFields, { id: uuidv4() }]);
@@ -50,7 +50,7 @@ const ResumeForm: React.FC = () => {
       const cleanResult = result.replace(/```json|```/g, "").trim();
 
       const parsedResume = JSON.parse(cleanResult);
-      console.log(parsedResume, "parsedResume");
+      // console.log(parsedResume, "parsedResume");
       setParsedResume(parsedResume);
 
       await addDoc(collection(db, "resume"), {

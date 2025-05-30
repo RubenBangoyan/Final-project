@@ -2,7 +2,7 @@ import type { ResumeData } from "./types";
 import "./ResumeDisplay.css";
 import React from "react";
 
-interface ResumeDisplayProps {
+export interface ResumeDisplayProps {
   resume: ResumeData;
 }
 

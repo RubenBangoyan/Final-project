@@ -9,6 +9,7 @@ import { useAppSelector } from '../../app/hook';
 import { MyJobsTab } from './myJobTab/MyJobTab';
 import { Tabs, Row, Col } from 'antd';
 import React from 'react';
+import ResumeTab from './resumeTab/ResumeTab';
 
 const ProfilePage: React.FC = () => {
   const { theme, handleClick } = useTheme();
@@ -50,6 +51,11 @@ const ProfilePage: React.FC = () => {
       key: '4',
       label: 'Activity',
       children: <ActivityTab />,
+    },
+    {
+      key: '5',
+      label: 'Resume',
+      children: <ResumeTab />,
     },
   ];
 
