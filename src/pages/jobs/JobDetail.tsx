@@ -64,9 +64,7 @@ const JobDetail = () => {
           </Text>
           <Row justify="center" style={{ marginTop: 16 }}>
             <Col>
-              <Button onClick={() => navigate(-1)}>
-                Go Back
-              </Button>
+              <Button onClick={() => navigate(-1)}>Go Back</Button>
             </Col>
           </Row>
         </Col>
@@ -156,10 +154,7 @@ const JobDetail = () => {
                   )}
                 </Col>
                 <Col>
-                  <Button
-                    type="primary"
-                    onClick={() => navigate(-1)}
-                  >
+                  <Button type="primary" onClick={() => navigate(-1)}>
                     Go Back
                   </Button>
                 </Col>

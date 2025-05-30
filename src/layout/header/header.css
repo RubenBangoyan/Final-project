@@ -1,3 +1,7 @@
+:root {
+  --header-gradient-light: linear-gradient(135deg, #f1f4ff 0%, #2a5298 100%);
+  --header-gradient-dark: linear-gradient(135deg, #0f1c2e 0%, #1e1e2f 100%);
+}
 
 header {
   padding: 5px clamp(16px, 3vw, 32px);
@@ -16,9 +20,11 @@ header {
   max-width: 1400px;
   margin: 0 auto;
   font-size: 2rem;
-  
- 
- 
+}
+
+.list-container li a {
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .left-section {
@@ -133,11 +139,11 @@ header {
   .right-section {
     gap: 8px;
   }
-  
+
   .language-select {
     width: 90px;
   }
-  
+
   .auth-buttons .ant-btn {
     padding: 0 6px;
     font-size: 12px;
@@ -148,15 +154,15 @@ header {
   header {
     padding: 5px 8px;
   }
-  
+
   .right-section {
     gap: 4px;
   }
-  
+
   .language-select {
     width: 80px;
   }
-  
+
   .theme-toggle {
     width: 28px;
     height: 28px;

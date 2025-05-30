@@ -73,7 +73,8 @@ const Jobs = () => {
   const handlePageChange = (newPage: number) => {
     updateFilter("page", newPage);
   };
-  const handlePageSizeChange = (currentPage: number, newPageSize: number) => {
+
+  const handlePageSizeChange = (newPageSize: number) => {
     updateFilter("limit", newPageSize);
     updateFilter("page", 1);
   };
