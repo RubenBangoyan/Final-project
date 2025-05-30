@@ -1,19 +1,21 @@
 .job-filters {
   display: flex;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  align-items: center;
 }
 
 .resetAll-btn {
   display: flex;
   justify-content: start;
-  align-items: left;
+  align-items: center;
+  /* gap: 2rem; */
   flex-wrap: nowrap;
 }
 
 .filter-container {
   display: flex;
-  gap: 1rem;
+  /* margin-left: 2rem; */
+  /* gap: 1rem; */
 }
 
 .filter-btn {
