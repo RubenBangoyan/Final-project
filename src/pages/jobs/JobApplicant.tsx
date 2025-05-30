@@ -15,7 +15,6 @@ import {
 } from "antd";
 import { db } from "../../services/firebse-config";
 import { useTheme } from "../../contexts/ThemeContext";
-import { ROUTES } from "../../routes/paths";
 import { UserOutlined } from "@ant-design/icons";
 import "./JobApplicant.css";
 
@@ -95,8 +94,8 @@ const JobApplicants = () => {
               <Title level={3}>Applicants for: "{jobTitle}"</Title>
             </Col>
             <Col>
-              <Button onClick={() => navigate(ROUTES.JOBS_PATH)}>
-                Back to Jobs
+              <Button onClick={() => navigate(-1)}>
+                Go Back
               </Button>
             </Col>
           </Row>

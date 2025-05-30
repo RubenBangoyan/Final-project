@@ -22,7 +22,7 @@ import "./JobCard.css";
 import { useAppSelector } from "../../app/hook";
 import { deleteJob, updateJob } from "./JobService";
 import EditJobModal from "./EditJobModal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 
 const { Text } = Typography;
@@ -31,15 +31,28 @@ interface JobCardProps {
   job: Job;
   onDelete?: (id: string) => void;
   onUpdate?: (updatedJob: Job) => void;
+  showActions?: boolean; // optional prop (can be overridden)
 }
 
-const JobCard: FC<JobCardProps> = ({ job, onDelete, onUpdate }) => {
+const JobCard: FC<JobCardProps> = ({
+  job,
+  onDelete,
+  onUpdate,
+  showActions,
+}) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const currentUserId = useAppSelector((state) => state.user.id);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const isOwner = currentUserId === job.ownerID;
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 👇 Default: true, but false if current path is "/jobs"
+  const shouldShowActions =
+    typeof showActions === "boolean"
+      ? showActions
+      : location.pathname !== ROUTES.JOBS_PATH;
 
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -85,7 +98,7 @@ const JobCard: FC<JobCardProps> = ({ job, onDelete, onUpdate }) => {
         style={{ marginBottom: 16 }}
         onClick={handleCardClick}
         actions={
-          isOwner
+          shouldShowActions && isOwner
             ? [
                 <Button
                   key="edit"
