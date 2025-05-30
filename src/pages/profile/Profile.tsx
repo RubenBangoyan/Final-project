@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../app/store";
-import { auth, db } from "../../services/firebse-config";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { getAllJobs } from '../../components/jobCard/JobService';
+import type { Job } from '../../components/jobCard/types/types';
+import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../../services/firebse-config';
+import { useTheme } from '../../contexts/ThemeContext';
+import JobCard from '../../components/jobCard/JobCard';
+import React, { useEffect, useState } from 'react';
+import type { RootState } from '../../app/store';
+import { useAppSelector } from '../../app/hook';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   Col,
+  Descriptions,
   Divider,
+  Empty,
   Form,
   Input,
+  Modal,
+  Progress,
   Row,
+  Skeleton,
   Space,
   Switch,
   Tabs,
   Typography,
   message,
-  Descriptions,
-  Badge,
-  Progress,
-  Modal,
-  Spin,
-  Empty,
-} from "antd";
+} from 'antd';
+
 import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  SafetyOutlined,
   ClockCircleOutlined,
   CloudUploadOutlined,
   DeleteOutlined,
-} from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
-import "./Profile.css";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useAppSelector } from "../../app/hook";
-import JobCard from "../../components/jobCard/JobCard";
-import type { Job } from "../../components/jobCard/types/types";
-import { getAllJobs } from "../../components/jobCard/JobService";
+  LockOutlined,
+  MailOutlined,
+  SafetyOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+
+import './Profile.css';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 const ProfilePage: React.FC = () => {
   const { theme, handleClick } = useTheme();
-  const navigate = useNavigate();
   const [jobs, setJobs] = useState<Job[]>([]);
   const currentUserId = useAppSelector((state) => state.user.id);
 
@@ -58,9 +58,15 @@ const ProfilePage: React.FC = () => {
     joinDate?: string;
     lastLogin?: string;
   } | null>(null);
+
   const [loading, setLoading] = useState(true);
   const [avatarLoading] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [form] = Form.useForm();
+
+  const { name, surname, email } = useSelector(
+    (state: RootState) => state.user
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -78,7 +84,7 @@ const ProfilePage: React.FC = () => {
       if (!user) return;
 
       try {
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, 'users', user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -91,11 +97,11 @@ const ProfilePage: React.FC = () => {
             lastLogin: data.lastLogin || new Date().toISOString(),
           });
         } else {
-          console.log("No user profile found!");
+          console.log('No user profile found!');
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
-        message.error("Failed to load profile data");
+        console.error('Error fetching user data:', error);
+        message.error('Failed to load profile data');
       } finally {
         setLoading(false);
       }
@@ -104,18 +110,12 @@ const ProfilePage: React.FC = () => {
     fetchUserData();
   }, []);
 
-  const [form] = Form.useForm();
-
-  const { name, surname, email } = useSelector(
-    (state: RootState) => state.user
-  );
-
   const handleSave = async (values: any) => {
     try {
       const user = auth.currentUser;
       if (!user) return;
 
-      const docRef = doc(db, "users", user.uid);
+      const docRef = doc(db, 'users', user.uid);
       await updateDoc(docRef, {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -127,10 +127,10 @@ const ProfilePage: React.FC = () => {
         lastName: values.lastName,
       }));
 
-      message.success("Profile updated successfully!");
+      message.success('Profile updated successfully!');
     } catch (error) {
-      console.error("Error updating profile:", error);
-      message.error("Failed to update profile");
+      console.error('Error updating profile:', error);
+      message.error('Failed to update profile');
     }
   };
 
@@ -140,16 +140,8 @@ const ProfilePage: React.FC = () => {
 
   const handleDeleteAccount = () => {
     setIsDeleteModalVisible(false);
-    message.warning("Account deletion is not implemented yet.");
+    message.warning('Account deletion is not implemented yet.');
   };
-
-  if (loading) {
-    return (
-      <div className="container flex justify-center items-center h-64">
-        <Spin size="large" />
-      </div>
-    );
-  }
 
   const myJobs = jobs.filter((job) => job.ownerID === currentUserId);
 
@@ -160,12 +152,16 @@ const ProfilePage: React.FC = () => {
           <Row gutter={[24, 24]} align="middle">
             <Col xs={24} sm={8} className="text-center">
               <Badge offset={[-10, 90]}>
-                <Avatar
-                  size={128}
-                  src={profile?.avatar}
-                  icon={<UserOutlined />}
-                  className="border-4 border-white shadow-lg"
-                />
+                {loading ? (
+                  <Skeleton.Avatar active size={128} shape="circle" />
+                ) : (
+                  <Avatar
+                    size={128}
+                    src={profile?.avatar}
+                    icon={<UserOutlined />}
+                    className="border-4 border-white shadow-lg"
+                  />
+                )}
               </Badge>
               {avatarLoading && (
                 <div className="mt-2">
@@ -173,33 +169,45 @@ const ProfilePage: React.FC = () => {
                 </div>
               )}
             </Col>
-
             <Col xs={24} sm={16}>
-              <Title level={2} className="text-white mb-1">
-                {profile?.firstName} {profile?.lastName}
-              </Title>
-              <Text className="text-white text-lg block mb-2">{email}</Text>
-              <div className="flex flex-wrap gap-4 mt-4"></div>
+              {loading ? (
+                <>
+                  <Skeleton.Input active style={{ width: 200, height: 32 }} />
+                  <Skeleton.Input active style={{ width: 250 }} />
+                </>
+              ) : (
+                <>
+                  <Title level={2} className="text-white mb-1">
+                    {profile?.firstName} {profile?.lastName}
+                  </Title>
+                  <Text className="text-white text-lg block mb-2">{email}</Text>
+                </>
+              )}
             </Col>
           </Row>
         </div>
 
         <div className="p-6">
-          <Descriptions bordered column={{ xs: 1, sm: 2 }}>
-            <Descriptions.Item label="Joined Date">
-              {new Date(profile?.joinDate || "").toLocaleDateString()}
-            </Descriptions.Item>
-            <Descriptions.Item label="Last Login">
-              {new Date(profile?.lastLogin || "").toLocaleString()}
-            </Descriptions.Item>
-            <Descriptions.Item label="Status">
-              <Badge status="success" text="Active" />
-            </Descriptions.Item>
-          </Descriptions>
+          {loading ? (
+            <Skeleton active paragraph={{ rows: 2 }} />
+          ) : (
+            <Descriptions bordered column={{ xs: 1, sm: 2 }}>
+              <Descriptions.Item label="Joined Date">
+                {new Date(profile?.joinDate || '').toLocaleDateString()}
+              </Descriptions.Item>
+              <Descriptions.Item label="Last Login">
+                {new Date(profile?.lastLogin || '').toLocaleString()}
+              </Descriptions.Item>
+              <Descriptions.Item label="Status">
+                <Badge status="success" text="Active" />
+              </Descriptions.Item>
+            </Descriptions>
+          )}
         </div>
       </Card>
 
       <Tabs defaultActiveKey="1" className="custom-tabs">
+        //{' '}
         <TabPane
           tab={
             <span>
@@ -215,9 +223,9 @@ const ProfilePage: React.FC = () => {
               layout="vertical"
               onFinish={handleSave}
               initialValues={{
-                firstName: profile?.firstName || name || "",
-                lastName: profile?.lastName || surname || "",
-                email: email || "",
+                firstName: profile?.firstName || name || '',
+                lastName: profile?.lastName || surname || '',
+                email: email || '',
               }}
             >
               <Row gutter={24}>
@@ -226,13 +234,10 @@ const ProfilePage: React.FC = () => {
                     label="First Name"
                     name="firstName"
                     rules={[
-                      { required: true, message: "Please enter first name" },
+                      { required: true, message: 'Please enter first name' },
                     ]}
                   >
-                    <Input
-                      prefix={<UserOutlined className="text-gray-400" />}
-                      size="large"
-                    />
+                    <Input prefix={<UserOutlined />} size="large" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
@@ -240,17 +245,13 @@ const ProfilePage: React.FC = () => {
                     label="Last Name"
                     name="lastName"
                     rules={[
-                      { required: true, message: "Please enter last name" },
+                      { required: true, message: 'Please enter last name' },
                     ]}
                   >
-                    <Input
-                      prefix={<UserOutlined className="text-gray-400" />}
-                      size="large"
-                    />
+                    <Input prefix={<UserOutlined />} size="large" />
                   </Form.Item>
                 </Col>
               </Row>
-
               <Row gutter={24}>
                 <Col xs={24} md={12}>
                   <Form.Item
@@ -259,16 +260,12 @@ const ProfilePage: React.FC = () => {
                     rules={[
                       {
                         required: true,
-                        type: "email",
-                        message: "Enter a valid email",
+                        type: 'email',
+                        message: 'Enter a valid email',
                       },
                     ]}
                   >
-                    <Input
-                      prefix={<MailOutlined className="text-gray-400" />}
-                      size="large"
-                      disabled
-                    />
+                    <Input prefix={<MailOutlined />} size="large" disabled />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
@@ -276,10 +273,10 @@ const ProfilePage: React.FC = () => {
                     label="Dark Mode"
                     name="darkMode"
                     valuePropName="checked"
-                    initialValue={theme === "dark"}
+                    initialValue={theme === 'dark'}
                   >
                     <Switch
-                      checked={theme === "dark"}
+                      checked={theme === 'dark'}
                       onChange={handleClick}
                       checkedChildren="On"
                       unCheckedChildren="Off"
@@ -287,18 +284,11 @@ const ProfilePage: React.FC = () => {
                   </Form.Item>
                 </Col>
               </Row>
-
               <Divider />
-
               <Row justify="space-between">
                 <Col>
                   <Space>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      size="large"
-                      className="px-6"
-                    >
+                    <Button type="primary" htmlType="submit" size="large">
                       Save Changes
                     </Button>
                     <Button size="large" onClick={() => form.resetFields()}>
@@ -320,7 +310,6 @@ const ProfilePage: React.FC = () => {
             </Form>
           </Card>
         </TabPane>
-
         <TabPane
           tab={
             <span>
@@ -330,22 +319,12 @@ const ProfilePage: React.FC = () => {
           }
           key="2"
         >
-          <Card
-            className="shadow-lg rounded-xl border-0"
-            style={{ marginBottom: 24 }}
-          >
+          <Card className="shadow-lg rounded-xl border-0 mb-4">
             <Title level={4}>My Uploaded Jobs:</Title>
           </Card>
 
-          {loading ? (
-            <Spin tip="Loading..." size="large">
-              <div style={{ height: "200px" }} />
-            </Spin>
-          ) : myJobs.length === 0 ? (
-            <Empty
-              className={theme === "dark" ? "empty-dark" : "empty-light"}
-              description="You have not posted any jobs."
-            />
+          {myJobs.length === 0 ? (
+            <Empty description="You have not posted any jobs." />
           ) : (
             <Row gutter={[16, 16]}>
               {myJobs.map((job) => (
@@ -356,7 +335,6 @@ const ProfilePage: React.FC = () => {
             </Row>
           )}
         </TabPane>
-
         <TabPane
           tab={
             <span>
@@ -379,75 +357,62 @@ const ProfilePage: React.FC = () => {
                     rules={[
                       {
                         required: true,
-                        message: "Please enter current password",
+                        message: 'Please enter current password',
                       },
                     ]}
                   >
-                    <Input.Password
-                      prefix={<LockOutlined className="text-gray-400" />}
-                      size="large"
-                    />
+                    <Input.Password prefix={<LockOutlined />} size="large" />
                   </Form.Item>
                 </Col>
               </Row>
-
               <Row gutter={24}>
                 <Col xs={24} md={12}>
                   <Form.Item
                     label="New Password"
                     name="newPassword"
                     rules={[
-                      { required: true, message: "Please enter new password" },
+                      { required: true, message: 'Please enter new password' },
                       {
                         min: 6,
-                        message: "Password must be at least 6 characters",
+                        message: 'Password must be at least 6 characters',
                       },
                     ]}
                   >
-                    <Input.Password
-                      prefix={<LockOutlined className="text-gray-400" />}
-                      size="large"
-                    />
+                    <Input.Password prefix={<LockOutlined />} size="large" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={12}>
                   <Form.Item
                     label="Confirm Password"
                     name="confirmPassword"
-                    dependencies={["newPassword"]}
+                    dependencies={['newPassword']}
                     rules={[
-                      { required: true, message: "Please confirm password" },
+                      { required: true, message: 'Please confirm password' },
                       ({ getFieldValue }) => ({
                         validator(_, value) {
                           if (
                             !value ||
-                            getFieldValue("newPassword") === value
+                            getFieldValue('newPassword') === value
                           ) {
                             return Promise.resolve();
                           }
                           return Promise.reject(
-                            new Error("The two passwords do not match!")
+                            new Error('Passwords do not match!')
                           );
                         },
                       }),
                     ]}
                   >
-                    <Input.Password
-                      prefix={<LockOutlined className="text-gray-400" />}
-                      size="large"
-                    />
+                    <Input.Password prefix={<LockOutlined />} size="large" />
                   </Form.Item>
                 </Col>
               </Row>
               <Divider />
-
-              <Button type="primary" size="large" className="px-6">
+              <Button type="primary" size="large">
                 Update Password
               </Button>
             </Form>
-
             <Divider />
-
             <Title level={4} className="mb-6">
               Login Activity
             </Title>
@@ -457,7 +422,7 @@ const ProfilePage: React.FC = () => {
                 <div>
                   <Text strong>Last login</Text>
                   <Text className="block text-gray-600">
-                    {new Date(profile?.lastLogin || "").toLocaleString()}
+                    {new Date(profile?.lastLogin || '').toLocaleString()}
                   </Text>
                 </div>
               </div>
@@ -467,7 +432,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </Card>
         </TabPane>
-
         <TabPane
           tab={
             <span>
@@ -508,42 +472,18 @@ const ProfilePage: React.FC = () => {
         </TabPane>
       </Tabs>
 
-      <Card className="shadow-lg rounded-xl border-0 mt-6">
-        <Title level={4} className="mb-4">
-          Quick Actions
-        </Title>
-        <Space size="large">
-          <Button
-            type="primary"
-            icon={<CloudUploadOutlined />}
-            size="large"
-            onClick={() => navigate(ROUTES.UPLOAD_WORK)}
-          >
-            Upload Work
-          </Button>
-          <Button
-            type="default"
-            size="large"
-            onClick={() => navigate(ROUTES.RESUME_PATH)}
-          >
-            Generate Resume
-          </Button>
-        </Space>
-      </Card>
-
       <Modal
-        title="Confirm Account Deletion"
-        open={isDeleteModalVisible}
+        title="Delete Account"
+        visible={isDeleteModalVisible}
         onOk={handleDeleteAccount}
         onCancel={() => setIsDeleteModalVisible(false)}
         okText="Delete"
         okButtonProps={{ danger: true }}
-        cancelButtonProps={{ type: "text" }}
       >
-        <Text>
+        <p>
           Are you sure you want to delete your account? This action cannot be
-          undone. All your data will be permanently removed.
-        </Text>
+          undone.
+        </p>
       </Modal>
     </div>
   );
