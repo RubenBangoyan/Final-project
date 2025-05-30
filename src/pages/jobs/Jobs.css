@@ -1,24 +1,64 @@
+.job-page-container {
+  min-height: calc(100vh - (headerHeight + footerHeight));
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-content {
+  flex: 1;
+}
+
 .job-filters {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
+  transition: background-color 0.3s, color 0.3s, background 0.3s ease;
 }
 
 .resetAll-btn {
   display: flex;
   justify-content: start;
   align-items: center;
-  /* gap: 2rem; */
   flex-wrap: nowrap;
+  transition: all 0.3s ease;
+  transition: background-color 0.3s, color 0.3s, background 0.3s ease;
+}
+
+.job-light {
+  background: linear-gradient(135deg, #f1f4ff 0%, #2a5298 100%);
+  color: var(--text-dark);
+  transition: background-color 0.3s, color 0.3s, background 0.3s ease;
+}
+
+.job-dark {
+  background: linear-gradient(150deg, #374b69 0%, #1e1e2f 100%);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s, background 0.3s ease;
 }
 
 .filter-container {
   display: flex;
-  /* margin-left: 2rem; */
-  /* gap: 1rem; */
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 10px;
 }
 
 .filter-btn {
-  border-radius: 8px;
-  padding: 15px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.empty-dark .ant-empty-description {
+  color: white;
+}
+
+.empty-light .ant-empty-description {
+  color: black;
+}
+
+body.dark-theme .ant-empty-description {
+  color: white;
 }

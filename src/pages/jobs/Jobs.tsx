@@ -192,16 +192,22 @@ const Jobs = () => {
             />
           </Col>
           {canReset && (
-            <Row gutter={[8, 8]} className="resetAll-btn">
-              <Col span={6} style={{ paddingLeft: 12 }}>
-                <Button
-                  onClick={resetAllFilter}
-                  style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
-                >
-                  Reset All Filters
-                </Button>
-              </Col>
-              <Col span={24}>
+            <Col span={24}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <div>
+                  <Button
+                    onClick={resetAllFilter}
+                    style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
+                  >
+                    Reset All Filters
+                  </Button>
+                </div>
                 <div className="filter-container">
                   {Object.entries(currentFilters).map(([key, value]) => {
                     const initialValue =
@@ -238,8 +244,8 @@ const Jobs = () => {
                     );
                   })}
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </Col>
           )}
         </Row>
 
@@ -267,7 +273,7 @@ const Jobs = () => {
                   ))}
                 </Row>
 
-                <Row justify="center" style={{ marginTop: 20 }}>
+                <Row justify="center" style={{ marginTop: 10 }}>
                   <Pagination
                     current={page}
                     pageSize={limit}
