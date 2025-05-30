@@ -82,63 +82,67 @@ const JobApplicants = () => {
     fetchApplicants();
   }, [id]);
 
+  const currentTheme = theme === "dark" ? "job-dark" : "job-light";
+
   return (
-    <Row justify="center" style={{ marginTop: "2rem" }}>
-      <Col xs={22} md={20} lg={16}>
-        <Card
-          className={theme === "dark" ? "homepage-dark" : "homepage-light"}
-          style={{ borderRadius: 8 }}
-        >
-          <Row justify="space-between" align="middle">
-            <Col>
-              <Title level={3}>Applicants for: "{jobTitle}"</Title>
-            </Col>
-            <Col>
-              <Button onClick={() => navigate(-1)}>Go Back</Button>
-            </Col>
-          </Row>
-
-          <Divider />
-
-          {loading ? (
-            <Row justify="center" style={{ marginTop: "2rem" }}>
-              <Spin size="large" />
+    <div className={`job-applicant-page-wrapper ${currentTheme}`}>
+      <Row justify="center" style={{ marginTop: "2rem" }}>
+        <Col xs={22} md={20} lg={16}>
+          <Card
+            className={theme === "dark" ? "homepage-dark" : "homepage-light"}
+            style={{ borderRadius: 8 }}
+          >
+            <Row justify="space-between" align="middle">
+              <Col>
+                <Title level={3}>Applicants for: "{jobTitle}"</Title>
+              </Col>
+              <Col>
+                <Button onClick={() => navigate(-1)}>Go Back</Button>
+              </Col>
             </Row>
-          ) : applicants.length === 0 ? (
-            <Empty description="No users have applied yet." />
-          ) : (
-            <List
-              itemLayout="horizontal"
-              dataSource={applicants}
-              renderItem={(applicant) => (
-                <List.Item
-                  actions={[
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        alert("Resume not available.");
-                      }}
-                    >
-                      View User Resume
-                    </Button>,
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar icon={<UserOutlined />} />}
-                    title={
-                      <Text strong>
-                        {applicant.firstName} {applicant.lastName}
-                      </Text>
-                    }
-                    description={applicant.email}
-                  />
-                </List.Item>
-              )}
-            />
-          )}
-        </Card>
-      </Col>
-    </Row>
+
+            <Divider />
+
+            {loading ? (
+              <Row justify="center" style={{ marginTop: "2rem" }}>
+                <Spin size="large" />
+              </Row>
+            ) : applicants.length === 0 ? (
+              <Empty description="No users have applied yet." />
+            ) : (
+              <List
+                itemLayout="horizontal"
+                dataSource={applicants}
+                renderItem={(applicant) => (
+                  <List.Item
+                    actions={[
+                      <Button
+                        type="primary"
+                        onClick={() => {
+                          alert("Resume not available.");
+                        }}
+                      >
+                        View User Resume
+                      </Button>,
+                    ]}
+                  >
+                    <List.Item.Meta
+                      avatar={<Avatar icon={<UserOutlined />} />}
+                      title={
+                        <Text strong>
+                          {applicant.firstName} {applicant.lastName}
+                        </Text>
+                      }
+                      description={applicant.email}
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
