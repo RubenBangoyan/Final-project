@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Input,
   Select,
   Slider,
   Row,
   Col,
-  Spin,
-  Empty,
+  Card,
+  // Spin,
+  // Empty,
   Button,
   Pagination,
-} from "antd";
-import { getAllJobs } from "../../components/jobCard/JobService";
-import type { Job } from "../../components/jobCard/types/types";
-import JobCard from "../../components/jobCard/JobCard";
-import { useTheme } from "../../contexts/ThemeContext";
-import "./Jobs.css";
-import { useFilter } from "../../hooks/useFilter";
-import { useLocation } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
+  Skeleton,
+} from 'antd';
+import { getAllJobs } from '../../components/jobCard/JobService';
+import type { Job } from '../../components/jobCard/types/types';
+import JobCard from '../../components/jobCard/JobCard';
+import { useTheme } from '../../contexts/ThemeContext';
+import './Jobs.css';
+import { useFilter } from '../../hooks/useFilter';
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -32,7 +34,7 @@ type initialFiltersTypes = {
 };
 
 const initialFilters: initialFiltersTypes = {
-  searchValue: "",
+  searchValue: '',
   employmentFilter: null,
   techFilter: null,
   salaryRange: [0, 100000],
@@ -67,15 +69,15 @@ const Jobs = () => {
     value: (typeof initialFilters)[K]
   ) => {
     updateFilter(key, value);
-    if (key !== "page") updateFilter("page", 1);
+    if (key !== 'page') updateFilter('page', 1);
   };
 
   const handlePageChange = (newPage: number) => {
-    updateFilter("page", newPage);
+    updateFilter('page', newPage);
   };
   const handlePageSizeChange = (currentPage: number, newPageSize: number) => {
-    updateFilter("limit", newPageSize);
-    updateFilter("page", 1);
+    updateFilter('limit', newPageSize);
+    updateFilter('page', 1);
   };
 
   useEffect(() => {
@@ -90,7 +92,7 @@ const Jobs = () => {
 
   const filteredJobs = jobs.filter((job) => {
     const matchesQuery =
-      searchValue === "" ||
+      searchValue === '' ||
       job.position.toLowerCase().includes(searchValue.toLowerCase()) ||
       job.location.toLowerCase().includes(searchValue.toLowerCase()) ||
       job.employmentType.some((type) =>
@@ -127,7 +129,7 @@ const Jobs = () => {
   return (
     <Row
       justify="center"
-      className={`container ${theme === "dark" ? "job-dark" : "job-light"}`}
+      className={`container ${theme === 'dark' ? 'job-dark' : 'job-light'}`}
     >
       <Col span={24}>
         <Row
@@ -140,7 +142,7 @@ const Jobs = () => {
               value={searchValue}
               allowClear
               onChange={(e) =>
-                updateAndResetPage("searchValue", e.target.value)
+                updateAndResetPage('searchValue', e.target.value)
               }
               placeholder="Search by position, location, or type"
             />
@@ -149,10 +151,10 @@ const Jobs = () => {
             <Select
               allowClear
               value={employmentFilter}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               placeholder="Filter by employment type"
               onChange={(value) =>
-                updateAndResetPage("employmentFilter", value)
+                updateAndResetPage('employmentFilter', value)
               }
             >
               {allEmploymentTypes.map((type) => (
@@ -167,8 +169,8 @@ const Jobs = () => {
               allowClear
               value={techFilter}
               placeholder="Filter by technology"
-              onChange={(value) => updateAndResetPage("techFilter", value)}
-              style={{ width: "100%" }}
+              onChange={(value) => updateAndResetPage('techFilter', value)}
+              style={{ width: '100%' }}
             >
               {allTechnologies.map((tech) => (
                 <Option key={tech} value={tech}>
@@ -185,7 +187,7 @@ const Jobs = () => {
               max={50000}
               value={salaryRange}
               onChange={(value) =>
-                updateAndResetPage("salaryRange", value as number[])
+                updateAndResetPage('salaryRange', value as number[])
               }
               tooltip={{ formatter: (val) => `$${val}` }}
             />
@@ -195,7 +197,7 @@ const Jobs = () => {
               <Col span={6} style={{ paddingLeft: 12 }}>
                 <Button
                   onClick={resetAllFilter}
-                  style={{ padding: "0.5rem 1rem", cursor: "pointer" }}
+                  style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}
                 >
                   Reset All Filters
                 </Button>
@@ -207,17 +209,17 @@ const Jobs = () => {
                       initialFilters[key as keyof initialFiltersTypes];
                     const isDefault =
                       JSON.stringify(value) === JSON.stringify(initialValue);
-                    if (isDefault || key === "page" || key === "limit")
+                    if (isDefault || key === 'page' || key === 'limit')
                       return null;
 
-                    let label = "";
-                    if (key === "searchValue") {
+                    let label = '';
+                    if (key === 'searchValue') {
                       label = `Search: ${value}`;
-                    } else if (key === "employmentFilter") {
+                    } else if (key === 'employmentFilter') {
                       label = `Employment: ${value}`;
-                    } else if (key === "techFilter") {
+                    } else if (key === 'techFilter') {
                       label = `Technology: ${value}`;
-                    } else if (key === "salaryRange") {
+                    } else if (key === 'salaryRange') {
                       label = `Salary: $${(value as number[])[0]} - $${
                         (value as number[])[1]
                       }`;
@@ -245,6 +247,51 @@ const Jobs = () => {
         <Row>
           <Col span={24}>
             {loading ? (
+              <>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <h2>All Jobs</h2>
+                  </Col>
+                  {[...Array(8)].map((_, index) => (
+                    <Col key={index} xs={24} sm={12} md={8} lg={6}>
+                      <Card style={{ height: '240px' }}>
+                        <Skeleton
+                          active
+                          title={{ width: '60%' }}
+                          paragraph={{ rows: 4 }}
+                        />
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              </>
+            ) : (
+              <>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <h2>All Jobs</h2>
+                  </Col>
+                  {paginatedJobs.map((job) => (
+                    <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
+                      <JobCard job={job} showActions={isInMyJobsPage} />
+                    </Col>
+                  ))}
+                </Row>
+
+                <Row justify="center" style={{ marginTop: 20 }}>
+                  <Pagination
+                    current={page}
+                    pageSize={limit}
+                    total={filteredJobs.length}
+                    onChange={handlePageChange}
+                    showSizeChanger={false}
+                    onShowSizeChange={handlePageSizeChange}
+                  />
+                </Row>
+              </>
+            )}
+
+            {/* {loading ? (
               <Spin tip="Loading..." size="large">
                 <div style={{ height: "200px" }} />
               </Spin>
@@ -277,7 +324,7 @@ const Jobs = () => {
                   />
                 </Row>
               </>
-            )}
+            )} */}
           </Col>
         </Row>
       </Col>
