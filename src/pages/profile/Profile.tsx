@@ -7,7 +7,6 @@ import JobCard from '../../components/jobCard/JobCard';
 import React, { useEffect, useState } from 'react';
 import type { RootState } from '../../app/store';
 import { useAppSelector } from '../../app/hook';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Avatar,
@@ -44,7 +43,6 @@ import {
 import './Profile.css';
 
 const { Title, Text } = Typography;
-const { TabPane } = Tabs;
 
 const ProfilePage: React.FC = () => {
   const { theme, handleClick } = useTheme();
@@ -145,180 +143,120 @@ const ProfilePage: React.FC = () => {
 
   const myJobs = jobs.filter((job) => job.ownerID === currentUserId);
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="shadow-lg rounded-xl mb-6 border-0">
-        <div className="profile-header bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-t-xl">
-          <Row gutter={[24, 24]} align="middle">
-            <Col xs={24} sm={8} className="text-center">
-              <Badge offset={[-10, 90]}>
-                {loading ? (
-                  <Skeleton.Avatar active size={128} shape="circle" />
-                ) : (
-                  <Avatar
-                    size={128}
-                    src={profile?.avatar}
-                    icon={<UserOutlined />}
-                    className="border-4 border-white shadow-lg"
+  const tabItems = [
+    {
+      key: '1',
+      label: (
+        <Space>
+          <UserOutlined />
+          Profile
+        </Space>
+      ),
+      children: (
+        <Card className="shadow-lg rounded-xl border-0">
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleSave}
+            initialValues={{
+              firstName: profile?.firstName || name || '',
+              lastName: profile?.lastName || surname || '',
+              email: email || '',
+            }}
+          >
+            <Row gutter={24}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="First Name"
+                  name="firstName"
+                  rules={[
+                    { required: true, message: 'Please enter first name' },
+                  ]}
+                >
+                  <Input prefix={<UserOutlined />} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Last Name"
+                  name="lastName"
+                  rules={[
+                    { required: true, message: 'Please enter last name' },
+                  ]}
+                >
+                  <Input prefix={<UserOutlined />} size="large" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      type: 'email',
+                      message: 'Enter a valid email',
+                    },
+                  ]}
+                >
+                  <Input prefix={<MailOutlined />} size="large" disabled />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Dark Mode"
+                  name="darkMode"
+                  valuePropName="checked"
+                  initialValue={theme === 'dark'}
+                >
+                  <Switch
+                    checked={theme === 'dark'}
+                    onChange={handleClick}
+                    checkedChildren="On"
+                    unCheckedChildren="Off"
                   />
-                )}
-              </Badge>
-              {avatarLoading && (
-                <div className="mt-2">
-                  <Progress percent={50} status="active" showInfo={false} />
-                </div>
-              )}
-            </Col>
-            <Col xs={24} sm={16}>
-              {loading ? (
-                <>
-                  <Skeleton.Input active style={{ width: 200, height: 32 }} />
-                  <Skeleton.Input active style={{ width: 250 }} />
-                </>
-              ) : (
-                <>
-                  <Title level={2} className="text-white mb-1">
-                    {profile?.firstName} {profile?.lastName}
-                  </Title>
-                  <Text className="text-white text-lg block mb-2">{email}</Text>
-                </>
-              )}
-            </Col>
-          </Row>
-        </div>
-
-        <div className="p-6">
-          {loading ? (
-            <Skeleton active paragraph={{ rows: 2 }} />
-          ) : (
-            <Descriptions bordered column={{ xs: 1, sm: 2 }}>
-              <Descriptions.Item label="Joined Date">
-                {new Date(profile?.joinDate || '').toLocaleDateString()}
-              </Descriptions.Item>
-              <Descriptions.Item label="Last Login">
-                {new Date(profile?.lastLogin || '').toLocaleString()}
-              </Descriptions.Item>
-              <Descriptions.Item label="Status">
-                <Badge status="success" text="Active" />
-              </Descriptions.Item>
-            </Descriptions>
-          )}
-        </div>
-      </Card>
-
-      <Tabs defaultActiveKey="1" className="custom-tabs">
-        //{' '}
-        <TabPane
-          tab={
-            <span>
-              <UserOutlined />
-              Profile
-            </span>
-          }
-          key="1"
-        >
-          <Card className="shadow-lg rounded-xl border-0">
-            <Form
-              form={form}
-              layout="vertical"
-              onFinish={handleSave}
-              initialValues={{
-                firstName: profile?.firstName || name || '',
-                lastName: profile?.lastName || surname || '',
-                email: email || '',
-              }}
-            >
-              <Row gutter={24}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="First Name"
-                    name="firstName"
-                    rules={[
-                      { required: true, message: 'Please enter first name' },
-                    ]}
-                  >
-                    <Input prefix={<UserOutlined />} size="large" />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Last Name"
-                    name="lastName"
-                    rules={[
-                      { required: true, message: 'Please enter last name' },
-                    ]}
-                  >
-                    <Input prefix={<UserOutlined />} size="large" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={24}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        type: 'email',
-                        message: 'Enter a valid email',
-                      },
-                    ]}
-                  >
-                    <Input prefix={<MailOutlined />} size="large" disabled />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Dark Mode"
-                    name="darkMode"
-                    valuePropName="checked"
-                    initialValue={theme === 'dark'}
-                  >
-                    <Switch
-                      checked={theme === 'dark'}
-                      onChange={handleClick}
-                      checkedChildren="On"
-                      unCheckedChildren="Off"
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Divider />
-              <Row justify="space-between">
-                <Col>
-                  <Space>
-                    <Button type="primary" htmlType="submit" size="large">
-                      Save Changes
-                    </Button>
-                    <Button size="large" onClick={() => form.resetFields()}>
-                      Reset
-                    </Button>
-                  </Space>
-                </Col>
-                <Col>
-                  <Button
-                    danger
-                    icon={<DeleteOutlined />}
-                    size="large"
-                    onClick={showDeleteConfirm}
-                  >
-                    Delete Account
+                </Form.Item>
+              </Col>
+            </Row>
+            <Divider />
+            <Row justify="space-between">
+              <Col>
+                <Space>
+                  <Button type="primary" htmlType="submit" size="large">
+                    Save Changes
                   </Button>
-                </Col>
-              </Row>
-            </Form>
-          </Card>
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <CloudUploadOutlined />
-              My Jobs
-            </span>
-          }
-          key="2"
-        >
+                  <Button size="large" onClick={() => form.resetFields()}>
+                    Reset
+                  </Button>
+                </Space>
+              </Col>
+              <Col>
+                <Button
+                  danger
+                  icon={<DeleteOutlined />}
+                  size="large"
+                  onClick={showDeleteConfirm}
+                >
+                  Delete Account
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <Space>
+          <CloudUploadOutlined />
+          My Jobs
+        </Space>
+      ),
+      children: (
+        <>
           <Card className="shadow-lg rounded-xl border-0 mb-4">
             <Title level={4}>My Uploaded Jobs:</Title>
           </Card>
@@ -334,158 +272,232 @@ const ProfilePage: React.FC = () => {
               ))}
             </Row>
           )}
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <SafetyOutlined />
-              Security
-            </span>
-          }
-          key="3"
-        >
-          <Card className="shadow-lg rounded-xl border-0">
-            <Title level={4} className="mb-6">
-              Password Settings
-            </Title>
-            <Form layout="vertical">
-              <Row gutter={24}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Current Password"
-                    name="currentPassword"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter current password',
+        </>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <Space>
+          <SafetyOutlined />
+          Security
+        </Space>
+      ),
+      children: (
+        <Card className="shadow-lg rounded-xl border-0">
+          <Title level={4} className="mb-6">
+            Password Settings
+          </Title>
+          <Form layout="vertical">
+            <Row gutter={24}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Current Password"
+                  name="currentPassword"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter current password',
+                    },
+                  ]}
+                >
+                  <Input.Password prefix={<LockOutlined />} size="large" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="New Password"
+                  name="newPassword"
+                  rules={[
+                    { required: true, message: 'Please enter new password' },
+                    {
+                      min: 6,
+                      message: 'Password must be at least 6 characters',
+                    },
+                  ]}
+                >
+                  <Input.Password prefix={<LockOutlined />} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  dependencies={['newPassword']}
+                  rules={[
+                    { required: true, message: 'Please confirm password' },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('newPassword') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          new Error('Passwords do not match!')
+                        );
                       },
-                    ]}
-                  >
-                    <Input.Password prefix={<LockOutlined />} size="large" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={24}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="New Password"
-                    name="newPassword"
-                    rules={[
-                      { required: true, message: 'Please enter new password' },
-                      {
-                        min: 6,
-                        message: 'Password must be at least 6 characters',
-                      },
-                    ]}
-                  >
-                    <Input.Password prefix={<LockOutlined />} size="large" />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    dependencies={['newPassword']}
-                    rules={[
-                      { required: true, message: 'Please confirm password' },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (
-                            !value ||
-                            getFieldValue('newPassword') === value
-                          ) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error('Passwords do not match!')
-                          );
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input.Password prefix={<LockOutlined />} size="large" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Divider />
-              <Button type="primary" size="large">
-                Update Password
-              </Button>
-            </Form>
+                    }),
+                  ]}
+                >
+                  <Input.Password prefix={<LockOutlined />} size="large" />
+                </Form.Item>
+              </Col>
+            </Row>
             <Divider />
-            <Title level={4} className="mb-6">
-              Login Activity
-            </Title>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="flex items-center mb-4">
+            <Button type="primary" size="large">
+              Update Password
+            </Button>
+          </Form>
+          <Divider />
+          <Title level={4} className="mb-6">
+            Login Activity
+          </Title>
+          <Card className="p-4 bg-gray-50 rounded-lg">
+            <Row align="middle" className="mb-4">
+              <Col flex="none">
                 <ClockCircleOutlined className="text-lg mr-3 text-gray-500" />
-                <div>
-                  <Text strong>Last login</Text>
-                  <Text className="block text-gray-600">
-                    {new Date(profile?.lastLogin || '').toLocaleString()}
-                  </Text>
-                </div>
-              </div>
-              <Button type="link" className="pl-0">
-                View all activity
-              </Button>
-            </div>
+              </Col>
+              <Col flex="auto">
+                <Text strong>Last login</Text>
+                <Text className="block text-gray-600">
+                  {new Date(profile?.lastLogin || '').toLocaleString()}
+                </Text>
+              </Col>
+            </Row>
+            <Button type="link" className="pl-0">
+              View all activity
+            </Button>
           </Card>
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <ClockCircleOutlined />
-              Activity
-            </span>
-          }
-          key="4"
-        >
-          <Card className="shadow-lg rounded-xl border-0">
-            <Title level={4} className="mb-6">
-              Recent Activity
-            </Title>
-            <div className="activity-timeline">
-              <div className="timeline-item">
-                <div className="timeline-badge bg-blue-500"></div>
-                <div className="timeline-content">
-                  <Text strong>Profile updated</Text>
-                  <Text className="block text-gray-600">2 hours ago</Text>
-                </div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-badge bg-green-500"></div>
-                <div className="timeline-content">
-                  <Text strong>Password changed</Text>
-                  <Text className="block text-gray-600">3 days ago</Text>
-                </div>
-              </div>
-              <div className="timeline-item">
-                <div className="timeline-badge bg-purple-500"></div>
-                <div className="timeline-content">
-                  <Text strong>Logged in from new device</Text>
-                  <Text className="block text-gray-600">1 week ago</Text>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </TabPane>
-      </Tabs>
+        </Card>
+      ),
+    },
+    {
+      key: '4',
+      label: (
+        <Space>
+          <ClockCircleOutlined />
+          Activity
+        </Space>
+      ),
+      children: (
+        <Card className="shadow-lg rounded-xl border-0">
+          <Title level={4} className="mb-6">
+            Recent Activity
+          </Title>
+          <Space
+            direction="vertical"
+            size="large"
+            className="activity-timeline"
+          >
+            <Row align="middle" className="timeline-item">
+              <Col flex="none" className="timeline-badge bg-blue-500"></Col>
+              <Col flex="auto" className="timeline-content">
+                <Text strong>Profile updated</Text>
+                <Text className="block text-gray-600">2 hours ago</Text>
+              </Col>
+            </Row>
+            <Row align="middle" className="timeline-item">
+              <Col flex="none" className="timeline-badge bg-green-500"></Col>
+              <Col flex="auto" className="timeline-content">
+                <Text strong>Password changed</Text>
+                <Text className="block text-gray-600">3 days ago</Text>
+              </Col>
+            </Row>
+            <Row align="middle" className="timeline-item">
+              <Col flex="none" className="timeline-badge bg-purple-500"></Col>
+              <Col flex="auto" className="timeline-content">
+                <Text strong>Logged in from new device</Text>
+                <Text className="block text-gray-600">1 week ago</Text>
+              </Col>
+            </Row>
+          </Space>
+        </Card>
+      ),
+    },
+  ];
 
-      <Modal
-        title="Delete Account"
-        visible={isDeleteModalVisible}
-        onOk={handleDeleteAccount}
-        onCancel={() => setIsDeleteModalVisible(false)}
-        okText="Delete"
-        okButtonProps={{ danger: true }}
-      >
-        <p>
-          Are you sure you want to delete your account? This action cannot be
-          undone.
-        </p>
-      </Modal>
-    </div>
+  return (
+    <Row className="container mx-auto px-4 py-8">
+      <Col span={24}>
+        <Card className="shadow-lg rounded-xl mb-6 border-0">
+          <Row className="profile-header bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-t-xl">
+            <Row gutter={[24, 24]} align="middle" style={{ width: '100%' }}>
+              <Col xs={24} sm={8} className="text-center">
+                <Badge offset={[-10, 90]}>
+                  {loading ? (
+                    <Skeleton.Avatar active size={128} shape="circle" />
+                  ) : (
+                    <Avatar
+                      size={128}
+                      src={profile?.avatar}
+                      icon={<UserOutlined />}
+                      className="border-4 border-white shadow-lg"
+                    />
+                  )}
+                </Badge>
+                {avatarLoading && (
+                  <Row className="mt-2">
+                    <Progress percent={50} status="active" showInfo={false} />
+                  </Row>
+                )}
+              </Col>
+              <Col xs={24} sm={16}>
+                {loading ? (
+                  <>
+                    <Skeleton.Input active style={{ width: 200, height: 32 }} />
+                    <Skeleton.Input active style={{ width: 250 }} />
+                  </>
+                ) : (
+                  <>
+                    <Title level={2} className="text-white mb-1">
+                      {profile?.firstName} {profile?.lastName}
+                    </Title>
+                    <Text className="text-white text-lg block mb-2">
+                      {email}
+                    </Text>
+                  </>
+                )}
+              </Col>
+            </Row>
+          </Row>
+
+          <Row className="p-6">
+            {loading ? (
+              <Skeleton active paragraph={{ rows: 2 }} />
+            ) : (
+              <Descriptions bordered column={{ xs: 1, sm: 2 }}>
+                <Descriptions.Item label="Joined Date">
+                  {new Date(profile?.joinDate || '').toLocaleDateString()}
+                </Descriptions.Item>
+                <Descriptions.Item label="Last Login">
+                  {new Date(profile?.lastLogin || '').toLocaleString()}
+                </Descriptions.Item>
+                <Descriptions.Item label="Status">
+                  <Badge status="success" text="Active" />
+                </Descriptions.Item>
+              </Descriptions>
+            )}
+          </Row>
+        </Card>
+
+        <Tabs defaultActiveKey="1" className="custom-tabs" items={tabItems} />
+
+        <Modal
+          title="Delete Account"
+          open={isDeleteModalVisible}
+          onOk={handleDeleteAccount}
+          onCancel={() => setIsDeleteModalVisible(false)}
+          okText="Delete"
+          okButtonProps={{ danger: true }}
+        >
+          <Text>
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </Text>
+        </Modal>
+      </Col>
+    </Row>
   );
 };
 
