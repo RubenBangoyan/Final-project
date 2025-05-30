@@ -1,45 +1,35 @@
-import { formatResumePrompt } from "../../utils/resumeFormat";
-import type { UploadFile } from "antd/es/upload/interface";
-import type { UploadChangeParam } from "antd/es/upload";
-import { generateResumeFromGPT } from "../../api";
-import { PlusOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { formatResumePrompt } from '../../utils/resumeFormat';
+import { generateResumeFromGPT } from '../../api';
+import { db } from '../../services/firebse-config';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import type { ResumeData } from '../../components/resumeDisplay/types';
 import {
   Button,
   DatePicker,
   Form,
   Input,
-  Upload,
   Space,
   Divider,
   Row,
   Col,
   Modal,
-} from "antd";
-import "./Resume.css";
-import type { RcFile } from "antd/es/upload";
-import { message } from "antd";
+} from 'antd';
+import './Resume.css';
+import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
-const normFile = (e: UploadChangeParam<UploadFile<any>>): UploadFile[] => {
-  if (Array.isArray(e)) return e;
-  return e?.fileList || [];
-};
-
 const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
+  const [parsedResume, setParsedResume] = useState<ResumeData | null>(null);
   const [form] = Form.useForm();
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const navigate = useNavigate();
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const addExperience = () => {
     setExperienceFields([...experienceFields, { id: uuidv4() }]);
@@ -51,65 +41,38 @@ const ResumeForm: React.FC = () => {
 
   async function handleCreateResume(values: any) {
     const prompt = formatResumePrompt(values);
+
     try {
       const result = await generateResumeFromGPT(prompt);
-      console.log("Generated Resume:", result);
+
+      const cleanResult = result.replace(/```json|```/g, '').trim();
+
+      const parsedResume = JSON.parse(cleanResult);
+      console.log(parsedResume, 'parsedResume')
+      setParsedResume(parsedResume);
+
+      await addDoc(collection(db, 'resume'), {
+        ...parsedResume,
+        createdAt: serverTimestamp(),
+      });
+
       setGeneratedResume(result);
+      console.log('Resume saved to Firestore.');
     } catch (err) {
-      console.error("Error generating resume:", err);
+      console.error('Error generating/saving resume:', err);
     }
   }
 
   const handleGoBack = () => {
     Modal.confirm({
-      title: "Discard Form?",
+      title: 'Discard Form?',
       content:
-        "Are you sure you want to go back? All entered data will be lost.",
-      okText: "Yes, go back",
-      cancelText: "Cancel",
+        'Are you sure you want to go back? All entered data will be lost.',
+      okText: 'Yes, go back',
+      cancelText: 'Cancel',
       onOk: () => navigate(ROUTES.HOME_PATH),
     });
   };
-
-  const getBase64 = (file: RcFile): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-
-  const beforeUpload = (file: RcFile) => {
-    const isImage = file.type.startsWith("image/");
-    if (!isImage) {
-      message.error("You can only upload image files!");
-      return Upload.LIST_IGNORE;
-    }
-
-    const isLt5MB = file.size / 1024 / 1024 < 5;
-    if (!isLt5MB) {
-      message.error("Image must be smaller than 5MB!");
-      return Upload.LIST_IGNORE;
-    }
-
-    return true;
-  };
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || "Preview");
-  };
-
-  const handleChange = ({
-    fileList: newFileList,
-  }: {
-    fileList: UploadFile[];
-  }) => setFileList(newFileList);
 
   return (
     <div className="container resume-container">
@@ -117,7 +80,7 @@ const ResumeForm: React.FC = () => {
         <Form
           form={form}
           layout="vertical"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           onFinish={(values) => handleCreateResume(values)}
         >
           <Divider orientation="left">
@@ -129,7 +92,7 @@ const ResumeForm: React.FC = () => {
                 label="First Name"
                 name="firstName"
                 rules={[
-                  { required: true, message: "Please enter your first name" },
+                  { required: true, message: 'Please enter your first name' },
                 ]}
               >
                 <Input placeholder="Enter first name" />
@@ -140,7 +103,7 @@ const ResumeForm: React.FC = () => {
                 label="Last Name"
                 name="lastName"
                 rules={[
-                  { required: true, message: "Please enter your last name" },
+                  { required: true, message: 'Please enter your last name' },
                 ]}
               >
                 <Input placeholder="Enter last name" />
@@ -148,7 +111,7 @@ const ResumeForm: React.FC = () => {
             </Col>
             <Col xs={24} sm={12} md={8}>
               <Form.Item label="Date of Birth" name="birthdate">
-                <DatePicker style={{ width: "100%" }} />
+                <DatePicker style={{ width: '100%' }} />
               </Form.Item>
             </Col>
           </Row>
@@ -160,8 +123,8 @@ const ResumeForm: React.FC = () => {
                 name="email"
                 rules={[
                   {
-                    type: "email",
-                    message: "Please enter a valid email address",
+                    type: 'email',
+                    message: 'Please enter a valid email address',
                   },
                 ]}
               >
@@ -179,70 +142,27 @@ const ResumeForm: React.FC = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Divider orientation="left">📸 Photo</Divider>
-          <Form.Item
-            label="Upload Photo"
-            name="photo"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-          >
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              beforeUpload={beforeUpload}
-              onPreview={handlePreview}
-              onChange={handleChange}
-              customRequest={({ onSuccess }) =>
-                setTimeout(() => onSuccess?.("ok"), 500)
-              }
-              maxCount={1}
-            >
-              {fileList.length >= 1 ? null : (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
-            </Upload>
-
-            <Modal
-              open={previewOpen}
-              title={previewTitle}
-              footer={null}
-              onCancel={() => setPreviewOpen(false)}
-            >
-              <img
-                alt="Preview"
-                style={{
-                  width: "100%",
-                  objectFit: "contain",
-                  maxHeight: "500px",
-                }}
-                src={previewImage}
-              />
-            </Modal>
-          </Form.Item>
           <Divider orientation="left">💼 Work Experience</Divider>
           {experienceFields.map((field, index) => (
             <Space
               key={field.id}
               direction="vertical"
               style={{
-                display: "block",
-                border: "1px solid #d9d9d9",
+                display: 'block',
+                border: '1px solid #d9d9d9',
                 padding: 16,
                 marginBottom: 16,
                 borderRadius: 8,
-                backgroundColor: "#fafafa",
+                backgroundColor: '#fafafa',
               }}
             >
               <Row gutter={[24, 16]}>
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Company"
-                    name={["experience", index, "company"]}
+                    name={['experience', index, 'company']}
                     rules={[
-                      { required: true, message: "Please enter company name" },
+                      { required: true, message: 'Please enter company name' },
                     ]}
                   >
                     <Input />
@@ -251,9 +171,9 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={12} md={8}>
                   <Form.Item
                     label="Position"
-                    name={["experience", index, "position"]}
+                    name={['experience', index, 'position']}
                     rules={[
-                      { required: true, message: "Please enter position" },
+                      { required: true, message: 'Please enter position' },
                     ]}
                   >
                     <Input />
@@ -262,15 +182,15 @@ const ResumeForm: React.FC = () => {
                 <Col xs={24} sm={24} md={8}>
                   <Form.Item
                     label="Period"
-                    name={["experience", index, "period"]}
+                    name={['experience', index, 'period']}
                   >
-                    <RangePicker style={{ width: "100%" }} />
+                    <RangePicker style={{ width: '100%' }} />
                   </Form.Item>
                 </Col>
               </Row>
               <Form.Item
                 label="Description"
-                name={["experience", index, "description"]}
+                name={['experience', index, 'description']}
               >
                 <TextArea rows={2} />
               </Form.Item>
@@ -296,11 +216,11 @@ const ResumeForm: React.FC = () => {
             </Space>
           </Form.Item>
         </Form>
-        {generatedResume && (
-          <>
-            <Divider orientation="left">📄 Generated Resume</Divider>
-            <TextArea value={generatedResume} rows={10} readOnly />
-          </>
+
+        {parsedResume ? (
+          <ResumeDisplay resume={parsedResume} />
+        ) : (
+          <TextArea value={generatedResume || ''} rows={10} readOnly />
         )}
       </div>
     </div>

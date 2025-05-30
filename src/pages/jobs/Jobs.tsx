@@ -44,6 +44,9 @@ const Jobs = () => {
     currentFilters;
 
   useEffect(() => {
+
+
+    
     setLoading(true);
     getAllJobs()
       .then((data) => {

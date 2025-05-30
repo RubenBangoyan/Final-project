@@ -1,0 +1,14 @@
+.resume-display h2 {
+  margin-bottom: 8px;
+}
+
+.resume-display h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.resume-display p {
+  margin: 4px 0;
+}
