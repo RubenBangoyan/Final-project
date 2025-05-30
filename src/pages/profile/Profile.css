@@ -17,3 +17,70 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
+/* .container {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.light-theme {
+  background-color: #f5f5f5;
+  color: #000000;
+}
+
+.dark-theme {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.dark-theme .ant-card,
+.dark-theme .ant-tabs,
+.dark-theme .ant-form,
+.dark-theme .ant-descriptions,
+.dark-theme .ant-input,
+.dark-theme .ant-btn,
+.dark-theme .ant-modal-content {
+  background-color: #2a2a2a !important;
+  color: #ffffff !important;
+  border-color: #434343 !important;
+}
+
+.dark-theme .ant-input,
+.dark-theme .ant-input-password,
+.dark-theme .ant-input-affix-wrapper {
+  background-color: #1f1f1f !important;
+  color: #ffffff !important;
+  border-color: #434343 !important;
+}
+
+.dark-theme .ant-input::placeholder,
+.dark-theme .ant-input-password::placeholder {
+  color: #bfbfbf !important;
+}
+
+.dark-theme .ant-btn {
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.dark-theme .ant-descriptions-bordered .ant-descriptions-item-label,
+.dark-theme .ant-descriptions-bordered .ant-descriptions-item-content {
+  background-color: #1f1f1f !important;
+}
+
+.dark-theme .ant-tabs-tab-btn {
+  color: #ffffff !important;
+}
+
+.dark-theme .ant-tabs-ink-bar {
+  background-color: #ffffff !important;
+}
+
+.dark-theme .ant-empty-description {
+  color: #ffffff !important;
+}
+
+.dark-theme .timeline-content {
+  color: #ffffff;
+}
+
+.dark-theme * {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+} */
