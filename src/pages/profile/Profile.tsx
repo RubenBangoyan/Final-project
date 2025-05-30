@@ -154,7 +154,11 @@ const ProfilePage: React.FC = () => {
   const myJobs = jobs.filter((job) => job.ownerID === currentUserId);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div
+      className={`container mx-auto px-4 py-8 transition-all duration-300 ${
+        theme === "dark" ? "dark-theme" : "light-theme"
+      }`}
+    >
       <Card className="shadow-lg rounded-xl mb-6 border-0">
         <div className="profile-header bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-t-xl">
           <Row gutter={[24, 24]} align="middle">
