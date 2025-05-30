@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { Spin, Button, Card, Row, Col, Typography, Divider } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
-import type { Job } from "../../components/jobCard/types/types";
-import { useTheme } from "../../contexts/ThemeContext";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import type { Job } from "../../components/jobCard/types/types";
+import { useParams, useNavigate } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
 import { db } from "../../services/firebse-config";
 import { useAppSelector } from "../../app/hook";
-import { message } from "antd";
+import { useEffect, useState } from "react";
 import { ROUTES } from "../../routes/paths";
+import { message } from "antd";
 import "./JobDetail.css";
 
 const { Title, Text, Paragraph } = Typography;
