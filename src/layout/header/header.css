@@ -3,7 +3,6 @@ header {
   padding: 5px clamp(16px, 3vw, 32px);
   background-color: var(--header-bg);
   color: var(--header-text);
-  border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
