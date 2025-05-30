@@ -25,13 +25,14 @@ const ProfilePage: React.FC = () => {
       label: 'Profile',
       children: (
         <ProfileTab
-        name={name}
-        theme={theme}
-        email={email}
-        surname={surname}
-        profile={profile}
-        handleSave={handleSave}
-        handleClick={handleClick}
+          loading={loading}
+          name={name}
+          theme={theme}
+          email={email}
+          surname={surname}
+          profile={profile}
+          handleSave={handleSave}
+          handleClick={handleClick}
         />
       ),
     },
@@ -59,7 +60,6 @@ const ProfilePage: React.FC = () => {
         <Tabs defaultActiveKey="1" className="custom-tabs" items={tabItems} />
       </Col>
     </Row>
-
   );
 };
 
