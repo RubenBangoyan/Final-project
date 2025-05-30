@@ -31,7 +31,7 @@ interface JobCardProps {
   job: Job;
   onDelete?: (id: string) => void;
   onUpdate?: (updatedJob: Job) => void;
-  showActions?: boolean; // optional prop (can be overridden)
+  showActions?: boolean;
 }
 
 const JobCard: FC<JobCardProps> = ({
@@ -48,7 +48,6 @@ const JobCard: FC<JobCardProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 👇 Default: true, but false if current path is "/jobs"
   const shouldShowActions =
     typeof showActions === "boolean"
       ? showActions
