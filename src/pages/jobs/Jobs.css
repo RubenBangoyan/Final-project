@@ -1,13 +1,10 @@
-.job-page-container {
-  min-height: calc(100vh - (headerHeight + footerHeight));
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-
-.job-content {
-  flex: 1;
+.job-page-wrapper {
+  min-height: 100vh;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: background 0.3s ease;
 }
 
 .job-filters {
