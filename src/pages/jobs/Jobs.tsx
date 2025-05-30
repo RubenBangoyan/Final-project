@@ -1,3 +1,10 @@
+import { getAllJobs } from '../../components/jobCard/JobService';
+import type { Job } from '../../components/jobCard/types/types';
+import { useTheme } from '../../contexts/ThemeContext';
+import JobCard from '../../components/jobCard/JobCard';
+import { useFilter } from '../../hooks/useFilter';
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
 import { useEffect, useState } from 'react';
 import {
   Input,
@@ -6,20 +13,11 @@ import {
   Row,
   Col,
   Card,
-  // Spin,
-  // Empty,
   Button,
   Pagination,
   Skeleton,
 } from 'antd';
-import { getAllJobs } from '../../components/jobCard/JobService';
-import type { Job } from '../../components/jobCard/types/types';
-import JobCard from '../../components/jobCard/JobCard';
-import { useTheme } from '../../contexts/ThemeContext';
 import './Jobs.css';
-import { useFilter } from '../../hooks/useFilter';
-import { useLocation } from 'react-router-dom';
-import { ROUTES } from '../../routes/paths';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -290,41 +288,6 @@ const Jobs = () => {
                 </Row>
               </>
             )}
-
-            {/* {loading ? (
-              <Spin tip="Loading..." size="large">
-                <div style={{ height: "200px" }} />
-              </Spin>
-            ) : filteredJobs.length === 0 ? (
-              <Empty
-                className={theme === "dark" ? "empty-dark" : "empty-light"}
-                description="No jobs found matching your criteria."
-              />
-            ) : (
-              <>
-                <Row gutter={[16, 16]}>
-                  <Col span={24}>
-                    <h2>All Jobs</h2>
-                  </Col>
-                  {paginatedJobs.map((job) => (
-                    <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                      <JobCard job={job} showActions={isInMyJobsPage} />
-                    </Col>
-                  ))}
-                </Row>
-
-                <Row justify="center" style={{ marginTop: 20 }}>
-                  <Pagination
-                    current={page}
-                    pageSize={limit}
-                    total={filteredJobs.length}
-                    onChange={handlePageChange}
-                    showSizeChanger={false}
-                    onShowSizeChange={handlePageSizeChange}
-                  />
-                </Row>
-              </>
-            )} */}
           </Col>
         </Row>
       </Col>

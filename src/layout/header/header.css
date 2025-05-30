@@ -1,4 +1,3 @@
-
 header {
   padding: 5px clamp(16px, 3vw, 32px);
   background-color: var(--header-bg);
@@ -15,9 +14,6 @@ header {
   max-width: 1400px;
   margin: 0 auto;
   font-size: 2rem;
-  
- 
- 
 }
 
 .left-section {
@@ -132,11 +128,11 @@ header {
   .right-section {
     gap: 8px;
   }
-  
+
   .language-select {
     width: 90px;
   }
-  
+
   .auth-buttons .ant-btn {
     padding: 0 6px;
     font-size: 12px;
@@ -147,15 +143,15 @@ header {
   header {
     padding: 5px 8px;
   }
-  
+
   .right-section {
     gap: 4px;
   }
-  
+
   .language-select {
     width: 80px;
   }
-  
+
   .theme-toggle {
     width: 28px;
     height: 28px;

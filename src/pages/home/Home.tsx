@@ -1,17 +1,17 @@
+import { ChatHelper } from '../../components/chatHelper/ChatHelper';
+import { setSearchValue } from '../../features/filter/filterSlice';
 import { Input, Button, Space, Typography, Row, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/paths';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import './Home.css';
 import {
   SearchOutlined,
   SafetyOutlined,
   TeamOutlined,
   RocketOutlined,
 } from '@ant-design/icons';
-import { ChatHelper } from '../../components/chatHelper/ChatHelper';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../routes/paths';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
-import { setSearchValue } from '../../features/filter/filterSlice';
-import './Home.css';
 
 const { Title, Paragraph, Text } = Typography;
 
