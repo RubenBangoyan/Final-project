@@ -10,7 +10,7 @@ import {
   Divider,
   message,
 } from "antd";
-import { getAllJobs } from "../../components/jobCard/JobService";
+import { getJobById } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
 import { useTheme } from "../../contexts/ThemeContext";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -35,8 +35,7 @@ const JobDetail = () => {
     const fetchJob = async () => {
       setLoading(true);
       try {
-        const jobs = await getAllJobs();
-        const foundJob = jobs.find((j) => j.id === id) || null;
+        const foundJob = await getJobById(id!);
         setJob(foundJob);
         if (userId && foundJob?.appliedUsers?.includes(userId)) {
           setHasApplied(true);
