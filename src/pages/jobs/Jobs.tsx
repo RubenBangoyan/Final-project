@@ -131,7 +131,9 @@ const Jobs = () => {
     <div className={`job-page-wrapper ${currentTheme}`}>
       <Row
         justify="center"
-        className={`job-page-wrapper ${theme === "dark" ? "job-dark" : "job-light"}`}
+        className={`job-page-wrapper ${
+          theme === "dark" ? "job-dark" : "job-light"
+        }`}
       >
         <Col span={24}>
           <Row
@@ -198,7 +200,12 @@ const Jobs = () => {
               <Col span={24}>
                 <Row
                   gutter={[16, 16]}
-                  style={{ flexDirection: "column", gap: "10px" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
                 >
                   <Col>
                     <Button
