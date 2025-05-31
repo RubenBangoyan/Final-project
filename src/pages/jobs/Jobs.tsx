@@ -44,8 +44,8 @@ const initialFilters: initialFiltersTypes = {
 const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
-
   const { theme } = useTheme();
+  const location = useLocation();
 
   const {
     currentFilters,
@@ -84,6 +84,13 @@ const Jobs = () => {
   };
 
   useEffect(() => {
+    const searchFromHome = location.state?.search;
+    if (searchFromHome) {
+      updateAndResetPage("searchValue", searchFromHome);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     setLoading(true);
 
     getAllJobs({
@@ -118,7 +125,6 @@ const Jobs = () => {
     new Set(jobs.flatMap((job) => job.technologies))
   );
 
-  const location = useLocation();
   const isInMyJobsPage = location.pathname === ROUTES.PROFILE_PATH;
 
   const currentTheme = theme === "dark" ? "job-dark" : "job-light";
