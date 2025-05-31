@@ -8,9 +8,7 @@ import {
 import { ChatHelper } from "../../components/chatHelper/ChatHelper";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { setSearchValue } from "../../features/filter/filterSlice";
 import { useTheme } from "../../contexts/ThemeContext";
 import "./Home.css";
 
@@ -18,7 +16,6 @@ const { Title, Paragraph, Text } = Typography;
 
 const Home = () => {
   const [query, setQuery] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { theme } = useTheme();
 
@@ -26,18 +23,19 @@ const Home = () => {
     setQuery(e.target.value);
 
   const handleSearch = () => {
-    if (!query.trim()) return;
-    dispatch(setSearchValue(query));
-    navigate(ROUTES.JOBS_PATH);
+    if (query.trim()) {
+      navigate(ROUTES.JOBS_PATH, { state: { search: query } });
+    }
   };
-
   return (
     <div>
       <Row
         justify="center"
         align="middle"
         style={{ minHeight: "40vh", position: "relative" }}
-        className={`home-container ${theme === "dark" ? "home-dark" : "home-light"}`}
+        className={`home-container ${
+          theme === "dark" ? "home-dark" : "home-light"
+        }`}
       >
         <Col span={24} className="banner-overlay">
           <Row justify="center">
