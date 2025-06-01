@@ -22,6 +22,7 @@
   "followUs": "Follow Us",
   "instagram": "Instagram",
   "linkedin": "LinkedIn",
+  "facebook": "Facebook",
   "twitter": "Twitter",
   "tagline": "Building the future, today.",
   "copyright": "© {{date}} All rights reserved.",
@@ -54,5 +55,19 @@
   "diversePositions": "Diverse Positions",
   "diversePositionsDesc": "Find roles across all industries and skills.",
   "fastApplication": "Fast Application",
-  "fastApplicationDesc": "Apply quickly with our user-friendly platform."
+  "fastApplicationDesc": "Apply quickly with our user-friendly platform.",
+  "contactUs": "Contact Us",
+  "location": "Yerevan, Armenia",
+  "name": "Name",
+  "email": "Email",
+  "message": "Message",
+  "namePlaceholder": "Your name",
+  "emailPlaceholder": "Your email",
+  "messagePlaceholder": "Your message",
+  "send": "Send",
+  "nameRequired": "Please enter your name!",
+  "emailRequired": "Please enter your email!",
+  "emailInvalid": "Invalid email format!",
+  "messageRequired": "Please enter your message!",
+  "socialMedia": "Our Social Media"
 }

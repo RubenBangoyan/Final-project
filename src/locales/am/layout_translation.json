@@ -23,6 +23,7 @@
   "followUs": "Հետևեք մեզ",
   "instagram": "Ինստագրամ",
   "linkedin": "Լինքդին",
+  "facebook": "Ֆեյսբուք",
   "twitter": "Թվիթեր",
   "tagline": "Կառուցում ենք ապագան՝ այսօր։",
   "copyright": "© {{date}} Բոլոր իրավունքները պաշտպանված են։",
@@ -55,5 +56,19 @@
   "diversePositions": "Տարբեր Դիրքեր",
   "diversePositionsDesc": "Գտեք աշխատանքներ տարբեր ոլորտներում և հմտություններով։",
   "fastApplication": "Արագ Դիմում",
-  "fastApplicationDesc": "Դիմեք արագ մեր հարմարավետ հարթակի միջոցով։"
+  "fastApplicationDesc": "Դիմեք արագ մեր հարմարավետ հարթակի միջոցով։",
+  "contactUs": "Կապ մեզ հետ",
+  "location": "Երևան, Հայաստան",
+  "name": "Անուն",
+  "email": "Էլ. հասցե",
+  "message": "Հաղորդագրություն",
+  "namePlaceholder": "Ձեր անունը",
+  "emailPlaceholder": "Ձեր էլ. հասցեն",
+  "messagePlaceholder": "Ձեր հաղորդագրությունը",
+  "send": "Ուղարկել",
+  "nameRequired": "Խնդրում ենք մուտքագրել Ձեր անունը։",
+  "emailRequired": "Խնդրում ենք մուտքագրել Ձեր էլ. հասցեն։",
+  "emailInvalid": "Էլ. հասցեի ձևաչափը սխալ է։",
+  "messageRequired": "Խնդրում ենք մուտքագրել Ձեր հաղորդագրությունը։",
+  "socialMedia": "Մեր Սոցիալական Ցանցերը"
 }
