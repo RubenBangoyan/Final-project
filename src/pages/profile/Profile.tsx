@@ -7,6 +7,7 @@ import { useProfile } from '../../hooks/useProfile';
 import type { RootState } from '../../app/store';
 import { useAppSelector } from '../../app/hook';
 import { MyJobsTab } from './myJobTab/MyJobTab';
+import { FavoriteJobTab } from './favoriteJobTab/FavoriteJobTab';
 import { Tabs, Row, Col } from 'antd';
 import React from 'react';
 import ResumeTab from './resumeTab/ResumeTab';
@@ -44,16 +45,21 @@ const ProfilePage: React.FC = () => {
     },
     {
       key: '3',
+      label: 'Favorite Jobs',
+      children: <FavoriteJobTab currentUserId={currentUserId} />,
+    },
+    {
+      key: '4',
       label: 'Security',
       children: <SecurityTab profile={profile} />,
     },
     {
-      key: '4',
+      key: '5',
       label: 'Activity',
       children: <ActivityTab />,
     },
     {
-      key: '5',
+      key: '6',
       label: 'Resume',
       children: <ResumeTab />,
     },

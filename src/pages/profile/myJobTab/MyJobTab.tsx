@@ -1,8 +1,8 @@
-import { getAllJobs } from '../../../components/jobCard/JobService';
-import type { Job } from '../../../components/jobCard/types/types';
-import { Card, Col, Empty, Row, Typography } from 'antd';
-import JobCard from '../../../components/jobCard/JobCard';
-import React, { useEffect, useState } from 'react';
+import { getAllJobs } from "../../../components/jobCard/JobService";
+import type { Job } from "../../../components/jobCard/types/types";
+import { Card, Col, Empty, Row, Typography, Spin } from "antd";
+import JobCard from "../../../components/jobCard/JobCard";
+import React, { useEffect, useState } from "react";
 
 const { Title } = Typography;
 
@@ -32,7 +32,11 @@ export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId }) => {
         <Title level={4}>My Uploaded Jobs:</Title>
       </Card>
 
-      {myJobs.length === 0 ? (
+      {loading ? (
+        <Row justify="center" style={{ marginTop: 100 }}>
+          <Spin size="large" tip="Loading favorite jobs..." />
+        </Row>
+      ) : myJobs.length === 0 ? (
         <Empty description="You have not posted any jobs." />
       ) : (
         <Row gutter={[16, 16]}>
