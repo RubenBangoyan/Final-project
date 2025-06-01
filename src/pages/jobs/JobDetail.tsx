@@ -29,7 +29,6 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from '../../services/UserService';
-import { differenceInDays } from 'date-fns';
 import { ExpiresInfo } from './JobExpire';
 
 const { Title, Text, Paragraph } = Typography;
