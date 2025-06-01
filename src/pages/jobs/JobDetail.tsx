@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Spin,
   Button,
@@ -9,15 +9,15 @@ import {
   Typography,
   Divider,
   message,
-} from "antd";
-import { getJobById } from "../../components/jobCard/JobService";
-import type { Job } from "../../components/jobCard/types/types";
-import { useTheme } from "../../contexts/ThemeContext";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../../services/firebse-config";
-import { useAppSelector } from "../../app/hook";
-import { ROUTES } from "../../routes/paths";
-import "./JobDetail.css";
+} from 'antd';
+import { getJobById } from '../../components/jobCard/JobService';
+import type { Job } from '../../components/jobCard/types/types';
+import { useTheme } from '../../contexts/ThemeContext';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { db } from '../../services/firebse-config';
+import { useAppSelector } from '../../app/hook';
+import { ROUTES } from '../../routes/paths';
+import './JobDetail.css';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -52,9 +52,11 @@ const JobDetail = () => {
     }
   }, [id, userId]);
 
+  console.log('job', job);
+
   if (loading) {
     return (
-      <Row justify="center" style={{ marginTop: "100px" }}>
+      <Row justify="center" style={{ marginTop: '100px' }}>
         <Col>
           <Spin tip="Loading job details..." size="large" />
         </Col>
@@ -64,7 +66,7 @@ const JobDetail = () => {
 
   if (!job) {
     return (
-      <Row justify="center" style={{ marginTop: "100px" }}>
+      <Row justify="center" style={{ marginTop: '100px' }}>
         <Col>
           <Text type="danger" strong style={{ fontSize: 18 }}>
             Job not found.
@@ -81,30 +83,30 @@ const JobDetail = () => {
 
   const handleApply = async () => {
     if (!userId || !id) {
-      console.error("Missing user ID or job ID.");
+      console.error('Missing user ID or job ID.');
       return;
     }
 
     try {
-      const jobRef = doc(db, "jobs", id);
+      const jobRef = doc(db, 'jobs', id);
       await updateDoc(jobRef, {
         appliedUsers: arrayUnion(userId),
       });
-      message.success("Applied successfully");
+      message.success('Applied successfully');
       setHasApplied(true);
     } catch (error) {
-      console.error("Error applying to job:", error);
-      message.error("Failed to apply. Please try again.");
+      console.error('Error applying to job:', error);
+      message.error('Failed to apply. Please try again.');
     }
   };
 
   const handleViewAppliedUsers = () => {
     if (job?.ownerID === userId && id) {
-      navigate(ROUTES.JOB_APPLICANTS.replace(":id", id));
+      navigate(ROUTES.JOB_APPLICANTS.replace(':id', id));
     }
   };
 
-  const currentTheme = theme === "dark" ? "job-dark" : "job-light";
+  const currentTheme = theme === 'dark' ? 'job-dark' : 'job-light';
 
   return (
     <div className={`job-detail-page-wrapper ${currentTheme}`}>
@@ -125,7 +127,7 @@ const JobDetail = () => {
                 <Paragraph>{job.location}</Paragraph>
 
                 <Text strong>Employment Type:</Text>
-                <Paragraph>{job.employmentType.join(", ")}</Paragraph>
+                <Paragraph>{job.employmentType.join(', ')}</Paragraph>
 
                 <Text strong>Salary:</Text>
                 <Paragraph>
@@ -135,15 +137,20 @@ const JobDetail = () => {
 
               <Col xs={24} sm={12}>
                 <Text strong>Technologies:</Text>
-                <Paragraph>{job.technologies.join(", ")}</Paragraph>
+                <Paragraph>{job.technologies.join(', ')}</Paragraph>
 
                 <Text strong>Requirements:</Text>
-                <Paragraph style={{ whiteSpace: "pre-line" }}>
+                <Paragraph style={{ whiteSpace: 'pre-line' }}>
                   {job.requirements}
                 </Paragraph>
               </Col>
 
               <Col span={24}>
+                <Row>
+                  <Paragraph strong style={{ fontSize: '18px' }}>
+                    {`Total Applicants: ${job.appliedUsers.length || 0}`}
+                  </Paragraph>
+                </Row>
                 <Row justify="center" gutter={16}>
                   <Col>
                     {job.ownerID === userId ? (
@@ -156,7 +163,7 @@ const JobDetail = () => {
                         disabled={hasApplied}
                         onClick={handleApply}
                       >
-                        {hasApplied ? "Already Applied" : "Apply Now"}
+                        {hasApplied ? 'Already Applied' : 'Apply Now'}
                       </Button>
                     )}
                   </Col>
