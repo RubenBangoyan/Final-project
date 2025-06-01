@@ -1,5 +1,5 @@
 import type { FieldType } from '../types';
-import type { FormProps } from 'antd';
+import type { FormInstance, FormProps } from 'antd';
 import {
   inMemoryPersistence,
   browserLocalPersistence,
@@ -10,10 +10,11 @@ import { auth } from '../../../services/firebse-config';
 import { setUser } from '../../../features/user/userSlice';
 
 type SignInDependencies = {
-  setError: (msg: string) => void;
   dispatch: any;
+  form: FormInstance;
+  setError: (msg: string) => void;
   navigate: (path: string) => void;
-  form: any;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const onFinish =
@@ -22,9 +23,11 @@ export const onFinish =
     dispatch,
     navigate,
     form,
+    setLoading,
   }: SignInDependencies): FormProps<FieldType>['onFinish'] =>
   async (values) => {
     const { email, password, remember, firstName, lastName } = values;
+    setLoading(true);
 
     try {
       const persistenceType = remember
@@ -50,15 +53,17 @@ export const onFinish =
       };
 
       dispatch(setUser(userData));
-
+      setLoading(false);
       navigate('/');
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
         form.setFieldsValue({ password: '' });
+        setLoading(false);
       } else {
         setError('An unknown error occurred');
         form.setFieldsValue({ password: '' });
+        setLoading(false);
       }
     }
   };

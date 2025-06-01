@@ -30,7 +30,6 @@ const SignUp = () => {
             dispatch,
             navigate,
             form,
-            loading,
             setLoading,
           })}
           style={{

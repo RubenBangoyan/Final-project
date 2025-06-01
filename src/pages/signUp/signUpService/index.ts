@@ -13,7 +13,6 @@ import type { FormInstance } from 'antd';
 
 type SignUpDependencies = {
   dispatch: any;
-  loading: boolean;
   form: FormInstance;
   setError: (msg: string) => void;
   navigate: (path: string) => void;
@@ -26,7 +25,6 @@ export const onFinish =
     dispatch,
     navigate,
     form,
-    loading,
     setLoading,
   }: SignUpDependencies): FormProps<FieldType>['onFinish'] =>
   async (values) => {
