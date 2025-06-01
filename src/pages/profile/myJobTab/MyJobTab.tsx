@@ -34,7 +34,7 @@ export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId }) => {
 
       {loading ? (
         <Row justify="center" style={{ marginTop: 100 }}>
-          <Spin size="large" tip="Loading favorite jobs..." />
+          <Spin size="large" tip="Loading uploaded jobs..." />
         </Row>
       ) : myJobs.length === 0 ? (
         <Empty description="You have not posted any jobs." />
