@@ -3,6 +3,7 @@ import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../services/firebse-config';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../app/hook';
+import { Timestamp } from 'firebase/firestore';
 import { ROUTES } from '../../routes/paths';
 import { v4 as uuid } from 'uuid';
 
@@ -41,6 +42,10 @@ const UploadWork = () => {
         return;
       }
 
+      const expiresAt = Timestamp.fromDate(
+        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      );
+
       const cleanedValues = cleanObject(values);
 
       const dataToSave = {
@@ -48,6 +53,7 @@ const UploadWork = () => {
         ownerID: id,
         createdAt: serverTimestamp(),
         appliedUsers: [],
+        expiresAt: expiresAt,
       };
 
       await setDoc(doc(db, 'jobs', unicID), dataToSave);

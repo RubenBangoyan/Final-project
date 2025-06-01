@@ -9,25 +9,25 @@ import {
   Typography,
   Divider,
   message,
-} from "antd";
+} from 'antd';
 import {
   BankOutlined,
   EnvironmentOutlined,
   DollarOutlined,
   UserSwitchOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 
-import { getAllJobs } from "../../components/jobCard/JobService";
+import { getAllJobs } from '../../components/jobCard/JobService';
 import { getJobById } from '../../components/jobCard/JobService';
-import type { Job } from "../../components/jobCard/types/types";
-import { useTheme } from "../../contexts/ThemeContext";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../../services/firebse-config";
-import { useAppSelector } from "../../app/hook";
-import { ROUTES } from "../../routes/paths";
-import "./JobDetail.css";
-import { Tag } from "antd";
-
+import type { Job } from '../../components/jobCard/types/types';
+import { useTheme } from '../../contexts/ThemeContext';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { db } from '../../services/firebse-config';
+import { useAppSelector } from '../../app/hook';
+import { ROUTES } from '../../routes/paths';
+import './JobDetail.css';
+import { Tag } from 'antd';
+import { ExpiresInfo } from './JobExpireAt';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -62,7 +62,7 @@ const JobDetail = () => {
     }
   }, [id, userId]);
 
-  console.log('job', job);
+  // console.log('job', job);
 
   if (loading) {
     return (
@@ -122,24 +122,35 @@ const JobDetail = () => {
     <div className={`job-detail-page-wrapper ${currentTheme}`}>
       <Row justify="center">
         <Col xs={22} md={20} lg={16} className="job-detail-container">
-        <Card className="job-card">
+          <Card className="job-card">
             <Row gutter={[0, 16]}>
               <Col span={24}>
-                <Title level={2} className="job-detail-title">{job.position}</Title>
+                <Title level={2} className="job-detail-title">
+                  {job.position}
+                </Title>
                 <Divider />
               </Col>
 
               <Col xs={24} sm={12} className="job-info-col">
-                <Text strong><BankOutlined style={{ marginRight: 6 }} /> Company:</Text>
+                <Text strong>
+                  <BankOutlined style={{ marginRight: 6 }} /> Company:
+                </Text>
                 <Paragraph>{job.companyName}</Paragraph>
 
-                <Text strong><EnvironmentOutlined style={{ marginRight: 6 }} /> Location:</Text>
+                <Text strong>
+                  <EnvironmentOutlined style={{ marginRight: 6 }} /> Location:
+                </Text>
                 <Paragraph>{job.location}</Paragraph>
 
-                <Text strong><UserSwitchOutlined style={{ marginRight: 6 }} /> Employment Type:</Text>
-                <Paragraph>{job.employmentType.join(", ")}</Paragraph>
+                <Text strong>
+                  <UserSwitchOutlined style={{ marginRight: 6 }} /> Employment
+                  Type:
+                </Text>
+                <Paragraph>{job.employmentType.join(', ')}</Paragraph>
 
-                <Text strong><DollarOutlined style={{ marginRight: 6 }} /> Salary:</Text>
+                <Text strong>
+                  <DollarOutlined style={{ marginRight: 6 }} /> Salary:
+                </Text>
                 <Paragraph>
                   ${job.salaryFrom} - ${job.salaryTo}
                 </Paragraph>
@@ -147,24 +158,23 @@ const JobDetail = () => {
 
               <Col xs={24} sm={12}>
                 <Text strong>Technologies:</Text>
-                
+
                 <Paragraph>
                   {job.technologies.map((tech) => (
-                      <Tag key={tech} color="blue">
-                        {tech}
-                      </Tag>
+                    <Tag key={tech} color="blue">
+                      {tech}
+                    </Tag>
                   ))}
                 </Paragraph>
 
                 <Text strong>Requirements:</Text>
                 <ul className="requirement-list">
-                  {job.requirements.split("\n").map((req, index) => (
-                      <li key={index}>
-                        <span className="bullet-icon">✔</span> {req}
-                      </li>
+                  {job.requirements.split('\n').map((req, index) => (
+                    <li key={index}>
+                      <span className="bullet-icon">✔</span> {req}
+                    </li>
                   ))}
                 </ul>
-                
               </Col>
 
               <Col span={24}>
@@ -173,6 +183,13 @@ const JobDetail = () => {
                     {`Total Applicants: ${job.appliedUsers.length || 0}`}
                   </Paragraph>
                 </Row>
+
+                <Row>
+                  <Paragraph strong style={{ fontSize: '18px' }}>
+                    <ExpiresInfo expiresAt={job.expiresAt} />
+                  </Paragraph>
+                </Row>
+
                 <Row justify="center" gutter={16}>
                   <Col>
                     {job.ownerID === userId ? (

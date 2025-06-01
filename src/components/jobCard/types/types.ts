@@ -14,4 +14,5 @@ export interface Job {
   salaryTo: number;
   technologies: string[];
   appliedUsers: string[];
+  expiresAt: ''
 }
