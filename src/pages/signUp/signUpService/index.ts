@@ -9,12 +9,15 @@ import {
   browserLocalPersistence,
   inMemoryPersistence,
 } from 'firebase/auth';
+import type { FormInstance } from 'antd';
 
 type SignUpDependencies = {
-  setError: (msg: string) => void;
   dispatch: any;
+  loading: boolean;
+  form: FormInstance;
+  setError: (msg: string) => void;
   navigate: (path: string) => void;
-  form: any;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const onFinish =
@@ -23,16 +26,18 @@ export const onFinish =
     dispatch,
     navigate,
     form,
+    loading,
+    setLoading,
   }: SignUpDependencies): FormProps<FieldType>['onFinish'] =>
   async (values) => {
     const { email, password, confirmPassword, remember, firstName, lastName } =
       values;
-
-    console.log(firstName, lastName);
+    setLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords didn't match.");
       form.setFieldsValue({ password: '', confirmPassword: '' });
+      setLoading(false);
       return;
     }
 
@@ -64,11 +69,13 @@ export const onFinish =
         lastName,
       });
 
-      dispatch(setUser(userData));
       navigate('/');
+      dispatch(setUser(userData));
+      setLoading(false);
     } catch (error: any) {
       setError(error.message || 'Something went wrong.');
       console.log(form, 'form');
       form.setFieldsValue({ password: '', confirmPassword: '' });
+      setLoading(false);
     }
   };
