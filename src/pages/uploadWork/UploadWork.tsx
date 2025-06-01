@@ -81,11 +81,26 @@ const UploadWork = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="aboutCompany" label="About the Company">
+        <Form.Item
+          name="aboutCompany"
+          label="About the Company"
+          rules={[
+            {
+              required: true,
+              message: "Please enter information about the company",
+            },
+          ]}
+        >
           <Input.TextArea rows={3} />
         </Form.Item>
 
-        <Form.Item name="companyWebsite" label="Company Website">
+        <Form.Item
+          name="companyWebsite"
+          label="Company Website"
+          rules={[
+            { required: true, message: "Please enter the company website" },
+          ]}
+        >
           <Input placeholder="https://example.com" />
         </Form.Item>
 
@@ -118,7 +133,13 @@ const UploadWork = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item name="level" label="Position Level">
+        <Form.Item
+          name="level"
+          label="Position Level"
+          rules={[
+            { required: true, message: "Please select a position level" },
+          ]}
+        >
           <Select placeholder="Select level">
             <Option value="intern">Intern</Option>
             <Option value="junior">Junior</Option>
@@ -128,11 +149,29 @@ const UploadWork = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item name="technologies" label="Technology Stack">
+        <Form.Item
+          name="technologies"
+          label="Technology Stack"
+          rules={[
+            {
+              required: true,
+              message: "Please specify the required technologies",
+            },
+          ]}
+        >
           <Select mode="tags" placeholder="e.g. React, Node.js, SQL" />
         </Form.Item>
 
-        <Form.Item name="employmentType" label="Employment Type">
+        <Form.Item
+          name="employmentType"
+          label="Employment Type"
+          rules={[
+            {
+              required: true,
+              message: "Please select at least one employment type",
+            },
+          ]}
+        >
           <Select mode="multiple" placeholder="Select options">
             <Option value="fulltime">Full-time</Option>
             <Option value="parttime">Part-time</Option>
@@ -142,19 +181,44 @@ const UploadWork = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item name="location" label="Location (Office / Remote)">
+        <Form.Item
+          name="location"
+          label="Location (Office / Remote)"
+          rules={[{ required: true, message: "Please enter the job location" }]}
+        >
           <Input placeholder="Moscow / remote / hybrid" />
         </Form.Item>
 
-        <Form.Item label="Salary From (USD)" name="salaryFrom">
+        <Form.Item
+          label="Salary From (USD)"
+          name="salaryFrom"
+          rules={[
+            { required: true, message: "Please enter the minimum salary" },
+          ]}
+        >
           <InputNumber min={0} step={100} style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item label="Salary To (USD)" name="salaryTo">
+        <Form.Item
+          label="Salary To (USD)"
+          name="salaryTo"
+          rules={[
+            { required: true, message: "Please enter the maximum salary" },
+          ]}
+        >
           <InputNumber min={0} step={100} style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item name="requirements" label="Candidate Requirements">
+        <Form.Item
+          name="requirements"
+          label="Candidate Requirements"
+          rules={[
+            {
+              required: true,
+              message: "Please specify the candidate requirements",
+            },
+          ]}
+        >
           <Input.TextArea rows={4} />
         </Form.Item>
 
@@ -172,7 +236,16 @@ const UploadWork = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="telegram" label="Telegram or Other Contact">
+        <Form.Item
+          name="telegram"
+          label="Telegram or Other Contact"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your Telegram or another contact",
+            },
+          ]}
+        >
           <Input placeholder="@yourtelegram" />
         </Form.Item>
 
