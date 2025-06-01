@@ -1,3 +1,10 @@
+import { getAllJobs } from "../../components/jobCard/JobService";
+import type { Job } from "../../components/jobCard/types/types";
+import JobCard from "../../components/jobCard/JobCard";
+import { useTheme } from "../../contexts/ThemeContext";
+import { useFilter } from "../../hooks/useFilter";
+import { useLocation } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
 import { useEffect, useState } from "react";
 import {
   Input,
@@ -11,18 +18,10 @@ import {
   Pagination,
   Typography,
 } from "antd";
-import { getAllJobs } from "../../components/jobCard/JobService";
-import type { Job } from "../../components/jobCard/types/types";
-import JobCard from "../../components/jobCard/JobCard";
-import { useTheme } from "../../contexts/ThemeContext";
 import "./Jobs.css";
-import { useFilter } from "../../hooks/useFilter";
-import { useLocation } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
 import { motion } from "framer-motion";
 
 const { Title } = Typography;
-
 const { Search } = Input;
 const { Option } = Select;
 
@@ -41,7 +40,7 @@ const initialFilters: initialFiltersTypes = {
   techFilter: null,
   salaryRange: [0, 100000],
   page: 1,
-  limit: 10,
+  limit: 12,
 };
 
 const Jobs = () => {
