@@ -160,6 +160,7 @@ const JobApplicants = () => {
                 dataSource={applicants}
                 renderItem={(applicant) => (
                   <List.Item
+                    className="hoverable-item"
                     actions={[
                       <Button
                         type="primary"
