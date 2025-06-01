@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
 import {
   Row,
   Col,
@@ -14,11 +14,11 @@ import {
   Empty,
   Modal,
   message,
-} from "antd";
-import { db } from "../../services/firebse-config";
-import { useTheme } from "../../contexts/ThemeContext";
-import { UserOutlined } from "@ant-design/icons";
-import "./JobApplicant.css";
+} from 'antd';
+import { db } from '../../services/firebse-config';
+import { useTheme } from '../../contexts/ThemeContext';
+import { UserOutlined } from '@ant-design/icons';
+import './JobApplicant.css';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -53,7 +53,7 @@ const JobApplicants = () => {
 
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [loading, setLoading] = useState(true);
-  const [jobTitle, setJobTitle] = useState<string>("");
+  const [jobTitle, setJobTitle] = useState<string>('');
   const [resumeModalVisible, setResumeModalVisible] = useState(false);
   const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
 
@@ -62,21 +62,21 @@ const JobApplicants = () => {
       if (!id) return;
       setLoading(true);
       try {
-        const jobRef = doc(db, "jobs", id);
+        const jobRef = doc(db, 'jobs', id);
         const jobSnap = await getDoc(jobRef);
 
-        if (!jobSnap.exists()) throw new Error("Job not found.");
+        if (!jobSnap.exists()) throw new Error('Job not found.');
 
         const jobData = jobSnap.data();
         const appliedUserIds: string[] = jobData.appliedUsers || [];
-        setJobTitle(jobData.position || "Untitled Job");
+        setJobTitle(jobData.position || 'Untitled Job');
 
         if (appliedUserIds.length === 0) {
           setApplicants([]);
           return;
         }
 
-        const usersRef = collection(db, "users");
+        const usersRef = collection(db, 'users');
         const usersSnap = await getDocs(usersRef);
         const userMap: Record<string, Applicant> = {};
 
@@ -85,16 +85,16 @@ const JobApplicants = () => {
           if (appliedUserIds.includes(doc.id)) {
             userMap[doc.id] = {
               id: doc.id,
-              firstName: data.firstName || "John",
-              lastName: data.lastName || "Doe",
-              email: data.email || "N/A",
+              firstName: data.firstName || 'John',
+              lastName: data.lastName || 'Doe',
+              email: data.email || 'N/A',
             };
           }
         });
 
         setApplicants(Object.values(userMap));
       } catch (error) {
-        console.error("Failed to fetch applicants:", error);
+        console.error('Failed to fetch applicants:', error);
       } finally {
         setLoading(false);
       }
@@ -105,7 +105,7 @@ const JobApplicants = () => {
 
   const handleViewResume = async (ownerId: string) => {
     try {
-      const resumesSnap = await getDocs(collection(db, "resume"));
+      const resumesSnap = await getDocs(collection(db, 'resume'));
       let foundResume: Resume | null = null;
 
       resumesSnap.forEach((doc) => {
@@ -119,22 +119,22 @@ const JobApplicants = () => {
         setSelectedResume(foundResume);
         setResumeModalVisible(true);
       } else {
-        message.warning("No resume found for this applicant.");
+        message.warning('No resume found for this applicant.');
       }
     } catch (error) {
-      console.error("Error fetching resume:", error);
-      message.error("Failed to load resume.");
+      console.error('Error fetching resume:', error);
+      message.error('Failed to load resume.');
     }
   };
 
-  const currentTheme = theme === "dark" ? "job-dark" : "job-light";
+  const currentTheme = theme === 'dark' ? 'job-dark' : 'job-light';
 
   return (
     <div className={`job-applicant-page-wrapper ${currentTheme}`}>
-      <Row justify="center" style={{ marginTop: "2rem" }}>
+      <Row justify="center" style={{ marginTop: '2rem' }}>
         <Col xs={22} md={20} lg={16}>
           <Card
-            className={theme === "dark" ? "homepage-dark" : "homepage-light"}
+            className={theme === 'dark' ? 'homepage-dark' : 'homepage-light'}
             style={{ borderRadius: 8 }}
           >
             <Row justify="space-between" align="middle">
@@ -149,21 +149,26 @@ const JobApplicants = () => {
             <Divider />
 
             {loading ? (
-              <Row justify="center" style={{ marginTop: "2rem" }}>
+              <Row justify="center" style={{ marginTop: '2rem' }}>
                 <Spin size="large" />
               </Row>
             ) : applicants.length === 0 ? (
               <Empty description="No users have applied yet." />
             ) : (
               <List
+                split={false}
                 itemLayout="horizontal"
                 dataSource={applicants}
                 renderItem={(applicant) => (
                   <List.Item
+                    className="hoverable-item"
+                    onClick={() => console.log(applicant)}
                     actions={[
                       <Button
                         type="primary"
-                        onClick={() => handleViewResume(applicant.id)}
+                        onClick={() => {
+                          alert('Resume not available.');
+                        }}
                       >
                         View User Resume
                       </Button>,
@@ -181,6 +186,32 @@ const JobApplicants = () => {
                   </List.Item>
                 )}
               />
+              // <List
+              //   itemLayout="horizontal"
+              //   dataSource={applicants}
+              //   renderItem={(applicant) => (
+              //     <List.Item
+              //       actions={[
+              //         <Button
+              //           type="primary"
+              //           onClick={() => handleViewResume(applicant.id)}
+              //         >
+              //           View User Resume
+              //         </Button>,
+              //       ]}
+              //     >
+              //       <List.Item.Meta
+              //         avatar={<Avatar icon={<UserOutlined />} />}
+              //         title={
+              //           <Text strong>
+              //             {applicant.firstName} {applicant.lastName}
+              //           </Text>
+              //         }
+              //         description={applicant.email}
+              //       />
+              //     </List.Item>
+              //   )}
+              // />
             )}
           </Card>
         </Col>
@@ -197,15 +228,15 @@ const JobApplicants = () => {
         width={750}
       >
         {selectedResume ? (
-          <div style={{ padding: "12px" }}>
+          <div style={{ padding: '12px' }}>
             <Title level={4} style={{ marginBottom: 4 }}>
-              {selectedResume?.contactInfo?.name}{" "}
+              {selectedResume?.contactInfo?.name}{' '}
               {selectedResume?.contactInfo?.lastName}
             </Title>
             <Text type="secondary">{selectedResume?.contactInfo?.email}</Text>
             <br />
             <Text type="secondary">
-              📞 {selectedResume?.contactInfo?.phone} | 📍{" "}
+              📞 {selectedResume?.contactInfo?.phone} | 📍{' '}
               {selectedResume?.contactInfo?.city}
             </Text>
 
@@ -215,7 +246,7 @@ const JobApplicants = () => {
             <Paragraph>
               {selectedResume?.profile?.trim()
                 ? selectedResume.profile
-                : "No profile summary provided."}
+                : 'No profile summary provided.'}
             </Paragraph>
 
             <Divider />
@@ -235,7 +266,7 @@ const JobApplicants = () => {
                       description={
                         <>
                           <Text type="secondary">
-                            {new Date(exp.startDate).toLocaleDateString()} -{" "}
+                            {new Date(exp.startDate).toLocaleDateString()} -{' '}
                             {new Date(exp.endDate).toLocaleDateString()}
                           </Text>
                           <br />
@@ -254,14 +285,14 @@ const JobApplicants = () => {
 
             <Title level={5}>Skills</Title>
             {selectedResume?.skills?.length ? (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {selectedResume.skills.map((skill, idx) => (
                   <span
                     key={idx}
                     style={{
-                      backgroundColor: "#f0f0f0",
-                      padding: "4px 10px",
-                      borderRadius: "20px",
+                      backgroundColor: '#f0f0f0',
+                      padding: '4px 10px',
+                      borderRadius: '20px',
                     }}
                   >
                     {skill}
@@ -276,7 +307,7 @@ const JobApplicants = () => {
 
             <Title level={5}>Languages</Title>
             {selectedResume?.languages?.length ? (
-              <ul style={{ paddingLeft: "1.2rem" }}>
+              <ul style={{ paddingLeft: '1.2rem' }}>
                 {selectedResume.languages.map((lang, i) => (
                   <li key={i}>{lang}</li>
                 ))}
