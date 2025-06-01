@@ -1,11 +1,12 @@
 import { LANGUAGE_STORAGE_KEY } from '../../constants/storageKeys';
 import { StorageService } from '../../services/StorageService';
+import { Button, Col, Modal, Row, Select, Space } from 'antd';
 import { MoonFilled, SunOutlined } from '@ant-design/icons';
+import logoWhite from '../../assets/images/logo-white.png';
+import logoDark from '../../assets/images/logo-dark.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Button, Col, Modal, Row, Select, Space } from 'antd';
 import { useAuth } from '../../contexts/AuthContext';
-import logo from '../../assets/images/logo2.png';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../routes/paths';
@@ -99,7 +100,11 @@ const Header = () => {
           <Row align="middle" gutter={16} className="left-section">
             <Col>
               <div className="logo" onClick={() => navigate(ROUTES.HOME_PATH)}>
-                <img className="logo-image" src={logo} alt="logo" />
+                <img
+                  className="logo-image"
+                  src={theme === 'dark' ? logoDark : logoWhite}
+                  alt="logo"
+                />
               </div>
             </Col>
 
