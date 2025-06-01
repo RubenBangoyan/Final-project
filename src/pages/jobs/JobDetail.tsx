@@ -52,6 +52,8 @@ const JobDetail = () => {
     }
   }, [id, userId]);
 
+  console.log("job", job);
+
   if (loading) {
     return (
       <Row justify="center" style={{ marginTop: "100px" }}>
@@ -110,7 +112,7 @@ const JobDetail = () => {
     <div className={`job-detail-page-wrapper ${currentTheme}`}>
       <Row justify="center">
         <Col xs={22} md={20} lg={16}>
-          <Card className="job-card" bordered={false}>
+          <Card className="job-card">
             <Row gutter={[0, 16]}>
               <Col span={24}>
                 <Title level={2}> {job.position} </Title>
@@ -144,6 +146,11 @@ const JobDetail = () => {
               </Col>
 
               <Col span={24}>
+                <Row>
+                  <Paragraph strong style={{ fontSize: "18px" }}>
+                    {`Total Applicants: ${job.appliedUsers.length || 0}`}
+                  </Paragraph>
+                </Row>
                 <Row justify="center" gutter={16}>
                   <Col>
                     {job.ownerID === userId ? (

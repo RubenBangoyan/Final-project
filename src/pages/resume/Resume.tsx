@@ -50,7 +50,6 @@ const ResumeForm: React.FC = () => {
       const cleanResult = result.replace(/```json|```/g, "").trim();
 
       const parsedResume = JSON.parse(cleanResult);
-      // console.log(parsedResume, "parsedResume");
       setParsedResume(parsedResume);
 
       await addDoc(collection(db, "resume"), {
