@@ -23,6 +23,7 @@
   "followUs": "Подписывайтесь на нас",
   "instagram": "Инстаграм",
   "linkedin": "Линкедин",
+  "facebook": "Фейсбук",
   "twitter": "Твиттер",
   "tagline": "Строим будущее уже сегодня.",
   "copyright": "© {{date}} Все права защищены.",
@@ -55,5 +56,19 @@
   "diversePositions": "Разнообразные Должности",
   "diversePositionsDesc": "Найдите вакансии во всех отраслях и с разными навыками.",
   "fastApplication": "Быстрое Оформление",
-  "fastApplicationDesc": "Подайте заявку быстро с помощью нашей платформы."
+  "fastApplicationDesc": "Подайте заявку быстро с помощью нашей платформы.",
+  "contactUs": "Связаться с нами",
+  "location": "Ереван, Армения",
+  "name": "Имя",
+  "email": "Эл. почта",
+  "message": "Сообщение",
+  "namePlaceholder": "Ваше имя",
+  "emailPlaceholder": "Ваш email",
+  "messagePlaceholder": "Ваше сообщение",
+  "send": "Отправить",
+  "nameRequired": "Пожалуйста, введите ваше имя!",
+  "emailRequired": "Пожалуйста, введите ваш email!",
+  "emailInvalid": "Неверный формат email!",
+  "messageRequired": "Пожалуйста, введите ваше сообщение!",
+  "socialMedia": "Мы в социальных сетях"
 }
