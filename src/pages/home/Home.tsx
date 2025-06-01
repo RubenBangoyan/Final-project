@@ -1,54 +1,57 @@
-import { ChatHelper } from '../../components/chatHelper/ChatHelper';
-import { Input, Button, Typography, Row, Col } from 'antd';
-import jobAnimation from '../../assets/animation.json';
-import { useTheme } from '../../contexts/ThemeContext';
-import CompanyCarousel from './CompanyCarousel.tsx';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../routes/paths';
-import { useState } from 'react';
-import Lottie from 'lottie-react';
-import './Home.css';
+import { ChatHelper } from "../../components/chatHelper/ChatHelper";
+import { Input, Button, Typography, Row, Col } from "antd";
+import jobAnimation from "../../assets/animation.json";
+import { useTheme } from "../../contexts/ThemeContext";
+import CompanyCarousel from "./CompanyCarousel.tsx";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/paths";
+import { useState } from "react";
+import Lottie from "lottie-react";
+import "./Home.css";
 import {
   SearchOutlined,
   SafetyOutlined,
   TeamOutlined,
   RocketOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const handleSearch = () => {
     if (query.trim()) {
       navigate(ROUTES.JOBS_PATH, { state: { search: query } });
     }
   };
+
   const features = [
     {
       icon: <SafetyOutlined />,
-      title: 'Trusted Companies',
-      desc: 'Work with top companies you can rely on.',
+      title: t("trustedCompanies"),
+      desc: t("trustedCompaniesDesc"),
     },
     {
       icon: <TeamOutlined />,
-      title: 'Diverse Positions',
-      desc: 'Find roles across all industries and skills.',
+      title: t("diversePositions"),
+      desc: t("diversePositionsDesc"),
     },
     {
       icon: <RocketOutlined />,
-      title: 'Fast Application',
-      desc: 'Apply quickly with our user-friendly platform.',
+      title: t("fastApplication"),
+      desc: t("fastApplicationDesc"),
     },
   ];
 
   return (
     <div
       className={`home-container ${
-        theme === 'dark' ? 'home-dark' : 'home-light'
+        theme === "dark" ? "home-dark" : "home-light"
       }`}
     >
       <section className="hero">
@@ -56,14 +59,13 @@ const Home = () => {
           <Col xs={24} md={12}>
             <div className="hero-text-wrapper">
               <div className="hero-content">
-                <Title className="hero-title">Find Your Dream Job</Title>
+                <Title className="hero-title">{t("findYourDreamJob")}</Title>
                 <Paragraph className="hero-subtitle">
-                  Enter a job title or keyword below and click <i>Search</i> to
-                  explore opportunities.
+                  {t("enterJobTitle")}
                 </Paragraph>
                 <div className="search-wrapper">
                   <Input
-                    placeholder="Search jobs, keywords, companies..."
+                    placeholder={t("searchPlaceholder")}
                     prefix={<SearchOutlined />}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -77,7 +79,7 @@ const Home = () => {
                     onClick={handleSearch}
                     className="search-button"
                   >
-                    Search
+                    {t("search")}
                   </Button>
                 </div>
               </div>
