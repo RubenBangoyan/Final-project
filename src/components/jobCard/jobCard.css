@@ -36,3 +36,32 @@
 .job-card-dark .ant-card-head-title {
   color: #f0f0f0;
 }
+
+.job-card-light .ant-typography,
+.job-card-dark .ant-typography,
+.job-card-light p,
+.job-card-dark p,
+.job-card-light span,
+.job-card-dark span {
+  margin: 4px 0 !important;
+  line-height: 1;
+  font-size: 0.95rem;
+  padding: 0;
+}
+
+.job-card .ant-card-body {
+  padding: 0 !important;
+  text-align: left;
+}
+
+.job-card .ant-card-head {
+  margin-top: -20px;
+  padding: 0 0 !important;
+}
+
+.job-card .ant-card-head-title {
+  text-align: left !important;
+  padding: 0 !important;
+  font-size: 1rem;
+}
+

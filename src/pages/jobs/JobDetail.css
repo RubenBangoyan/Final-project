@@ -2,6 +2,7 @@
   min-height: 87vh;
   padding-top: 40px;
   transition: background 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .job-light {
@@ -15,3 +16,109 @@
   color: var(--text-light);
   transition: background-color 0.3s, color 0.3s, background 0.3s ease;
 }
+
+.job-card {
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.job-dark .job-card {
+  background-color: #2a2a40;
+  color: #ffffff;
+}
+
+.job-card p {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.job-card strong {
+  display: block;
+  font-size: 1.05rem;
+  margin-top: 1rem;
+}
+
+.job-detail-title.ant-typography {
+  text-align: center;
+  font-weight: 600;
+  font-size: 2.4rem;
+  margin: -20px 0 1rem;
+}
+
+.job-card .ant-btn {
+  font-family: 'Poppins', sans-serif;
+  padding: 0.4rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: -10px;
+}
+
+.job-card .ant-btn + .ant-btn {
+  margin-left: 12px;
+}
+
+.requirement-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.requirement-list li {
+  display: flex;
+  align-items: flex-start;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.bullet-icon {
+  color: #1890ff;
+  font-weight: bold;
+  margin-right: 8px;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.job-info-col {
+  padding-right: 1.5rem;
+}
+
+.job-info-col .ant-typography {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.job-info-col .ant-typography strong {
+  font-weight: 600;
+  color: #333;
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1.05rem;
+}
+
+.job-detail-container {
+  margin-bottom: 2rem;
+}
+
+.job-dark .job-card,
+.job-dark .job-card p,
+.job-dark .job-card strong,
+.job-dark .job-card .ant-typography,
+.job-dark .job-card .ant-typography > * {
+  color:var(--text-light) !important;
+}
+
+.job-dark .job-info-col .ant-typography strong {
+  color: #ffffff !important;
+}
+
+.job-dark .ant-tag {
+  color: #ffffff !important;
+  background-color: #1f2a48 !important;
+  border-color: #3a4a6b !important;
+}
+
+

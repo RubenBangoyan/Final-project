@@ -134,8 +134,8 @@ const Contact = () => {
         </Col>
 
         <Col span={24} xs={24} sm={24} md={24} lg={20} xl={18}>
-          <Card className={`contact-info ${theme}`}>
-            <Title level={2}>Our Social Media</Title>
+          <Card className={`contact-info-sm ${theme}`}>
+            <Title level={2} className="sm-title">Our Social Media</Title>
             <Row gutter={[32, 32]} justify="center">
               <Col
                 xs={24}
