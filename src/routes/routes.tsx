@@ -25,16 +25,16 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: ROUTES.ABOUT_PATH,
+        element: <About />,
+      },
+      {
+        path: ROUTES.CONTACT_US_PATH,
+        element: <Contact />,
+      },
+      {
         element: <ProtectedRouter />,
         children: [
-          {
-            path: ROUTES.ABOUT_PATH,
-            element: <About />,
-          },
-          {
-            path: ROUTES.CONTACT_US_PATH,
-            element: <Contact />,
-          },
           {
             path: ROUTES.PROFILE_PATH,
             element: <ProfilePage />,
