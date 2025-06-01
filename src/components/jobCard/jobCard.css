@@ -56,7 +56,7 @@
 
 .job-card .ant-card-head {
   margin-top: -20px;
-  padding: 0 0 !important; /* reduce vertical & horizontal padding */
+  padding: 0 0 !important;
 }
 
 .job-card .ant-card-head-title {

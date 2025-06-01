@@ -102,3 +102,23 @@
 .job-detail-container {
   margin-bottom: 2rem;
 }
+
+.job-dark .job-card,
+.job-dark .job-card p,
+.job-dark .job-card strong,
+.job-dark .job-card .ant-typography,
+.job-dark .job-card .ant-typography > * {
+  color:var(--text-light) !important;
+}
+
+.job-dark .job-info-col .ant-typography strong {
+  color: #ffffff !important;
+}
+
+.job-dark .ant-tag {
+  color: #ffffff !important;
+  background-color: #1f2a48 !important;
+  border-color: #3a4a6b !important;
+}
+
+

@@ -235,3 +235,7 @@
   line-height: 1.6;
   opacity: 0.85;
 }
+
+.home-dark .hero-title {
+  color: var(--text-light);
+}
