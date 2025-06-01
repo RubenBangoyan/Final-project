@@ -61,8 +61,8 @@ header {
 }
 
 .logo-image {
-  width: clamp(50px, 6vw, 87px);
-  height: clamp(50px, 6vw, 87px);
+  width: clamp(60px, 10vw, 87px);
+  height: clamp(60px, 10vw, 87px);
   border-radius: 50%;
   transition: all 0.3s ease;
 }
