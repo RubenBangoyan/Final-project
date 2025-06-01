@@ -8,7 +8,7 @@ import {
   Spin,
   Empty,
   Button,
-  Pagination,
+  Pagination, Typography,
 } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
@@ -18,6 +18,9 @@ import "./Jobs.css";
 import { useFilter } from "../../hooks/useFilter";
 import { useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
+import { motion } from "framer-motion";
+const { Title } = Typography;
+
 
 const { Search } = Input;
 const { Option } = Select;
@@ -88,6 +91,10 @@ const Jobs = () => {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
 
   const filteredJobs = jobs.filter((job) => {
     const matchesQuery =
@@ -268,16 +275,24 @@ const Jobs = () => {
                 <>
                   <Row gutter={[16, 16]}>
                     <Col span={24}>
-                      <h2>All Jobs</h2>
+                      <Title level={3} className="job-section-title">
+                        All Jobs
+                      </Title>
                     </Col>
                     {paginatedJobs.map((job) => (
-                      <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                        <JobCard job={job} showActions={isInMyJobsPage} />
-                      </Col>
+                        <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
+                          <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4 }}
+                          >
+                            <JobCard job={job} showActions={isInMyJobsPage} />
+                          </motion.div>
+                        </Col>
                     ))}
                   </Row>
 
-                  <Row justify="center" style={{ marginTop: 10 }}>
+                  <Row justify="center" style={{ marginTop: 10,marginBottom:10 }}>
                     <Pagination
                       current={page}
                       pageSize={limit}
