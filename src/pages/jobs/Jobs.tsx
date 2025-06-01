@@ -8,7 +8,8 @@ import {
   Spin,
   Empty,
   Button,
-  Pagination, Typography,
+  Pagination,
+  Typography,
 } from "antd";
 import { getAllJobs } from "../../components/jobCard/JobService";
 import type { Job } from "../../components/jobCard/types/types";
@@ -19,7 +20,6 @@ import { useFilter } from "../../hooks/useFilter";
 import { useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 import { motion } from "framer-motion";
-import { useDebounce } from "../../hooks/useDebounce";
 
 const { Title } = Typography;
 
@@ -67,7 +67,7 @@ const Jobs = () => {
     limit,
   } = currentFilters;
 
-  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const debouncedSearchValue = searchValue;
 
   const updateAndResetPage = <K extends keyof typeof initialFilters>(
     key: K,
@@ -107,7 +107,7 @@ const Jobs = () => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [debouncedSearchValue, employmentFilter, techFilter, salaryRange]);
+  }, [employmentFilter, techFilter, salaryRange]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -284,19 +284,22 @@ const Jobs = () => {
                       </Title>
                     </Col>
                     {paginatedJobs.map((job) => (
-                        <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
-                          <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.4 }}
-                          >
-                            <JobCard job={job} showActions={isInMyJobsPage} />
-                          </motion.div>
-                        </Col>
+                      <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          <JobCard job={job} showActions={isInMyJobsPage} />
+                        </motion.div>
+                      </Col>
                     ))}
                   </Row>
 
-                  <Row justify="center" style={{ marginTop: 10,marginBottom:10 }}>
+                  <Row
+                    justify="center"
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                  >
                     <Pagination
                       current={page}
                       pageSize={limit}
