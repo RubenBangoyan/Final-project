@@ -9,83 +9,84 @@ import microsoftLogo from "../../assets/images/microsoft-6.svg";
 import oracleLogo from "../../assets/images/oracle-6.svg";
 import appleLogo from "../../assets/images/apple-11.svg";
 
-
-
 const companies = [
-    {
-        name: "Facebook",
-        logo: facebookLogo,
-        url: "https://facebook.com/"
-    },
-    {
-        name: "Tesla",
-        logo: teslaLogo,
-        url: "https://www.tesla.com/"
-    },
-    {
-        name: "Google",
-        logo: googleLogo,
-        url: "https://about.google/"
-    },
-    {
-        name: "Microsoft",
-        logo: microsoftLogo,
-        url: "https://www.microsoft.com/"
-    },
-    {
-        name: "Oracle",
-        logo: oracleLogo,
-        url: "https://www.oracle.com/"
-    },
-    {
-        name: "Apple",
-        logo: appleLogo,
-        url: "https://apple.com/"
-    }
+  {
+    name: "Facebook",
+    logo: facebookLogo,
+    url: "https://facebook.com/",
+  },
+  {
+    name: "Tesla",
+    logo: teslaLogo,
+    url: "https://www.tesla.com/",
+  },
+  {
+    name: "Google",
+    logo: googleLogo,
+    url: "https://about.google/",
+  },
+  {
+    name: "Microsoft",
+    logo: microsoftLogo,
+    url: "https://www.microsoft.com/",
+  },
+  {
+    name: "Oracle",
+    logo: oracleLogo,
+    url: "https://www.oracle.com/",
+  },
+  {
+    name: "Apple",
+    logo: appleLogo,
+    url: "https://apple.com/",
+  },
 ];
 
-
 const CompanyCarousel = () => {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        arrows: false,
-        autoplaySpeed: 2500,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: { slidesToShow: 2 },
-            },
-            {
-                breakpoint: 600,
-                settings: { slidesToShow: 1 },
-            },
-        ],
-    };
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    arrows: false,
+    autoplaySpeed: 2500,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 600,
+        settings: { slidesToShow: 1 },
+      },
+    ],
+  };
 
-    return (
-        <div className="carousel-container">
-            <h2 className="carousel-title">Our Partners</h2>
-            <Slider {...settings}>
-                {companies.map((company, index) => (
-                    <div key={index} className="company-slide">
-                        <a
-                            href={company.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="company-card"
-                        >
-                            <img src={company.logo} alt={company.name} className="company-logo" />
-                        </a>
-                    </div>
-                ))}
-            </Slider>
-        </div>
-    );
+  return (
+    <div className="carousel-container">
+      <h2 className="carousel-title">Our Partners</h2>
+      <Slider {...settings}>
+        {companies.map((company, index) => (
+          <div key={index} className="company-slide">
+            <a
+              href={company.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="company-card"
+            >
+              <img
+                src={company.logo}
+                alt={company.name}
+                className="company-logo"
+              />
+            </a>
+          </div>
+        ))}
+      </Slider>
+    </div>
+  );
 };
 
 export default CompanyCarousel;
