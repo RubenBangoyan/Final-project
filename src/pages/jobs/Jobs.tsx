@@ -19,8 +19,9 @@ import { useFilter } from "../../hooks/useFilter";
 import { useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 import { motion } from "framer-motion";
-const { Title } = Typography;
+import { useDebounce } from "../../hooks/useDebounce";
 
+const { Title } = Typography;
 
 const { Search } = Input;
 const { Option } = Select;
@@ -47,6 +48,7 @@ const Jobs = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
+  const location = useLocation();
 
   const {
     currentFilters,
@@ -64,6 +66,8 @@ const Jobs = () => {
     page,
     limit,
   } = currentFilters;
+
+  const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const updateAndResetPage = <K extends keyof typeof initialFilters>(
     key: K,
@@ -83,40 +87,39 @@ const Jobs = () => {
   };
 
   useEffect(() => {
+    const searchFromHome = location.state?.search;
+    if (searchFromHome) {
+      updateAndResetPage("searchValue", searchFromHome);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     setLoading(true);
-    getAllJobs()
+
+    getAllJobs({
+      employmentType: employmentFilter ?? undefined,
+      technology: techFilter ?? undefined,
+      salaryFrom: salaryRange[0],
+      salaryTo: salaryRange[1],
+    })
       .then((data) => {
         setJobs(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [debouncedSearchValue, employmentFilter, techFilter, salaryRange]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
   const filteredJobs = jobs.filter((job) => {
+    const query = debouncedSearchValue.toLowerCase();
     const matchesQuery =
-      searchValue === "" ||
-      job.position.toLowerCase().includes(searchValue.toLowerCase()) ||
-      job.location.toLowerCase().includes(searchValue.toLowerCase()) ||
-      job.employmentType.some((type) =>
-        type.toLowerCase().includes(searchValue.toLowerCase())
-      );
-
-    const matchesEmployment = employmentFilter
-      ? job.employmentType.includes(employmentFilter)
-      : true;
-
-    const matchesTech = techFilter
-      ? job.technologies.includes(techFilter)
-      : true;
-
-    const matchesSalary =
-      job.salaryFrom <= salaryRange[1] && job.salaryTo >= salaryRange[0];
-
-    return matchesQuery && matchesEmployment && matchesTech && matchesSalary;
+      query === "" ||
+      job.position.toLowerCase().includes(query) ||
+      job.location.toLowerCase().includes(query);
+    return matchesQuery;
   });
 
   const paginatedJobs = filteredJobs.slice((page - 1) * limit, page * limit);
@@ -129,17 +132,13 @@ const Jobs = () => {
     new Set(jobs.flatMap((job) => job.technologies))
   );
 
-  const location = useLocation();
   const isInMyJobsPage = location.pathname === ROUTES.PROFILE_PATH;
 
   const currentTheme = theme === "dark" ? "job-dark" : "job-light";
 
   return (
     <div className={`job-page-wrapper ${currentTheme}`}>
-      <Row
-        justify="center"
-        className={`job-page-wrapper ${theme === "dark" ? "job-dark" : "job-light"}`}
-      >
+      <Row justify="center">
         <Col span={24}>
           <Row
             gutter={[16, 16]}
@@ -205,7 +204,12 @@ const Jobs = () => {
               <Col span={24}>
                 <Row
                   gutter={[16, 16]}
-                  style={{ flexDirection: "column", gap: "10px" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
                 >
                   <Col>
                     <Button

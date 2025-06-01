@@ -12,19 +12,38 @@ import {
   Avatar,
   Divider,
   Empty,
+  Modal,
+  message,
 } from "antd";
 import { db } from "../../services/firebse-config";
 import { useTheme } from "../../contexts/ThemeContext";
 import { UserOutlined } from "@ant-design/icons";
 import "./JobApplicant.css";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 interface Applicant {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
+}
+
+interface Resume {
+  contactInfo: any;
+  name: string;
+  phone: string;
+  education: string;
+  experience?: {
+    company: string;
+    position: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+  }[];
+  skills?: string[];
+  languages?: string[];
+  profile?: string;
 }
 
 const JobApplicants = () => {
@@ -35,6 +54,8 @@ const JobApplicants = () => {
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [loading, setLoading] = useState(true);
   const [jobTitle, setJobTitle] = useState<string>("");
+  const [resumeModalVisible, setResumeModalVisible] = useState(false);
+  const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
 
   useEffect(() => {
     const fetchApplicants = async () => {
@@ -82,6 +103,30 @@ const JobApplicants = () => {
     fetchApplicants();
   }, [id]);
 
+  const handleViewResume = async (ownerId: string) => {
+    try {
+      const resumesSnap = await getDocs(collection(db, "resume"));
+      let foundResume: Resume | null = null;
+
+      resumesSnap.forEach((doc) => {
+        const data = doc.data();
+        if (data.ownerId === ownerId) {
+          foundResume = data as Resume;
+        }
+      });
+
+      if (foundResume) {
+        setSelectedResume(foundResume);
+        setResumeModalVisible(true);
+      } else {
+        message.warning("No resume found for this applicant.");
+      }
+    } catch (error) {
+      console.error("Error fetching resume:", error);
+      message.error("Failed to load resume.");
+    }
+  };
+
   const currentTheme = theme === "dark" ? "job-dark" : "job-light";
 
   return (
@@ -115,12 +160,11 @@ const JobApplicants = () => {
                 dataSource={applicants}
                 renderItem={(applicant) => (
                   <List.Item
+                    className="hoverable-item"
                     actions={[
                       <Button
                         type="primary"
-                        onClick={() => {
-                          alert("Resume not available.");
-                        }}
+                        onClick={() => handleViewResume(applicant.id)}
                       >
                         View User Resume
                       </Button>,
@@ -142,6 +186,110 @@ const JobApplicants = () => {
           </Card>
         </Col>
       </Row>
+
+      <Modal
+        open={resumeModalVisible}
+        onCancel={() => {
+          setResumeModalVisible(false);
+          setSelectedResume(null);
+        }}
+        footer={null}
+        title="Applicant Resume"
+        width={750}
+      >
+        {selectedResume ? (
+          <div style={{ padding: "12px" }}>
+            <Title level={4} style={{ marginBottom: 4 }}>
+              {selectedResume?.contactInfo?.name}{" "}
+              {selectedResume?.contactInfo?.lastName}
+            </Title>
+            <Text type="secondary">{selectedResume?.contactInfo?.email}</Text>
+            <br />
+            <Text type="secondary">
+              📞 {selectedResume?.contactInfo?.phone} | 📍{" "}
+              {selectedResume?.contactInfo?.city}
+            </Text>
+
+            <Divider />
+
+            <Title level={5}>Profile</Title>
+            <Paragraph>
+              {selectedResume?.profile?.trim()
+                ? selectedResume.profile
+                : "No profile summary provided."}
+            </Paragraph>
+
+            <Divider />
+
+            <Title level={5}>Experience</Title>
+            {selectedResume?.experience?.length ? (
+              <List
+                dataSource={selectedResume.experience}
+                renderItem={(exp) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={
+                        <>
+                          {exp.position} at <strong>{exp.company}</strong>
+                        </>
+                      }
+                      description={
+                        <>
+                          <Text type="secondary">
+                            {new Date(exp.startDate).toLocaleDateString()} -{" "}
+                            {new Date(exp.endDate).toLocaleDateString()}
+                          </Text>
+                          <br />
+                          {`Description: ${exp.description}`}
+                        </>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            ) : (
+              <Paragraph type="secondary">No experience listed.</Paragraph>
+            )}
+
+            <Divider />
+
+            <Title level={5}>Skills</Title>
+            {selectedResume?.skills?.length ? (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {selectedResume.skills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      backgroundColor: "#f0f0f0",
+                      padding: "4px 10px",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <Paragraph type="secondary">No skills listed.</Paragraph>
+            )}
+
+            <Divider />
+
+            <Title level={5}>Languages</Title>
+            {selectedResume?.languages?.length ? (
+              <ul style={{ paddingLeft: "1.2rem" }}>
+                {selectedResume.languages.map((lang, i) => (
+                  <li key={i}>{lang}</li>
+                ))}
+              </ul>
+            ) : (
+              <Paragraph type="secondary">No languages listed.</Paragraph>
+            )}
+          </div>
+        ) : (
+          <Spin />
+        )}
+      </Modal>
     </div>
   );
 };

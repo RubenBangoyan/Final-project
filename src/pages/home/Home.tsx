@@ -8,9 +8,7 @@ import {
 import { ChatHelper } from "../../components/chatHelper/ChatHelper";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { setSearchValue } from "../../features/filter/filterSlice";
 import { useTheme } from "../../contexts/ThemeContext";
 import "./Home.css";
 import Lottie from "lottie-react";
@@ -21,16 +19,14 @@ const { Title, Paragraph } = Typography;
 
 const Home = () => {
   const [query, setQuery] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { theme } = useTheme();
 
   const handleSearch = () => {
-    if (!query.trim()) return;
-    dispatch(setSearchValue(query));
-    navigate(ROUTES.JOBS_PATH);
+    if (query.trim()) {
+      navigate(ROUTES.JOBS_PATH, { state: { search: query } });
+    }
   };
-
   const features = [
     {
       icon: <SafetyOutlined />,

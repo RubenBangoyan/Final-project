@@ -6,20 +6,52 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../../services/firebse-config";
 import type { Job } from "./types/types";
 
-export const getAllJobs = async (): Promise<Job[]> => {
+interface Filters {
+  employmentType?: string;
+  technology?: string;
+  salaryFrom?: number;
+  salaryTo?: number;
+}
+export const getAllJobs = async (filters: Filters = {}): Promise<Job[]> => {
   try {
     const jobsCollection = collection(db, "jobs");
-    const snapshot = await getDocs(jobsCollection);
-    return snapshot.docs.map((doc) => ({
+
+    let q = query(jobsCollection);
+
+    if (filters.employmentType) {
+      q = query(
+        q,
+        where("employmentType", "array-contains", filters.employmentType)
+      );
+    }
+
+    if (filters.technology) {
+      q = query(q, where("technologies", "array-contains", filters.technology));
+    }
+
+    if (filters.salaryFrom !== undefined) {
+      q = query(q, where("salaryFrom", ">=", filters.salaryFrom));
+    }
+
+    if (filters.salaryTo !== undefined) {
+      q = query(q, where("salaryTo", "<=", filters.salaryTo));
+    }
+
+    const snapshot = await getDocs(q);
+
+    const results = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     })) as Job[];
+    return results;
   } catch (error) {
-    console.error("Error fetching jobs:", error);
+    console.error(error);
     return [];
   }
 };
