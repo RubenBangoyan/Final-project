@@ -11,6 +11,8 @@ import { FavoriteJobTab } from './favoriteJobTab/FavoriteJobTab';
 import { Tabs, Row, Col } from 'antd';
 import React from 'react';
 import ResumeTab from './resumeTab/ResumeTab';
+import './Profile.css';
+
 
 const ProfilePage: React.FC = () => {
   const { theme, handleClick } = useTheme();
@@ -41,7 +43,7 @@ const ProfilePage: React.FC = () => {
     {
       key: '2',
       label: 'My Jobs',
-      children: <MyJobsTab currentUserId={currentUserId} />,
+      children: <MyJobsTab currentUserId={currentUserId} theme={theme}/>,
     },
     {
       key: '3',
@@ -51,27 +53,29 @@ const ProfilePage: React.FC = () => {
     {
       key: '4',
       label: 'Security',
-      children: <SecurityTab profile={profile} />,
+      children: <SecurityTab profile={profile} theme={theme} />,
     },
     {
       key: '5',
       label: 'Activity',
-      children: <ActivityTab />,
+      children: <ActivityTab theme={theme}/>,
     },
     {
       key: '6',
       label: 'Resume',
-      children: <ResumeTab />,
+      children: <ResumeTab theme={theme}/>,
     },
   ];
 
   return (
-    <Row className="container mx-auto px-4 py-8">
-      <Col span={24}>
-        <ProfileHeader loading={loading} profile={profile} email={email} />
-        <Tabs defaultActiveKey="1" className="custom-tabs" items={tabItems} />
-      </Col>
-    </Row>
+      <div className={`profile-page ${theme === 'dark' ? 'profile-dark' : 'profile-light'}`}>
+        <Row className="container mx-auto px-4 py-8">
+          <Col span={24}>
+            <ProfileHeader theme={theme} loading={loading} profile={profile} email={email} />
+            <Tabs defaultActiveKey="1" className="custom-tabs" items={tabItems} />
+          </Col>
+        </Row>
+      </div>
   );
 };
 

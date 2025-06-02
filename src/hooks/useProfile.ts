@@ -7,7 +7,7 @@ export const useProfile = () => {
   const [profile, setProfile] = useState<{
     firstName?: string;
     lastName?: string;
-    avatar?: string;
+    avatarSeed?: string;
     joinDate?: string;
     lastLogin?: string;
   } | null>(null);
@@ -27,7 +27,7 @@ export const useProfile = () => {
           setProfile({
             firstName: data.firstName,
             lastName: data.lastName,
-            avatar: data.avatar,
+            avatarSeed: data.avatarSeed,
             joinDate: data.joinDate || new Date().toISOString(),
             lastLogin: data.lastLogin || new Date().toISOString(),
           });
@@ -54,12 +54,14 @@ export const useProfile = () => {
       await updateDoc(docRef, {
         firstName: values.firstName,
         lastName: values.lastName,
+        avatarSeed: values.avatarSeed,
       });
 
       setProfile((prev) => ({
         ...prev,
         firstName: values.firstName,
         lastName: values.lastName,
+        avatarSeed: values.avatarSeed,
       }));
 
       message.success('Profile updated successfully!');

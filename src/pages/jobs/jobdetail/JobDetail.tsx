@@ -16,13 +16,14 @@ import {
   DollarOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
-import { getJobById } from "../../../components/jobCard/JobService";
-import type { Job } from "../../../components/jobCard/types/types";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../../../services/firebse-config";
-import { useAppSelector } from "../../../app/hook";
-import { ROUTES } from "../../../routes/paths";
+
+import { getJobById } from '../../components/jobCard/JobService';
+import type { Job } from "../../components/jobCard/types/types";
+import { useTheme } from "../../contexts/ThemeContext";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../services/firebse-config";
+import { useAppSelector } from "../../app/hook";
+import { ROUTES } from "../../routes/paths";
 import "./JobDetail.css";
 import { Tag } from "antd";
 import {
@@ -152,8 +153,8 @@ const JobDetail = () => {
     <div className={`job-detail-page-wrapper ${currentTheme}`}>
       <Row justify="center">
         <Col xs={22} md={20} lg={16} className="job-detail-container">
-          <Card className="job-card">
-            <Row gutter={[0, 16]}>
+        <Card className="job-card">
+            <Row gutter={[0, 0]}>
               <Col span={24}>
                 <Title level={2} className="job-detail-title">
                   {job.position}

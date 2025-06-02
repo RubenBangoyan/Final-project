@@ -3,14 +3,16 @@ import type { Job } from "../../../components/jobCard/types/types";
 import { Card, Col, Empty, Row, Typography, Spin } from "antd";
 import JobCard from "../../../components/jobCard/JobCard";
 import React, { useEffect, useState } from "react";
+import './MyJobTab.css';
 
 const { Title } = Typography;
 
 interface MyJobsTabProps {
   currentUserId: string | null;
+    theme: string;
 }
 
-export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId }) => {
+export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId,theme }) => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,18 +29,16 @@ export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId }) => {
   const myJobs = jobs.filter((job) => job.ownerID === currentUserId);
 
   return (
-    <>
-      <Card className="shadow-lg rounded-xl border-0 mb-4">
-        <Title level={4}>My Uploaded Jobs:</Title>
-      </Card>
+    <div className={`my-jobs-container ${theme === 'dark' ? 'my-jobs-dark' : 'my-jobs-light'}`}>
+      <Title level={3} className="my-jobs-header">My Uploaded Jobs:</Title>
 
-      {loading ? (
-        <Row justify="center" style={{ marginTop: 100 }}>
-          <Spin size="large" tip="Loading uploaded jobs..." />
-        </Row>
-      ) : myJobs.length === 0 ? (
-        <Empty description="You have not posted any jobs." />
-      ) : (
+        {loading ? (
+            <Row justify="center" style={{ marginTop: 100 }}>
+                <Spin size="large" tip="Loading uploaded jobs..." />
+            </Row>
+        ) : myJobs.length === 0 ? (
+            <Empty className="my-jobs-empty" description="You have not posted any jobs." />
+        ) : (
         <Row gutter={[16, 16]}>
           {myJobs.map((job) => (
             <Col key={job.id} xs={24} sm={12} md={8} lg={6}>
@@ -47,6 +47,6 @@ export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId }) => {
           ))}
         </Row>
       )}
-    </>
+    </div>
   );
 };

@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import "./AppLayout.css";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 const AppLayout = () => {
     const { authLoading } = useAuth();
@@ -14,6 +15,7 @@ const AppLayout = () => {
         <>
             <Header />
             <main style={{ minHeight: "calc(100vh - 128px)", position: "relative", overflow: "hidden" }}>
+                <ScrollToTop />
                 <AnimatedRoutes />
             </main>
             <Footer />

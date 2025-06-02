@@ -1,0 +1,98 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f1f4ff;
+    --bg-dark: #122f49;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+    --feature-light-bg: rgba(255, 255, 255, 0.15);
+    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+    --card-bg: transparent;
+}
+
+.security-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem !important;
+    padding: 0 !important;
+    background: linear-gradient(135deg, #f1f4ff 0%, #a2b5e1 100%);
+    border-radius: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.security-card {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0;
+}
+
+.security-title.ant-typography {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: -1rem 0 1.5rem 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+/* === Form Label Styling === */
+.ant-form-item-label > label {
+    font-weight: 600;
+    color: #333;
+}
+
+/* === Input Boxes === */
+.ant-input-affix-wrapper {
+    border-radius: 8px;
+}
+
+/* === Divider Styling === */
+.ant-divider {
+    border-color: #ccc;
+    margin: 2rem 0;
+}
+
+/* === Login Activity Card === */
+.login-activity {
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: transparent;
+}
+
+.login-activity .anticon {
+    font-size: 1.3rem;
+    color: #555;
+}
+
+.login-activity .ant-typography {
+    color: #222;
+    font-size: 1rem;
+}
+
+.login-activity .ant-btn-link {
+    padding-left: 0;
+    font-weight: 500;
+}
+
+.update-button{
+    width: auto !important;
+    padding: 6px 20px !important;
+    height: 40px !important;
+    font-weight: 500;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+.security-container.dark .security-title.ant-typography,
+.security-container.dark .ant-form-item-label > label,
+.security-container.dark .login-activity .ant-typography {
+    color: var(--text-light) !important;
+}
+
