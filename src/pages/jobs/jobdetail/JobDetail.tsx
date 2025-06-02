@@ -17,20 +17,19 @@ import {
   UserSwitchOutlined,
 } from "@ant-design/icons";
 
-import { getJobById } from '../../components/jobCard/JobService';
-import type { Job } from "../../components/jobCard/types/types";
-import { useTheme } from "../../contexts/ThemeContext";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../../services/firebse-config";
-import { useAppSelector } from "../../app/hook";
-import { ROUTES } from "../../routes/paths";
+import { getJobById } from '../../../components/jobCard/JobService.ts';
+import type { Job } from "../../../components/jobCard/types/types";
+import { useTheme } from "../../../contexts/ThemeContext";
+import {doc, updateDoc, arrayUnion, getDoc} from "firebase/firestore";
+import { db } from "../../../services/firebse-config";
+import { useAppSelector } from "../../../app/hook";
+import { ROUTES } from "../../../routes/paths";
 import "./JobDetail.css";
 import { Tag } from "antd";
 import {
   addToFavorites,
   removeFromFavorites,
 } from "../../../services/UserService";
-import { differenceInDays } from "date-fns";
 import { ExpiresInfo } from "../JobExpire";
 
 const { Title, Text, Paragraph } = Typography;
