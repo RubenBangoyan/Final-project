@@ -2,7 +2,7 @@ import { ChatHelper } from "../../components/chatHelper/ChatHelper";
 import { Input, Button, Typography, Row, Col } from "antd";
 import jobAnimation from "../../assets/animation.json";
 import { useTheme } from "../../contexts/ThemeContext";
-import CompanyCarousel from "./CompanyCarousel.tsx";
+import CompanyCarousel from "./companyCarousel/CompanyCarousel.tsx";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 import { useState } from "react";

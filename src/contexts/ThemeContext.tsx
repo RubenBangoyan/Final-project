@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
-import { StorageService } from "../services/StorageService";
 import { THEME_STORAGE_KEY } from "../constants/storageKeys";
+import { StorageService } from "../services/StorageService";
 
 type ThemeContextType = {
   theme: string;

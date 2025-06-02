@@ -89,10 +89,10 @@ export const useFilter = <T extends Record<string, any>>(initialState: T) => {
   }, []);
 
   return {
-    currentFilters: state,
-    updateFilter,
     resetFilter,
+    updateFilter,
     resetAllFilter,
     canReset: canReset(),
+    currentFilters: state,
   };
 };

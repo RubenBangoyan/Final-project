@@ -1,8 +1,8 @@
-import { useAuth } from "../../contexts/AuthContext";
+import AnimatedRoutes from "../../routes/AnimatedRoutes.tsx";
 import LoadingRouter from "../../routes/LoadingRouter";
+import { useAuth } from "../../contexts/AuthContext";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
-import AnimatedRoutes from "../../routes/AnimatedRoutes.tsx";
 import "./AppLayout.css";
 
 const AppLayout = () => {
