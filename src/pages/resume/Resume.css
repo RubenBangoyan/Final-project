@@ -1,4 +1,85 @@
+:root {
+  --primary: #1890ff;
+  --background-light: #f1f4ff;
+  --card-bg: #ffffff;
+  --text-dark: #001529;
+  --accent-bg: #fafafa;
+  --border: #d9d9d9;
+}
+
 .resume-container {
-  background-color: #ffffff;
-  height: auto;
+  background: linear-gradient(135deg, var(--background-light) 0%, #2a5298 100%);
+  padding: 3rem 2rem;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+}
+
+.resume-scroll {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.ant-divider {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.ant-form-item-label > label {
+  font-weight: 600;
+}
+
+.ant-input,
+.ant-picker,
+.ant-picker-range {
+  border-radius: 10px;
+}
+
+.ant-input-textarea {
+  border-radius: 10px;
+}
+
+.resume-scroll .ant-space {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background-color: var(--accent-bg);
+  padding: 1.5rem;
+  transition: box-shadow 0.3s;
+}
+
+.resume-scroll .ant-space:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+button {
+  font-weight: 500;
+  border-radius: 10px !important;
+}
+
+.ant-space .ant-btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  font-weight: 600;
+  padding: 0.5rem 2rem;
+}
+
+.ant-space .ant-btn-default {
+  padding: 0.5rem 2rem;
+}
+
+@media (max-width: 768px) {
+  .resume-scroll {
+    padding: 1.5rem;
+  }
 }

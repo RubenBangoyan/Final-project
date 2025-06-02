@@ -1,0 +1,95 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f1f4ff;
+    --bg-dark: #122f49;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+    --feature-light-bg: rgba(255, 255, 255, 0.15);
+    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.activity-card {
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: 1.75rem;
+    background: transparent;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: transparent;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.title.ant-typography{
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: -5.5rem 0 3rem -2rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.activity-card .ant-typography {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.activity-timeline .timeline-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.timeline-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #1890ff;
+    margin-top: 0;
+}
+
+.timeline-content {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.timeline-content .ant-typography {
+    font-size: 0.95rem;
+    color: #000;
+    font-weight: 600;
+    margin: 0;
+}
+
+.timeline-content .text-gray-600 {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.6) !important;
+    margin: 0;
+}
+
+.activity-card.dark .title.ant-typography,
+.activity-card.dark .timeline-content .ant-typography{
+    color: var(--text-light) !important;
+}
+

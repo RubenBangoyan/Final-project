@@ -1,0 +1,180 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f1f4ff;
+    --bg-dark: #122f49;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+    --feature-light-bg: transparent;
+    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.profile-container.light {
+    background: linear-gradient(135deg, var(--bg-light) 0%, #2a5298 100%);
+    color: var(--text-dark);
+    border-radius: 1.75rem;
+}
+
+.profile-container.dark {
+    background: linear-gradient(150deg, #1e1e2f 0%, var(--bg-dark) 100%);
+    color: var(--text-light);
+    border-radius: 1.75rem;
+}
+
+.profile-tab-card {
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: 1.75rem;
+    background: var(--feature-dark-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.profile-form {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.profile-form .ant-form-item-label > label {
+    font-weight: 600;
+    color: #f0f0f0;
+}
+
+.profile-form .ant-input-affix-wrapper {
+    background: rgba(255, 255, 255, 0.33);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.75rem;
+    color: var(--text-dark);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.profile-form .ant-input-affix-wrapper:hover,
+.profile-form .ant-input-affix-wrapper-focused,
+.profile-form .ant-input-affix-wrapper:focus-within {
+    background-color: rgba(255, 255, 255, 0.22) !important;
+    border-color: #40a9ff !important;
+}
+
+.profile-container.dark .profile-form input,
+.profile-container.dark .profile-form .ant-input {
+    color: var(--text-light) !important;
+}
+
+.profile-container.light .profile-form input,
+.profile-container.light .profile-form .ant-input {
+    color: var(--text-dark) !important;
+}
+
+.profile-container.light .profile-tab-card {
+    background: var(--feature-light-bg);
+}
+
+.profile-container.dark .profile-tab-card {
+    background: var(--feature-dark-bg);
+}
+
+.profile-form .ant-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.profile-form .ant-input-affix-wrapper .anticon {
+    color: #000 !important;
+    opacity: 0.9;
+}
+
+.profile-form .ant-btn {
+    border-radius: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1.75rem;
+    height: 40px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+}
+
+.profile-form .ant-btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+    color: #fff;
+}
+
+.profile-form .ant-btn-primary:hover {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+}
+
+.profile-form .ant-btn-default {
+    background: rgba(255, 255, 255, 0.33);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.profile-form .ant-btn-default:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+.avatar-chooser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.avatar-chooser .ant-btn {
+    border: 1px solid #ccc !important;
+    background: rgba(255, 255, 255, 0.33);
+}
+
+.avatar-chooser .ant-btn .anticon {
+    color: #000 !important;
+}
+
+.avatar-popup {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 12px;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    border-radius: 1rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    max-width: 300px;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.avatar-popup img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    object-fit: cover;
+    background-color: #fff;
+}
+
+.avatar-popup img:hover {
+    transform: scale(1.1);
+}
+
+.avatar-choice.selected {
+    outline: 3px solid #40a9ff;
+}
+
+.profile-container.dark .choose-avatar-btn {
+    color: var(--text-light) !important;
+}
+
+.profile-container.light .choose-avatar-btn {
+    color: var(--text-dark) !important;
+}

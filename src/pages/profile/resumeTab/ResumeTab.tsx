@@ -7,11 +7,17 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../routes/paths';
 import { useEffect, useState } from 'react';
 import { Button } from 'antd';
+import './ResumeTab.css'
 
-const ResumeTab = () => {
+interface ResumeTabProps {
+  theme: string;
+}
+
+const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const id = useAppSelector((state) => state.user.id);
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchResumes = async () => {
@@ -61,15 +67,20 @@ const ResumeTab = () => {
   }, [id]);
 
   return (
-    <div>
-      {resumeData ? (
-        <ResumeDisplay resume={resumeData} />
-      ) : (
-        <Button type="primary" onClick={() => navigate(ROUTES.RESUME_PATH)}>
-          Go To Generate
-        </Button>
-      )}
-    </div>
+      <div className={`resume-tab-wrapper ${theme}`}>
+        {resumeData ? (
+            <ResumeDisplay resume={resumeData} />
+        ) : (
+            <div className="empty-resume-container">
+              <p className="resume-hint-text">
+                You haven’t generated a resume yet. Click below to create one.
+              </p>
+              <Button type="primary" size="large" onClick={() => navigate(ROUTES.RESUME_PATH)}>
+                Go To Generate
+              </Button>
+            </div>
+        )}
+      </div>
   );
 };
 
