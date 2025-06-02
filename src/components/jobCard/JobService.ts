@@ -1,3 +1,5 @@
+import { db } from "../../services/firebse-config";
+import type { Job } from "./types/types";
 import {
   collection,
   getDocs,
@@ -9,8 +11,6 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../services/firebse-config";
-import type { Job } from "./types/types";
 
 interface Filters {
   employmentType?: string;

@@ -5,7 +5,7 @@ import { startProgress, stopProgress } from "../utils/routerProgress";
 import { ROUTES } from "./paths";
 
 import Home from "../pages/home/Home";
-import About from "../pages/About/About";
+import About from "../pages/about/About";
 import Contact from "../pages/contact/Contact";
 import SignIn from "../pages/signIn/SignIn";
 import SignUp from "../pages/signUp/SignUp";
