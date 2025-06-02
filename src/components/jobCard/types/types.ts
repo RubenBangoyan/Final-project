@@ -3,7 +3,7 @@ export interface Job {
   companyName: string;
   companyWebsite: string;
   contactEmail: string;
-  createdAt: any; 
+  createdAt: any;
   employmentType: string[];
   level: string;
   location: string;
@@ -14,4 +14,5 @@ export interface Job {
   salaryTo: number;
   technologies: string[];
   appliedUsers: string[];
+  expiresAt: string;
 }

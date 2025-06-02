@@ -1,8 +1,8 @@
-import { getAllJobs } from '../../../components/jobCard/JobService';
-import type { Job } from '../../../components/jobCard/types/types';
-import { Card, Col, Empty, Row, Typography } from 'antd';
-import JobCard from '../../../components/jobCard/JobCard';
-import React, { useEffect, useState } from 'react';
+import { getAllJobs } from "../../../components/jobCard/JobService";
+import type { Job } from "../../../components/jobCard/types/types";
+import { Card, Col, Empty, Row, Typography, Spin } from "antd";
+import JobCard from "../../../components/jobCard/JobCard";
+import React, { useEffect, useState } from "react";
 import './MyJobTab.css';
 
 const { Title } = Typography;
@@ -32,9 +32,13 @@ export const MyJobsTab: React.FC<MyJobsTabProps> = ({ currentUserId,theme }) => 
     <div className={`my-jobs-container ${theme === 'dark' ? 'my-jobs-dark' : 'my-jobs-light'}`}>
       <Title level={3} className="my-jobs-header">My Uploaded Jobs:</Title>
 
-      {myJobs.length === 0 ? (
-        <Empty className="my-jobs-empty" description="You have not posted any jobs." />
-      ) : (
+        {loading ? (
+            <Row justify="center" style={{ marginTop: 100 }}>
+                <Spin size="large" tip="Loading uploaded jobs..." />
+            </Row>
+        ) : myJobs.length === 0 ? (
+            <Empty className="my-jobs-empty" description="You have not posted any jobs." />
+        ) : (
         <Row gutter={[16, 16]}>
           {myJobs.map((job) => (
             <Col key={job.id} xs={24} sm={12} md={8} lg={6}>

@@ -1,6 +1,8 @@
 import { Card, Col, Divider, Form, Input, Row, Typography, Button } from 'antd';
 import { LockOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import './SecurityTab.css';
+import { updateUserPassword } from '../../../hooks/usePasswordUpdate';
+import { notification } from 'antd';
 
 const { Title, Text } = Typography;
 
@@ -10,14 +12,24 @@ interface SecurityTabProps {
 }
 
 export const SecurityTab: React.FC<SecurityTabProps> = ({ profile,theme }) => {
+    async function handleSubmit(values: any) {
+        try {
+            await updateUserPassword(values.newPassword);
+            notification.success({ message: 'Password updated successfully' });
+        } catch (error: any) {
+            notification.error({
+                message: 'Error updating password',
+                description: error.message,
+            });
+        }
+    }
     return (
         <Card className={`security-card security-container ${theme}`}>
             <Title level={3} className="security-title">
                 Password Settings
             </Title>
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={handleSubmit}>
                 <Row gutter={24}>
-                    {/* Left: Current Password */}
                     <Col xs={24} md={10}>
                         <Form.Item
                             label="Current Password"
@@ -28,22 +40,13 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile,theme }) => {
                         </Form.Item>
                     </Col>
 
-                    {/* Right: Confirm Password */}
                     <Col xs={24} md={10}>
                         <Form.Item
                             label="Confirm Password"
                             name="confirmPassword"
                             dependencies={['newPassword']}
                             rules={[
-                                { required: true, message: 'Please confirm password' },
-                                ({ getFieldValue }) => ({
-                                    validator(_, value) {
-                                        if (!value || getFieldValue('newPassword') === value) {
-                                            return Promise.resolve();
-                                        }
-                                        return Promise.reject(new Error('Passwords do not match!'));
-                                    },
-                                }),
+                                { required: true, message: 'Please confirm password' }
                             ]}
                         >
                             <Input.Password prefix={<LockOutlined />} size="large" />
@@ -52,7 +55,6 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile,theme }) => {
                 </Row>
 
                 <Row gutter={24}>
-                    {/* Left: New Password */}
                     <Col xs={24} md={10}>
                         <Form.Item
                             label="New Password"
@@ -65,8 +67,6 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile,theme }) => {
                             <Input.Password prefix={<LockOutlined />} size="large" />
                         </Form.Item>
                     </Col>
-
-                    {/* Right: Update Button */}
                     <Col xs={24} md={10}>
                         <Form.Item label="&nbsp;">
                             <Button type="primary" size="large" htmlType="submit" block className="update-button">

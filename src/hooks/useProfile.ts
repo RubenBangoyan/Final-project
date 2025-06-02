@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../services/firebse-config';
+import { useState, useEffect } from 'react';
 import { message } from 'antd';
 
 export const useProfile = () => {

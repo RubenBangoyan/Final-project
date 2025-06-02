@@ -1,14 +1,14 @@
 import { Row, Col, Typography, Space, Divider } from "antd";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../routes/paths";
+import "./Footer.css";
 import {
   InstagramOutlined,
   LinkedinOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
-import { useTranslation } from "react-i18next";
-import "./Footer.css";
 
 const { Title, Text, Link } = Typography;
 

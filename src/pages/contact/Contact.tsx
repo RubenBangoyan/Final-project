@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import "./Contact.css";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 interface FormValues {
   name: string;
@@ -20,6 +21,7 @@ interface FormValues {
 const Contact = () => {
   const [form] = Form.useForm<FormValues>();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
@@ -38,7 +40,7 @@ const Contact = () => {
       <Row gutter={[32, 32]} justify="center">
         <Col span={24}>
           <Title level={2} className={`contact-title ${theme}`}>
-            Contact Us
+            {t("contactUs")}
           </Title>
         </Col>
 
@@ -60,7 +62,7 @@ const Contact = () => {
               <Col xs={24} sm={8} className="contact-col">
                 <Paragraph>
                   <GlobalOutlined className={`contact-icon ${theme}`} />{" "}
-                  Yerevan, Armenia
+                  {t("location")}
                 </Paragraph>
               </Col>
             </Row>
@@ -82,39 +84,51 @@ const Contact = () => {
                   onFinish={handleSubmit}
                 >
                   <Form.Item
-                    label="Name"
+                    label={t("name")}
                     name="name"
                     rules={[
-                      { required: true, message: "Please enter your name!" },
+                      {
+                        required: true,
+                        message: t("nameRequired"),
+                      },
                     ]}
                   >
-                    <Input placeholder="Your name" />
+                    <Input placeholder={t("namePlaceholder")} />
                   </Form.Item>
 
                   <Form.Item
-                    label="Email"
+                    label={t("email")}
                     name="email"
                     rules={[
-                      { required: true, message: "Please enter your email!" },
-                      { type: "email", message: "Invalid email format!" },
+                      {
+                        required: true,
+                        message: t("emailRequired"),
+                      },
+                      {
+                        type: "email",
+                        message: t("emailInvalid"),
+                      },
                     ]}
                   >
-                    <Input placeholder="Your email" />
+                    <Input placeholder={t("emailPlaceholder")} />
                   </Form.Item>
 
                   <Form.Item
-                    label="Message"
+                    label={t("message")}
                     name="message"
                     rules={[
-                      { required: true, message: "Please enter your message!" },
+                      {
+                        required: true,
+                        message: t("messageRequired"),
+                      },
                     ]}
                   >
-                    <TextArea rows={4} placeholder="Your message" />
+                    <TextArea rows={4} placeholder={t("messagePlaceholder")} />
                   </Form.Item>
 
                   <Form.Item>
                     <Button type="primary" htmlType="submit">
-                      Send
+                      {t("send")}
                     </Button>
                   </Form.Item>
                 </Form>
@@ -135,7 +149,9 @@ const Contact = () => {
 
         <Col span={24} xs={24} sm={24} md={24} lg={20} xl={18}>
           <Card className={`contact-info-sm ${theme}`}>
-            <Title level={2} className="sm-title">Our Social Media</Title>
+            <Title level={2} className="sm-title">
+              {t("socialMedia")}
+            </Title>
             <Row gutter={[32, 32]} justify="center">
               <Col
                 xs={24}
@@ -150,7 +166,7 @@ const Contact = () => {
                   <FacebookOutlined
                     style={{ color: "#3b5998", fontSize: 24 }}
                   />{" "}
-                  Facebook
+                  {t("facebook")}
                 </Link>
               </Col>
               <Col
@@ -166,7 +182,7 @@ const Contact = () => {
                   <InstagramOutlined
                     style={{ color: "#e1306c", fontSize: 24 }}
                   />{" "}
-                  Instagram
+                  {t("instagram")}
                 </Link>
               </Col>
               <Col
@@ -182,7 +198,7 @@ const Contact = () => {
                   <LinkedinOutlined
                     style={{ color: "#0A66C2", fontSize: 24 }}
                   />{" "}
-                  LinkedIn
+                  {t("linkedin")}
                 </Link>
               </Col>
             </Row>

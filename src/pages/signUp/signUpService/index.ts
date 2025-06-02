@@ -65,6 +65,7 @@ export const onFinish =
         email,
         firstName,
         lastName,
+        favorites: []
       });
 
       navigate('/');
