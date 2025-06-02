@@ -1,3 +1,12 @@
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
+import { deleteJob, updateJob } from './JobService';
+import { useAppSelector } from '../../app/hook';
+import { ROUTES } from '../../routes/paths';
+import EditJobModal from './EditJobModal';
+import { useState, type FC } from 'react';
+import type { Job } from './types/types';
+import './JobCard.css';
 import {
   Card,
   Tag,
@@ -7,23 +16,14 @@ import {
   message,
   Button,
   Popconfirm,
-} from "antd";
-import type { Job } from "./types/types";
-import { useState, type FC } from "react";
+} from 'antd';
 import {
   EnvironmentOutlined,
   DollarOutlined,
   UserOutlined,
   ToolOutlined,
   AppstoreAddOutlined,
-} from "@ant-design/icons";
-import { useTheme } from "../../contexts/ThemeContext";
-import "./JobCard.css";
-import { useAppSelector } from "../../app/hook";
-import { deleteJob, updateJob } from "./JobService";
-import EditJobModal from "./EditJobModal";
-import { useNavigate, useLocation } from "react-router-dom";
-import { ROUTES } from "../../routes/paths";
+} from '@ant-design/icons';
 
 const { Text } = Typography;
 
@@ -41,7 +41,7 @@ const JobCard: FC<JobCardProps> = ({
   showActions,
 }) => {
   const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const isDark = theme === 'dark';
   const currentUserId = useAppSelector((state) => state.user.id);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const isOwner = currentUserId === job.ownerID;
@@ -49,16 +49,16 @@ const JobCard: FC<JobCardProps> = ({
   const location = useLocation();
 
   const shouldShowActions =
-    typeof showActions === "boolean"
+    typeof showActions === 'boolean'
       ? showActions
       : location.pathname !== ROUTES.JOBS_PATH;
 
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     const isActionElement =
-      target.closest("button") ||
-      target.closest(".ant-modal") ||
-      target.closest(".ant-popover");
+      target.closest('button') ||
+      target.closest('.ant-modal') ||
+      target.closest('.ant-popover');
 
     if (!isActionElement) {
       navigate(`${ROUTES.JOBS_PATH}/${job.id}`);
@@ -68,23 +68,23 @@ const JobCard: FC<JobCardProps> = ({
   const handleDelete = async () => {
     try {
       await deleteJob(job.id);
-      message.success("Job vacancy deleted successfully");
+      message.success('Job vacancy deleted successfully');
       onDelete?.(job.id);
       navigate(0);
     } catch (error) {
-      message.error("Error while deleting the job vacancy");
+      message.error('Error while deleting the job vacancy');
     }
   };
 
   const handleUpdate = async (updatedData: Partial<Job>) => {
     try {
       await updateJob(job.id, updatedData);
-      message.success("Vacancy updated!");
+      message.success('Vacancy updated!');
       onUpdate?.({ ...job, ...updatedData });
       setIsEditModalOpen(false);
       navigate(0);
     } catch (error) {
-      message.error("Error while updating the job vacancy");
+      message.error('Error while updating the job vacancy');
     }
   };
 
@@ -93,7 +93,7 @@ const JobCard: FC<JobCardProps> = ({
       <Card
         hoverable
         title={`${job.position} @ ${job.companyName}`}
-        className={`job-card ${isDark ? "job-card-dark" : "job-card-light"}`}
+        className={`job-card ${isDark ? 'job-card-dark' : 'job-card-light'}`}
         style={{ marginBottom: 16 }}
         onClick={handleCardClick}
         actions={
@@ -109,16 +109,16 @@ const JobCard: FC<JobCardProps> = ({
                   Edit
                 </Button>,
                 <Popconfirm
+                  okText="Yes"
                   key="delete"
-                  title="Delete job vacancy?"
-                  description="Are you sure you want to delete this vacancy?"
                   onConfirm={(e) => {
                     e?.stopPropagation();
                     handleDelete();
                   }}
-                  onCancel={(e) => e?.stopPropagation()}
-                  okText="Yes"
                   cancelText="Cancel"
+                  title="Delete job vacancy?"
+                  onCancel={(e) => e?.stopPropagation()}
+                  description="Are you sure you want to delete this vacancy?"
                 >
                   <Button
                     danger
@@ -137,13 +137,13 @@ const JobCard: FC<JobCardProps> = ({
           <Col span={24}>
             <Text strong>
               <EnvironmentOutlined /> Location:
-            </Text>{" "}
+            </Text>{' '}
             {job.location}
           </Col>
           <Col span={24}>
             <Text strong>
               <AppstoreAddOutlined /> Type:
-            </Text>{" "}
+            </Text>{' '}
             {(job.employmentType ?? []).map((type) => (
               <Tag color="blue" key={type}>
                 {type}
@@ -153,19 +153,19 @@ const JobCard: FC<JobCardProps> = ({
           <Col span={24}>
             <Text strong>
               <UserOutlined /> Level:
-            </Text>{" "}
+            </Text>{' '}
             {job.level}
           </Col>
           <Col span={24}>
             <Text strong>
               <DollarOutlined /> Salary:
-            </Text>{" "}
+            </Text>{' '}
             ${job.salaryFrom} - ${job.salaryTo}
           </Col>
           <Col span={24}>
             <Text strong>
               <ToolOutlined /> Tech:
-            </Text>{" "}
+            </Text>{' '}
             {(job.technologies ?? []).map((tech) => (
               <Tag color="geekblue" key={tech}>
                 {tech}
