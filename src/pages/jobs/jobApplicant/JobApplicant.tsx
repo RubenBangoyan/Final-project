@@ -15,8 +15,8 @@ import {
   Modal,
   message,
 } from "antd";
-import { db } from "../../services/firebse-config";
-import { useTheme } from "../../contexts/ThemeContext";
+import { db } from "../../../services/firebse-config";
+import { useTheme } from "../../../contexts/ThemeContext";
 import { UserOutlined } from "@ant-design/icons";
 import "./JobApplicant.css";
 
