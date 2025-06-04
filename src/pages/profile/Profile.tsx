@@ -48,7 +48,7 @@ const ProfilePage: React.FC = () => {
     {
       key: '3',
       label: 'Favorite Jobs',
-      children: <FavoriteJobTab currentUserId={currentUserId} />,
+      children: <FavoriteJobTab currentUserId={currentUserId} theme={theme} />,
     },
     {
       key: '4',
