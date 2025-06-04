@@ -74,7 +74,7 @@ const JobDetail = () => {
     }
   }, [id, userId]);
 
-  console.log("job", job);
+  // console.log("job", job);
 
   if (loading) {
     return (
