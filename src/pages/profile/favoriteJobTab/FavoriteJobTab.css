@@ -1,0 +1,49 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f1f4ff;
+    --bg-dark: #122f49;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+    --feature-light-bg: rgba(255, 255, 255, 0.15);
+    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+}
+
+.favorite-jobs-container {
+    padding: 0;
+}
+
+.favorite-jobs-header.ant-typography {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 0 1.5rem 1rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.favorite-jobs-empty {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.favorite-jobs-empty .ant-empty-description {
+    color: rgba(240, 240, 240, 0.9);
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.favorite-jobs-empty .ant-empty-image {
+    filter: brightness(0.85) contrast(1.2);
+    opacity: 0.9;
+}
+
+.favorite-jobs-light .favorite-jobs-header {
+    color: var(--text-dark);
+}
+
+.favorite-jobs-dark .favorite-jobs-header.ant-typography {
+    color: var(--text-light) !important;
+}

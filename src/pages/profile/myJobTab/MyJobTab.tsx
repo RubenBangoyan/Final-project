@@ -1,6 +1,6 @@
 import { getAllJobs } from "../../../components/jobCard/JobService";
 import type { Job } from "../../../components/jobCard/types/types";
-import { Card, Col, Empty, Row, Typography, Spin } from "antd";
+import { Col, Empty, Row, Typography, Spin } from "antd";
 import JobCard from "../../../components/jobCard/JobCard";
 import React, { useEffect, useState } from "react";
 import './MyJobTab.css';
