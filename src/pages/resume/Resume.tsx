@@ -1,19 +1,19 @@
 import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  doc,
-  setDoc,
-} from 'firebase/firestore';
 import type { ResumeData } from '../../components/resumeDisplay/types';
 import { formatResumePrompt } from '../../utils/resumeFormat';
-import { generateResumeFromGPT } from '../../api';
 import { db } from '../../services/firebse-config';
+import { generateResumeFromGPT } from '../../api';
+import { useAppSelector } from '../../app/hook';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../routes/paths';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import './Resume.css';
+import {
+  serverTimestamp,
+  doc,
+  setDoc,
+} from 'firebase/firestore';
 import {
   Button,
   DatePicker,
@@ -25,8 +25,6 @@ import {
   Col,
   Modal,
 } from 'antd';
-import './Resume.css';
-import { useAppSelector } from '../../app/hook';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -59,7 +57,7 @@ const ResumeForm: React.FC = () => {
       setParsedResume(parsedResume);
 
       if (!id) {
-        console.log('no id'); // write after
+        console.log('id Not Found'); // write after
         return;
       }
 

@@ -1,22 +1,22 @@
-import { useLocation, useRoutes } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 import { startProgress, stopProgress } from "../utils/routerProgress";
-import { ROUTES } from "./paths";
-
-import Home from "../pages/home/Home";
-import About from "../pages/about/About";
+import JobApplicant from "../pages/jobs/jobApplicant/JobApplicant";
+import { useLocation, useRoutes } from "react-router-dom";
+import JobDetail from "../pages/jobs/jobdetail/JobDetail";
+import UploadWork from "../pages/uploadWork/UploadWork";
+import { AnimatePresence, motion } from "framer-motion";
+import NotFound from "../components/notFound/NotFound";
+import { ProtectedRouter } from "./ProtectedRouter";
+import { useEffect, useRef, useState } from "react";
+import ProfilePage from "../pages/profile/Profile";
+import ResumeForm from "../pages/resume/Resume";
 import Contact from "../pages/contact/Contact";
 import SignIn from "../pages/signIn/SignIn";
 import SignUp from "../pages/signUp/SignUp";
-import ProfilePage from "../pages/profile/Profile";
+import About from "../pages/About/About";
+import Home from "../pages/home/Home";
 import Jobs from "../pages/jobs/Jobs";
-import JobDetail from "../pages/jobs/jobdetail/JobDetail";
-import JobApplicant from "../pages/jobs/jobApplicant/JobApplicant";
-import ResumeForm from "../pages/resume/Resume";
-import UploadWork from "../pages/uploadWork/UploadWork";
-import NotFound from "../components/notFound/NotFound";
-import { ProtectedRouter } from "./ProtectedRouter";
+import { ROUTES } from "./paths";
+
 
 const routeElements = [
   { path: ROUTES.HOME_PATH, element: <Home /> },

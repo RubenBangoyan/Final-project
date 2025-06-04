@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useTheme } from '../../../contexts/ThemeContext';
+import { db } from '../../../services/firebse-config';
+import { UserOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import './JobApplicant.css';
 import {
   Row,
   Col,
@@ -15,12 +19,8 @@ import {
   Modal,
   message,
 } from 'antd';
-import { db } from '../../../services/firebse-config';
-import { useTheme } from '../../../contexts/ThemeContext';
-import { UserOutlined } from '@ant-design/icons';
-import './JobApplicant.css';
-
 const { Title, Text, Paragraph } = Typography;
+
 
 interface Applicant {
   id: string;
