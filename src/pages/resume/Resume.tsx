@@ -1,5 +1,5 @@
-import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
-import type { ResumeData } from '../../components/resumeDisplay/types';
+// import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
+// import type { parsedResume } from '../../components/resumeDisplay/types';
 import { formatResumePrompt } from '../../utils/resumeFormat';
 import { db } from '../../services/firebse-config';
 import { generateResumeFromGPT } from '../../api';
@@ -9,11 +9,7 @@ import { ROUTES } from '../../routes/paths';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './Resume.css';
-import {
-  serverTimestamp,
-  doc,
-  setDoc,
-} from 'firebase/firestore';
+import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import {
   Button,
   DatePicker,
@@ -24,15 +20,35 @@ import {
   Row,
   Col,
   Modal,
+  Typography,
+  List,
 } from 'antd';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
+const { Title, Paragraph, Text } = Typography;
+
+interface Resume {
+  contactInfo: any;
+  name: string;
+  phone: string;
+  education: string;
+  experience?: {
+    company: string;
+    position: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+  }[];
+  skills?: string[];
+  languages?: string[];
+  profile?: string;
+}
 
 const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
-  const [parsedResume, setParsedResume] = useState<ResumeData | null>(null);
+  const [parsedResume, setParsedResume] = useState<Resume | null>(null);
   const id = useAppSelector((state) => state.user.id);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -50,9 +66,7 @@ const ResumeForm: React.FC = () => {
 
     try {
       const result = await generateResumeFromGPT(prompt);
-
       const cleanResult = result.replace(/```json|```/g, '').trim();
-
       const parsedResume = JSON.parse(cleanResult);
       setParsedResume(parsedResume);
 
@@ -231,7 +245,90 @@ const ResumeForm: React.FC = () => {
         </Form>
 
         {parsedResume ? (
-          <ResumeDisplay resume={parsedResume} />
+          <div style={{ padding: '12px' }}>
+            <Title level={4} style={{ marginBottom: 4 }}>
+              {parsedResume?.contactInfo?.name}{' '}
+              {parsedResume?.contactInfo?.lastName}
+            </Title>
+            <Text type="secondary">{parsedResume?.contactInfo?.email}</Text>
+            <br />
+            <Text type="secondary">
+              📞 {parsedResume?.contactInfo?.phone} | 📍{' '}
+              {parsedResume?.contactInfo?.city}
+            </Text>
+            <Divider />
+            <Title level={5}>Profile</Title>
+            <Paragraph>
+              {parsedResume?.profile?.trim()
+                ? parsedResume.profile
+                : 'No profile summary provided.'}
+            </Paragraph>
+            <Divider />
+            <Title level={5}>Experience</Title>
+            {parsedResume?.experience?.length ? (
+              <List
+                dataSource={parsedResume.experience}
+                renderItem={(exp) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={
+                        <>
+                          {exp.position} at <strong>{exp.company}</strong>
+                        </>
+                      }
+                      description={
+                        <>
+                          <Text type="secondary">
+                            {new Date(exp.startDate).toLocaleDateString()} -{' '}
+                            {new Date(exp.endDate).toLocaleDateString()}
+                          </Text>
+                          <br />
+                          {`Description: ${exp.description}`}
+                        </>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            ) : (
+              <Paragraph type="secondary">No experience listed.</Paragraph>
+            )}
+
+            <Divider />
+
+            <Title level={5}>Skills</Title>
+            {parsedResume?.skills?.length ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {parsedResume.skills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <Paragraph type="secondary">No skills listed.</Paragraph>
+            )}
+
+            <Divider />
+
+            <Title level={5}>Languages</Title>
+            {parsedResume?.languages?.length ? (
+              <ul style={{ paddingLeft: '1.2rem' }}>
+                {parsedResume.languages.map((lang, i) => (
+                  <li key={i}>{lang}</li>
+                ))}
+              </ul>
+            ) : (
+              <Paragraph type="secondary">No languages listed.</Paragraph>
+            )}
+          </div>
         ) : (
           <TextArea value={generatedResume || ''} rows={10} readOnly />
         )}

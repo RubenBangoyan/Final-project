@@ -1,52 +1,74 @@
-import { ResumeDisplay } from '../../../components/resumeDisplay/ResumeDisplay';
-import type { ResumeData } from '../../../components/resumeDisplay/types';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../routes/paths';
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
-import './ResumeTab.css'
+import { Button, Typography, Divider, List } from 'antd';
+import './ResumeTab.css';
 
 interface ResumeTabProps {
   theme: string;
 }
 
+const { Title, Text, Paragraph } = Typography;
+
+interface Resume {
+  contactInfo: any;
+  name: string;
+  phone: string;
+  education: string;
+  experience?: {
+    company: string;
+    position: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+  }[];
+  skills?: string[];
+  languages?: string[];
+  profile?: string;
+}
+
 const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const id = useAppSelector((state) => state.user.id);
-  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+  const [resumeData, setResumeData] = useState<Resume | null>(null);
   const navigate = useNavigate();
 
 
   useEffect(() => {
-    const fetchResumes = async () => {
+    const fetchResume = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'resume'));
-        let matchedResume: ResumeData | null = null;
+        let matchedResume: Resume | null = null;
 
         querySnapshot.forEach((docSnap) => {
           const data = docSnap.data();
-          console.log(data, 'resume from firebsse');
+          console.log(data, 'resume from Firebase');
           if (data.ownerID === id) {
             matchedResume = {
-              firstName: data.contactInfo.name,
-              lastName: data.contactInfo.lastName,
-
-              fullName: `${data.firstName || ''} ${data.lastName || ''}`,
-              birthdate: data.birthdate || undefined,
-              email: data.contactInfo.email || undefined,
-              phone: data.phone || undefined,
-              city: data.contactInfo.city || undefined,
-              summary: data.summary || undefined,
+              contactInfo: {
+                name: data.contactInfo?.name || '',
+                lastName: data.contactInfo?.lastName || '',
+                email: data.contactInfo?.email || '',
+                phone: data.contactInfo?.phone || '',
+                city: data.contactInfo?.city || '',
+              },
+              name: data.contactInfo?.name || '',
+              phone: data.contactInfo?.phone || '',
+              education: data.education || '',
+              profile: data.summary || '',
               experience: Array.isArray(data.experience)
                 ? data.experience.map((exp: any) => ({
                     company: exp.company || '',
                     position: exp.position || '',
-                    period: exp.period || undefined,
-                    description: exp.description || undefined,
+                    description: exp.description || '',
+                    startDate: exp.startDate || '',
+                    endDate: exp.endDate || '',
                   }))
                 : [],
+              skills: Array.isArray(data.skills) ? data.skills : [],
+              languages: Array.isArray(data.languages) ? data.languages : [],
             };
           }
         });
@@ -54,33 +76,119 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
         if (matchedResume) {
           setResumeData(matchedResume);
         } else {
-          console.log('No matching resume found for this user.');
+          console.log('No resume found for this user');
         }
       } catch (error) {
-        console.error('Error fetching resumes:', error);
+        console.error('Error fetching resume:', error);
       }
     };
 
     if (id) {
-      fetchResumes();
+      fetchResume();
     }
   }, [id]);
 
   return (
-      <div className={`resume-tab-wrapper ${theme}`}>
-        {resumeData ? (
-            <ResumeDisplay resume={resumeData} />
-        ) : (
-            <div className="empty-resume-container">
-              <p className="resume-hint-text">
-                You haven’t generated a resume yet. Click below to create one.
-              </p>
-              <Button type="primary" size="large" onClick={() => navigate(ROUTES.RESUME_PATH)}>
-                Go To Generate
-              </Button>
+    <div className={`resume-tab-wrapper ${theme}`}>
+      {resumeData ? (
+        <div style={{ padding: '12px' }}>
+          <Title level={4} style={{ marginBottom: 4 }}>
+            {resumeData?.contactInfo?.name} {resumeData?.contactInfo?.lastName}
+          </Title>
+          <Text type="secondary">{resumeData?.contactInfo?.email}</Text>
+          <br />
+          <Text type="secondary">
+            📞 {resumeData?.contactInfo?.phone} | 📍{' '}
+            {resumeData?.contactInfo?.city}
+          </Text>
+          <Divider />
+          <Title level={5}>Profile</Title>
+          <Paragraph>
+            {resumeData?.profile?.trim()
+              ? resumeData.profile
+              : 'No profile summary provided.'}
+          </Paragraph>
+          <Divider />
+          <Title level={5}>Experience</Title>
+          {resumeData?.experience?.length ? (
+            <List
+              dataSource={resumeData.experience}
+              renderItem={(exp) => (
+                <List.Item>
+                  <List.Item.Meta
+                    title={
+                      <>
+                        {exp.position} at <strong>{exp.company}</strong>
+                      </>
+                    }
+                    description={
+                      <>
+                        <Text type="secondary">
+                          {new Date(exp.startDate).toLocaleDateString()} -{' '}
+                          {new Date(exp.endDate).toLocaleDateString()}
+                        </Text>
+                        <br />
+                        {`Description: ${exp.description}`}
+                      </>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          ) : (
+            <Paragraph type="secondary">No experience listed.</Paragraph>
+          )}
+
+          <Divider />
+
+          <Title level={5}>Skills</Title>
+          {resumeData?.skills?.length ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {resumeData.skills.map((skill, idx) => (
+                <span
+                  key={idx}
+                  style={{
+                    backgroundColor: '#f0f0f0',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                  }}
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
-        )}
-      </div>
+          ) : (
+            <Paragraph type="secondary">No skills listed.</Paragraph>
+          )}
+
+          <Divider />
+
+          <Title level={5}>Languages</Title>
+          {resumeData?.languages?.length ? (
+            <ul style={{ paddingLeft: '1.2rem' }}>
+              {resumeData.languages.map((lang, i) => (
+                <li key={i}>{lang}</li>
+              ))}
+            </ul>
+          ) : (
+            <Paragraph type="secondary">No languages listed.</Paragraph>
+          )}
+        </div>
+      ) : (
+        <div className="empty-resume-container">
+          <p className="resume-hint-text">
+            You haven’t generated a resume yet. Click below to create one.
+          </p>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => navigate(ROUTES.RESUME_PATH)}
+          >
+            Go To Generate
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
 
