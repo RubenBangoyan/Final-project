@@ -1,3 +1,4 @@
+import { FavoriteJobTab } from './favoriteJobTab/FavoriteJobTab';
 import { ProfileHeader } from './profileHeader/ProfileHeader';
 import { SecurityTab } from './securityTab/SecurityTab';
 import { ActivityTab } from './activityTab/ActivityTab';
@@ -7,10 +8,9 @@ import { useProfile } from '../../hooks/useProfile';
 import type { RootState } from '../../app/store';
 import { useAppSelector } from '../../app/hook';
 import { MyJobsTab } from './myJobTab/MyJobTab';
-import { FavoriteJobTab } from './favoriteJobTab/FavoriteJobTab';
+import ResumeTab from './resumeTab/ResumeTab';
 import { Tabs, Row, Col } from 'antd';
 import React from 'react';
-import ResumeTab from './resumeTab/ResumeTab';
 import './Profile.css';
 
 

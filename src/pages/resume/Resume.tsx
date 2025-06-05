@@ -1,5 +1,4 @@
-// import { ResumeDisplay } from '../../components/resumeDisplay/ResumeDisplay';
-// import type { parsedResume } from '../../components/resumeDisplay/types';
+import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import { formatResumePrompt } from '../../utils/resumeFormat';
 import { db } from '../../services/firebse-config';
 import { generateResumeFromGPT } from '../../api';
@@ -9,7 +8,6 @@ import { ROUTES } from '../../routes/paths';
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './Resume.css';
-import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import {
   Button,
   DatePicker,
