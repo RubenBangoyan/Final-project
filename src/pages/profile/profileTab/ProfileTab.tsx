@@ -29,6 +29,7 @@ interface ProfileTabProps {
   theme: string;
   handleSave: (values: any) => void;
   loading: boolean | undefined;
+  handleClick: () => void
 }
 
 export const ProfileTab: React.FC<ProfileTabProps> = ({
@@ -39,6 +40,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
                                                         theme,
                                                         handleSave,
                                                         loading,
+                                                        
                                                       }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();

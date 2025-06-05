@@ -1,10 +1,10 @@
+import { Button, Typography, Divider, List } from 'antd';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../routes/paths';
 import { useEffect, useState } from 'react';
-import { Button, Typography, Divider, List } from 'antd';
 import './ResumeTab.css';
 
 interface ResumeTabProps {
