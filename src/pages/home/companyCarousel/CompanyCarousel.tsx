@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import Slider from 'react-slick';
 import './CompanyCarousel.css';
-import { Button, Col } from 'antd';
 
 const companies = [
   {

@@ -12,11 +12,11 @@ import ResumeForm from '../pages/resume/Resume';
 import Contact from '../pages/contact/Contact';
 import SignIn from '../pages/signIn/SignIn';
 import SignUp from '../pages/signUp/SignUp';
-import About from '../pages/About/About';
+import TeamPage from '../pages/team/Team';
+import About from '../pages/about/About';
 import Home from '../pages/home/Home';
 import Jobs from '../pages/jobs/Jobs';
 import { ROUTES } from './paths';
-import TeamPage from '../pages/team/Team';
 
 const routeElements = [
   { path: ROUTES.HOME_PATH, element: <Home /> },

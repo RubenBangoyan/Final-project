@@ -6,6 +6,8 @@
   background-color: white;
   color: black;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 350px;
+  margin: 3px;
 }
 
 .job-card-light .ant-typography,
@@ -21,6 +23,8 @@
   background-color: #1e1e2f;
   color: #f0f0f0;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+  min-height: 350px;
+  margin: 3px;
 }
 
 .job-card-dark .ant-typography,
@@ -64,4 +68,3 @@
   padding: 0 !important;
   font-size: 1rem;
 }
-
