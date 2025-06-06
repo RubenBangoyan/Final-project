@@ -11,4 +11,5 @@ export const ROUTES = {
    JOB_DETAIL_PATH: "/jobs/:id",
    JOB_APPLICANTS: "/job-applicants/:id",
    PROFILE_PATH: "/profile", 
+   TEAM: '/team',
 } as const;

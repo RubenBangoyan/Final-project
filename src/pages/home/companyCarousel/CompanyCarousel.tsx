@@ -1,44 +1,45 @@
-import microsoftLogo from "../../../assets/images/microsoft-6.svg";
-import facebookLogo from "../../../assets/images/facebook-5.svg";
-import googleLogo from "../../../assets/images/google-1-1.svg";
-import oracleLogo from "../../../assets/images/oracle-6.svg";
-import appleLogo from "../../../assets/images/apple-11.svg";
-import teslaLogo from "../../../assets/images/tesla-9.svg";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import Slider from "react-slick";
-import "./CompanyCarousel.css";
+import microsoftLogo from '../../../assets/images/microsoft-6.svg';
+import facebookLogo from '../../../assets/images/facebook-5.svg';
+import googleLogo from '../../../assets/images/google-1-1.svg';
+import oracleLogo from '../../../assets/images/oracle-6.svg';
+import appleLogo from '../../../assets/images/apple-11.svg';
+import teslaLogo from '../../../assets/images/tesla-9.svg';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import Slider from 'react-slick';
+import './CompanyCarousel.css';
+import { Button, Col } from 'antd';
 
 const companies = [
   {
-    name: "Facebook",
+    name: 'Facebook',
     logo: facebookLogo,
-    url: "https://facebook.com/",
+    url: 'https://facebook.com/',
   },
   {
-    name: "Tesla",
+    name: 'Tesla',
     logo: teslaLogo,
-    url: "https://www.tesla.com/",
+    url: 'https://www.tesla.com/',
   },
   {
-    name: "Google",
+    name: 'Google',
     logo: googleLogo,
-    url: "https://about.google/",
+    url: 'https://about.google/',
   },
   {
-    name: "Microsoft",
+    name: 'Microsoft',
     logo: microsoftLogo,
-    url: "https://www.microsoft.com/",
+    url: 'https://www.microsoft.com/',
   },
   {
-    name: "Oracle",
+    name: 'Oracle',
     logo: oracleLogo,
-    url: "https://www.oracle.com/",
+    url: 'https://www.oracle.com/',
   },
   {
-    name: "Apple",
+    name: 'Apple',
     logo: appleLogo,
-    url: "https://apple.com/",
+    url: 'https://apple.com/',
   },
 ];
 
