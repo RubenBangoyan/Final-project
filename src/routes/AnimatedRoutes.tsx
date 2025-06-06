@@ -1,22 +1,22 @@
-import { startProgress, stopProgress } from "../utils/routerProgress";
-import JobApplicant from "../pages/jobs/jobApplicant/JobApplicant";
-import { useLocation, useRoutes } from "react-router-dom";
-import JobDetail from "../pages/jobs/jobdetail/JobDetail";
-import UploadWork from "../pages/uploadWork/UploadWork";
-import { AnimatePresence, motion } from "framer-motion";
-import NotFound from "../components/notFound/NotFound";
-import { ProtectedRouter } from "./ProtectedRouter";
-import { useEffect, useRef, useState } from "react";
-import ProfilePage from "../pages/profile/Profile";
-import ResumeForm from "../pages/resume/Resume";
-import Contact from "../pages/contact/Contact";
-import SignIn from "../pages/signIn/SignIn";
-import SignUp from "../pages/signUp/SignUp";
-import About from "../pages/About/About";
-import Home from "../pages/home/Home";
-import Jobs from "../pages/jobs/Jobs";
-import { ROUTES } from "./paths";
-
+import { startProgress, stopProgress } from '../utils/routerProgress';
+import JobApplicant from '../pages/jobs/jobApplicant/JobApplicant';
+import { useLocation, useRoutes } from 'react-router-dom';
+import JobDetail from '../pages/jobs/jobdetail/JobDetail';
+import UploadWork from '../pages/uploadWork/UploadWork';
+import { AnimatePresence, motion } from 'framer-motion';
+import NotFound from '../components/notFound/NotFound';
+import { ProtectedRouter } from './ProtectedRouter';
+import { useEffect, useRef, useState } from 'react';
+import ProfilePage from '../pages/profile/Profile';
+import ResumeForm from '../pages/resume/Resume';
+import Contact from '../pages/contact/Contact';
+import SignIn from '../pages/signIn/SignIn';
+import SignUp from '../pages/signUp/SignUp';
+import About from '../pages/About/About';
+import Home from '../pages/home/Home';
+import Jobs from '../pages/jobs/Jobs';
+import { ROUTES } from './paths';
+import TeamPage from '../pages/team/Team';
 
 const routeElements = [
   { path: ROUTES.HOME_PATH, element: <Home /> },
@@ -24,6 +24,7 @@ const routeElements = [
   { path: ROUTES.SIGN_UP_PATH, element: <SignUp /> },
   { path: ROUTES.RESUME_PATH, element: <ResumeForm /> },
   { path: ROUTES.UPLOAD_WORK, element: <UploadWork /> },
+  { path: ROUTES.TEAM, element: <TeamPage /> },
   {
     element: <ProtectedRouter />,
     children: [
@@ -35,7 +36,7 @@ const routeElements = [
       { path: ROUTES.JOB_APPLICANTS, element: <JobApplicant /> },
     ],
   },
-  { path: "*", element: <NotFound /> },
+  { path: '*', element: <NotFound /> },
 ];
 
 const AnimatedRoutes = () => {
@@ -63,8 +64,8 @@ const AnimatedRoutes = () => {
         initial={firstLoad ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={firstLoad ? undefined : { opacity: 0, y: -20 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{ position: "relative", width: "100%" }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        style={{ position: 'relative', width: '100%' }}
       >
         {routes}
       </motion.div>
