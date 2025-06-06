@@ -191,7 +191,7 @@ const Jobs = () => {
                 range
                 min={0}
                 step={1000}
-                max={50000}
+                max={300000}
                 value={salaryRange}
                 onChange={(value) =>
                   updateAndResetPage("salaryRange", value as number[])
