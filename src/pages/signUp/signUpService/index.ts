@@ -65,14 +65,20 @@ export const onFinish =
         email,
         firstName,
         lastName,
-        favorites: []
+        favorites: [],
       });
 
       navigate('/');
       dispatch(setUser(userData));
       setLoading(false);
     } catch (error: any) {
-      setError(error.message || 'Something went wrong.');
+      if (error.code === 'auth/email-already-in-use') {
+        setError('Email already registered.');
+      } else if (error.code === 'auth/weak-password') {
+        setError('Password should be at least 6 characters.');
+      } else {
+        setError(error.message || 'Something went wrong.');
+      }
       console.log(form, 'form');
       form.setFieldsValue({ password: '', confirmPassword: '' });
       setLoading(false);
