@@ -128,6 +128,7 @@ const UploadWork = () => {
         >
           <Select placeholder="Select job category">
             <Option value="softwareDevelopment">Software Development</Option>
+            <Option value="InfrastructureDevOps">Infrastructure / DevOps</Option>
             <Option value="designCreative">Design & Creative</Option>
             <Option value="marketingSales">Marketing & Sales</Option>
             <Option value="dataScience">Data Science</Option>
