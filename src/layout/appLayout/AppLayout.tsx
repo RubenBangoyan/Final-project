@@ -1,10 +1,10 @@
+import ScrollToTop from "../../components/common/ScrollToTop";
 import AnimatedRoutes from "../../routes/AnimatedRoutes.tsx";
 import LoadingRouter from "../../routes/LoadingRouter";
 import { useAuth } from "../../contexts/AuthContext";
 import Header from "../header/Header";
 import Footer from "../footer/Footer";
 import "./AppLayout.css";
-import ScrollToTop from "../../components/common/ScrollToTop";
 
 const AppLayout = () => {
     const { authLoading } = useAuth();

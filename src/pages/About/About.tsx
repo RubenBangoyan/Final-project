@@ -1,4 +1,9 @@
+import animationData from "../../assets/animation2.json";
+import { useTheme } from "../../contexts/ThemeContext";
 import { Typography, Divider, Card } from "antd";
+import { useTranslation } from "react-i18next";
+import Lottie from "lottie-react";
+import "./About.css";
 import {
   RocketOutlined,
   SmileOutlined,
@@ -7,11 +12,6 @@ import {
   GlobalOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useTranslation } from "react-i18next";
-import "./About.css";
-import Lottie from "lottie-react";
-import animationData from "../../assets/animation2.json";
 
 const { Title, Paragraph } = Typography;
 

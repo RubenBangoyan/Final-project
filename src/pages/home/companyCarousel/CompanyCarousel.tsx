@@ -1,13 +1,13 @@
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./CompanyCarousel.css";
-import facebookLogo from "../../../assets/images/facebook-5.svg";
-import teslaLogo from "../../../assets/images/tesla-9.svg";
-import googleLogo from "../../../assets/images/google-1-1.svg";
 import microsoftLogo from "../../../assets/images/microsoft-6.svg";
+import facebookLogo from "../../../assets/images/facebook-5.svg";
+import googleLogo from "../../../assets/images/google-1-1.svg";
 import oracleLogo from "../../../assets/images/oracle-6.svg";
 import appleLogo from "../../../assets/images/apple-11.svg";
+import teslaLogo from "../../../assets/images/tesla-9.svg";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import Slider from "react-slick";
+import "./CompanyCarousel.css";
 
 const companies = [
   {

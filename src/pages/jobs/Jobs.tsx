@@ -38,7 +38,7 @@ const initialFilters: initialFiltersTypes = {
   searchValue: "",
   employmentFilter: null,
   techFilter: null,
-  salaryRange: [0, 100000],
+  salaryRange: [0, 300000],
   page: 1,
   limit: 12,
 };

@@ -1,6 +1,7 @@
 import { UserOutlined, MailOutlined } from '@ant-design/icons';
 import { ROUTES } from '../../../routes/paths';
 import { useNavigate } from 'react-router-dom';
+import './ProfileTab.css';
 import {
   Divider,
   Form,
@@ -13,7 +14,6 @@ import {
   Popover
 } from 'antd';
 import { useState } from 'react';
-import './ProfileTab.css';
 
 const avatarSeeds = [
   'Adrian', 'Kimberly', 'Liliana', 'Avery', 'Jack', 'Sara', 'Ryan', 'Emery',

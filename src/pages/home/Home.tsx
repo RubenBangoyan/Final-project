@@ -1,9 +1,10 @@
 import { ChatHelper } from "../../components/chatHelper/ChatHelper";
+import CompanyCarousel from "./companyCarousel/CompanyCarousel.tsx";
 import { Input, Button, Typography, Row, Col } from "antd";
 import jobAnimation from "../../assets/animation.json";
 import { useTheme } from "../../contexts/ThemeContext";
-import CompanyCarousel from "./companyCarousel/CompanyCarousel.tsx";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ROUTES } from "../../routes/paths";
 import { useState } from "react";
 import Lottie from "lottie-react";
@@ -14,7 +15,6 @@ import {
   TeamOutlined,
   RocketOutlined,
 } from "@ant-design/icons";
-import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph } = Typography;
 

@@ -1,5 +1,8 @@
 import { Button, Card, Form, Input, message, Col, Row, Typography } from "antd";
+import { useTheme } from "../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 import TextArea from "antd/es/input/TextArea";
+import "./Contact.css";
 import {
   PhoneFilled,
   MailFilled,
@@ -8,9 +11,6 @@ import {
   InstagramOutlined,
   LinkedinOutlined,
 } from "@ant-design/icons";
-import "./Contact.css";
-import { useTheme } from "../../contexts/ThemeContext";
-import { useTranslation } from "react-i18next";
 
 interface FormValues {
   name: string;

@@ -1,5 +1,5 @@
-import { db } from "./firebse-config";
 import { doc, updateDoc, arrayUnion, arrayRemove, getDoc } from 'firebase/firestore';
+import { db } from "./firebse-config";
 
 export const addToFavorites = async (userId: string, jobId: string) => {
   const userRef = doc(db, 'users', userId);
