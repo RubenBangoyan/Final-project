@@ -13,18 +13,19 @@
   text-transform: uppercase;
   letter-spacing: 1.2px;
 }
+
 .dev-card {
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(33, 33, 33, 0.1);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-left: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.dev-card > * {
+.dev-card>* {
   text-align: center;
 }
 
@@ -71,6 +72,10 @@
   font-weight: 600;
   font-size: 1.1rem;
   color: #212121;
+}
+
+.dev-name-wrapper {
+  text-align: center;
 }
 
 .dev-university {
@@ -123,4 +128,23 @@
 .email-text:hover {
   color: #1890ff;
   text-decoration: underline;
+}
+
+.dev-card {
+  text-align: center;
+}
+
+.dev-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.dev-name-wrapper {
+  text-align: center;
+}
+
+.dev-name {
+  margin: 0;
+  font-weight: 500;
 }

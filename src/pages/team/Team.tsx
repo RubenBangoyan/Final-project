@@ -1,8 +1,9 @@
-import defaultAvatar from '../../assets/images/225-default-avatar.png';
-import NairiAvatar from '../../assets/images/Nairi-avatar-2.jpg';
-import { UserOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import './Team.css';
+import defaultAvatar from "../../assets/images/225-default-avatar.png";
+import NairiAvatar from "../../assets/images/Nairi-avatar-2.jpg";
+import YuriAvatar from "../../assets/images/yuri_dolukhanyan_avatar.png";
+import { UserOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import "./Team.css";
 import {
   Layout,
   Row,
@@ -13,10 +14,9 @@ import {
   Typography,
   Button,
   Tag,
-} from 'antd';
+} from "antd";
 
 // import TigranAvatar from '';
-// import YuriAvatar from '';
 // import MelineAvatar from '';
 // import RubenAvatar from '';
 // import GevorgAvatar from '';
@@ -32,63 +32,63 @@ interface Developer {
   skills: string[];
   // university: string;
   photo: string | null;
-  gender: 'male' | 'female';
+  gender: "male" | "female";
 }
 
 const developers: Developer[] = [
   {
     id: 1,
-    name: 'Nairi',
-    gender: 'male',
+    name: "Nairi",
+    gender: "male",
     photo: NairiAvatar,
-    surname: 'Khachatryan',
-    email: 'nairi@example.com',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    surname: "Khachatryan",
+    email: "nairi@example.com",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
   {
     id: 2,
-    name: 'Tigran',
-    gender: 'male',
-    surname: 'Nazaryan',
+    name: "Tigran",
+    gender: "male",
+    surname: "Nazaryan",
     photo: defaultAvatar,
-    email: 'tigran.nazaryan.18@gmail.com',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    email: "tigran.nazaryan.18@gmail.com",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
   {
     id: 3,
-    name: 'Yuri',
-    gender: 'male',
-    photo: defaultAvatar,
-    surname: 'Dolukhanyan',
-    email: 'yu.dolukhanyan@gmail.com',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    name: "Yuri",
+    gender: "male",
+    photo: YuriAvatar,
+    surname: "Dolukhanyan",
+    email: "yu.dolukhanyan@gmail.com",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
   {
     id: 4,
-    name: 'Meline',
-    gender: 'female',
-    surname: 'Afrikyan',
+    name: "Meline",
+    gender: "female",
+    surname: "Afrikyan",
     photo: defaultAvatar,
-    email: 'meline_afrikyan@edu.aua.am',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    email: "meline_afrikyan@edu.aua.am",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
   {
     id: 5,
-    name: 'Ruben',
-    gender: 'male',
-    surname: 'Bangoyan',
+    name: "Ruben",
+    gender: "male",
+    surname: "Bangoyan",
     photo: defaultAvatar,
-    email: 'ruben.bangoyan2004@gmail.com',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    email: "ruben.bangoyan2004@gmail.com",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
   {
     id: 6,
-    name: 'Gevorg',
-    gender: 'male',
+    name: "Gevorg",
+    gender: "male",
     photo: defaultAvatar,
-    surname: 'Gevorgyan',
-    email: 'gevorg_gevorgyan@edu.aua.am',
-    skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
+    surname: "Gevorgyan",
+    email: "gevorg_gevorgyan@edu.aua.am",
+    skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
 ];
 
@@ -105,7 +105,7 @@ const TeamPage: React.FC = () => {
 
   return (
     <Layout className="layout-background">
-      <Content style={{ padding: '40px' }}>
+      <Content style={{ padding: "40px" }}>
         <Title level={2} className="page-title">
           Our Development Team
         </Title>
@@ -126,14 +126,16 @@ const TeamPage: React.FC = () => {
                     className="dev-avatar"
                     style={{
                       backgroundColor:
-                        dev.gender === 'female' ? '#f56a00' : '#1890ff',
+                        dev.gender === "female" ? "#f56a00" : "#1890ff",
                     }}
                   />
                 </div>
 
-                <Title level={5} className="dev-name">
-                  {dev.name} {dev.surname}
-                </Title>
+                <div className="dev-name-wrapper">
+                  <Title level={5} className="dev-name">
+                    {dev.name} {dev.surname}
+                  </Title>
+                </div>
               </Card>
             </Col>
           ))}
@@ -154,14 +156,14 @@ const TeamPage: React.FC = () => {
             </Button>,
           ]}
           title={
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
               <Avatar
                 size={64}
                 src={selectedDev?.photo}
-                className='dev-avatar'
+                className="dev-avatar"
                 style={{
                   backgroundColor:
-                    selectedDev?.gender === 'female' ? '#f56a00' : '#1890ff',
+                    selectedDev?.gender === "female" ? "#f56a00" : "#1890ff",
                 }}
               />
               <div>
@@ -182,7 +184,7 @@ const TeamPage: React.FC = () => {
           </div>
 
           <Text strong>Email:</Text>
-          <Text copyable style={{ display: 'block', marginTop: 4 }}>
+          <Text copyable style={{ display: "block", marginTop: 4 }}>
             {selectedDev?.email}
           </Text>
         </Modal>
