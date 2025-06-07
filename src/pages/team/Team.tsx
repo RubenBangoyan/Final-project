@@ -40,7 +40,6 @@ const developers: Developer[] = [
     id: 1,
     name: 'Nairi',
     gender: 'male',
-    // university: 'YSU',
     photo: NairiAvatar,
     surname: 'Khachatryan',
     email: 'nairi@example.com',
@@ -52,7 +51,6 @@ const developers: Developer[] = [
     gender: 'male',
     surname: 'Nazaryan',
     photo: defaultAvatar,
-    // university: 'Polytechnic',
     email: 'tigran.nazaryan.18@gmail.com',
     skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
   },
@@ -60,7 +58,6 @@ const developers: Developer[] = [
     id: 3,
     name: 'Yuri',
     gender: 'male',
-    // university: 'RAU',
     photo: defaultAvatar,
     surname: 'Dolukhanyan',
     email: 'yu.dolukhanyan@gmail.com',
@@ -70,7 +67,6 @@ const developers: Developer[] = [
     id: 4,
     name: 'Meline',
     gender: 'female',
-    // university: 'YSU',
     surname: 'Afrikyan',
     photo: defaultAvatar,
     email: 'meline_afrikyan@edu.aua.am',
@@ -80,7 +76,6 @@ const developers: Developer[] = [
     id: 5,
     name: 'Ruben',
     gender: 'male',
-    // university: 'AUA',
     surname: 'Bangoyan',
     photo: defaultAvatar,
     email: 'ruben.bangoyan2004@gmail.com',
@@ -92,7 +87,6 @@ const developers: Developer[] = [
     gender: 'male',
     photo: defaultAvatar,
     surname: 'Gevorgyan',
-    // university: 'French University',
     email: 'gevorg_gevorgyan@edu.aua.am',
     skills: ['React', 'JavaScript', 'TypeScript', 'Antd'],
   },
@@ -140,7 +134,6 @@ const TeamPage: React.FC = () => {
                 <Title level={5} className="dev-name">
                   {dev.name} {dev.surname}
                 </Title>
-                {/* <Text type="secondary">{dev.university}</Text> */}
               </Card>
             </Col>
           ))}
@@ -175,7 +168,6 @@ const TeamPage: React.FC = () => {
                 <Title level={4} style={{ margin: 0 }}>
                   {selectedDev?.name} {selectedDev?.surname}
                 </Title>
-                {/* <Text type="secondary">{selectedDev?.university}</Text> */}
               </div>
             </div>
           }

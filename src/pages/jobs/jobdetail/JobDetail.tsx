@@ -1,5 +1,15 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { getJobById } from '../../../components/jobCard/JobService.ts';
+import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import type { Job } from '../../../components/jobCard/types/types';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useTheme } from '../../../contexts/ThemeContext';
+import { db } from '../../../services/firebse-config';
+import { useAppSelector } from '../../../app/hook';
+import { ROUTES } from '../../../routes/paths';
+import { useEffect, useState } from 'react';
+import { ExpiresInfo } from '../JobExpire';
+import { Tag } from 'antd';
+import './JobDetail.css';
 import {
   Spin,
   Button,
@@ -9,29 +19,17 @@ import {
   Typography,
   Divider,
   message,
-} from "antd";
+} from 'antd';
 import {
   BankOutlined,
   EnvironmentOutlined,
   DollarOutlined,
   UserSwitchOutlined,
-} from "@ant-design/icons";
-
-import { getJobById } from '../../../components/jobCard/JobService.ts';
-import type { Job } from "../../../components/jobCard/types/types";
-import { useTheme } from "../../../contexts/ThemeContext";
-import {doc, updateDoc, arrayUnion, getDoc} from "firebase/firestore";
-import { db } from "../../../services/firebse-config";
-import { useAppSelector } from "../../../app/hook";
-import { ROUTES } from "../../../routes/paths";
-import "./JobDetail.css";
-import { Tag } from "antd";
+} from '@ant-design/icons';
 import {
   addToFavorites,
   removeFromFavorites,
-} from "../../../services/UserService";
-import { ExpiresInfo } from "../JobExpire";
-
+} from '../../../services/UserService';
 const { Title, Text, Paragraph } = Typography;
 
 const JobDetail = () => {
@@ -56,7 +54,7 @@ const JobDetail = () => {
         }
 
         if (userId) {
-          const userDoc = await getDoc(doc(db, "users", userId));
+          const userDoc = await getDoc(doc(db, 'users', userId));
           const favorites = userDoc.exists()
             ? userDoc.data().favorites || []
             : [];
@@ -74,13 +72,11 @@ const JobDetail = () => {
     }
   }, [id, userId]);
 
-  // console.log("job", job);
-
   if (loading) {
     return (
-      <Row justify="center" style={{ marginTop: "100px" }}>
+      <Row justify="center" style={{ marginTop: '100px' }}>
         <Col>
-          <Spin tip="Loading job details..." size="large" />
+          <Spin tip="Loading job details..." fullscreen size="large" />
         </Col>
       </Row>
     );
@@ -88,7 +84,7 @@ const JobDetail = () => {
 
   if (!job) {
     return (
-      <Row justify="center" style={{ marginTop: "100px" }}>
+      <Row justify="center" style={{ marginTop: '100px' }}>
         <Col>
           <Text type="danger" strong style={{ fontSize: 18 }}>
             Job not found.
@@ -105,26 +101,26 @@ const JobDetail = () => {
 
   const handleApply = async () => {
     if (!userId || !id) {
-      console.error("Missing user ID or job ID.");
+      console.error('Missing user ID or job ID.');
       return;
     }
 
     try {
-      const jobRef = doc(db, "jobs", id);
+      const jobRef = doc(db, 'jobs', id);
       await updateDoc(jobRef, {
         appliedUsers: arrayUnion(userId),
       });
-      message.success("Applied successfully");
+      message.success('Applied successfully');
       setHasApplied(true);
     } catch (error) {
-      console.error("Error applying to job:", error);
-      message.error("Failed to apply. Please try again.");
+      console.error('Error applying to job:', error);
+      message.error('Failed to apply. Please try again.');
     }
   };
 
   const handleViewAppliedUsers = () => {
     if (job?.ownerID === userId && id) {
-      navigate(ROUTES.JOB_APPLICANTS.replace(":id", id));
+      navigate(ROUTES.JOB_APPLICANTS.replace(':id', id));
     }
   };
 
@@ -134,25 +130,25 @@ const JobDetail = () => {
     try {
       if (isFavorite) {
         await removeFromFavorites(userId, id);
-        message.success("Removed from favorites");
+        message.success('Removed from favorites');
       } else {
         await addToFavorites(userId, id);
-        message.success("Added to favorites");
+        message.success('Added to favorites');
       }
       setIsFavorite(!isFavorite);
     } catch (error) {
-      console.error("Favorite toggle failed", error);
-      message.error("Something went wrong");
+      console.error('Favorite toggle failed', error);
+      message.error('Something went wrong');
     }
   };
 
-  const currentTheme = theme === "dark" ? "job-dark" : "job-light";
+  const currentTheme = theme === 'dark' ? 'job-dark' : 'job-light';
 
   return (
     <div className={`job-detail-page-wrapper ${currentTheme}`}>
       <Row justify="center">
         <Col xs={22} md={20} lg={16} className="job-detail-container">
-        <Card className="job-card">
+          <Card className="job-card">
             <Row gutter={[0, 0]}>
               <Col span={24}>
                 <Title level={2} className="job-detail-title">
@@ -161,7 +157,7 @@ const JobDetail = () => {
                 <Divider />
                 <Row style={{ marginBottom: 16 }}>
                   <Button type="dashed" onClick={handleToggleFavorite}>
-                    {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                   </Button>
                 </Row>
               </Col>
@@ -181,7 +177,7 @@ const JobDetail = () => {
                   <UserSwitchOutlined style={{ marginRight: 6 }} /> Employment
                   Type:
                 </Text>
-                <Paragraph>{job.employmentType.join(", ")}</Paragraph>
+                <Paragraph>{job.employmentType.join(', ')}</Paragraph>
 
                 <Text strong>
                   <DollarOutlined style={{ marginRight: 6 }} /> Salary:
@@ -204,7 +200,7 @@ const JobDetail = () => {
 
                 <Text strong>Requirements:</Text>
                 <ul className="requirement-list">
-                  {job.requirements.split("\n").map((req, index) => (
+                  {job.requirements.split('\n').map((req, index) => (
                     <li key={index}>
                       <span className="bullet-icon">✔</span> {req}
                     </li>
@@ -214,12 +210,12 @@ const JobDetail = () => {
 
               <Col span={24}>
                 <Row>
-                  <Paragraph strong style={{ fontSize: "18px" }}>
+                  <Paragraph strong style={{ fontSize: '18px' }}>
                     {`Total Applicants: ${job.appliedUsers.length || 0}`}
                   </Paragraph>
                 </Row>
 
-                <Paragraph style={{ fontSize: "18px", paddingTop: 20 }}>
+                <Paragraph style={{ fontSize: '18px', paddingTop: 20 }}>
                   <ExpiresInfo expiresAt={job.expiresAt} />
                 </Paragraph>
                 <Row justify="center" gutter={16}>
@@ -234,7 +230,7 @@ const JobDetail = () => {
                         disabled={hasApplied}
                         onClick={handleApply}
                       >
-                        {hasApplied ? "Already Applied" : "Apply Now"}
+                        {hasApplied ? 'Already Applied' : 'Apply Now'}
                       </Button>
                     )}
                   </Col>
