@@ -1,3 +1,4 @@
+import ConfettiExplosion from '../../components/confettiExplosion/ConfettiExplosion';
 import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
 import { formatResumePrompt } from '../../utils/resumeFormat';
 import { db } from '../../services/firebse-config';
@@ -47,6 +48,7 @@ const ResumeForm: React.FC = () => {
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const [parsedResume, setParsedResume] = useState<Resume | null>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
   const id = useAppSelector((state) => state.user.id);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -80,6 +82,9 @@ const ResumeForm: React.FC = () => {
         createdAt: serverTimestamp(),
         ownerID: id,
       });
+
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
 
       setGeneratedResume(result);
       console.log('Resume saved to Firestore.');
@@ -331,6 +336,7 @@ const ResumeForm: React.FC = () => {
           <TextArea value={generatedResume || ''} rows={10} readOnly />
         )}
       </div>
+      {showConfetti && <ConfettiExplosion />}
     </div>
   );
 };
