@@ -69,6 +69,7 @@ const ResumeForm: React.FC = () => {
       const result = await generateResumeFromGPT(prompt);
       const cleanResult = result.replace(/```json|```/g, '').trim();
       const parsedResume = JSON.parse(cleanResult);
+      console.log(parsedResume, 'parsed');
       setParsedResume(parsedResume);
 
       if (!id) {
@@ -268,7 +269,8 @@ const ResumeForm: React.FC = () => {
               <Divider />
               <Title level={5}>Profile</Title>
               <Paragraph>
-                {parsedResume?.profile?.trim()
+                {typeof parsedResume?.profile === 'string' &&
+                parsedResume.profile.trim()
                   ? parsedResume.profile
                   : 'No profile summary provided.'}
               </Paragraph>

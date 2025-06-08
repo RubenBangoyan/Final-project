@@ -44,7 +44,6 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
 
         querySnapshot.forEach((docSnap) => {
           const data = docSnap.data();
-          console.log(data, 'resume from Firebase');
           if (data.ownerID === id) {
             matchedResume = {
               contactInfo: {
