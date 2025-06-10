@@ -1,11 +1,11 @@
-import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
-import { Button, Typography, Divider, List, Spin, Popconfirm } from 'antd';
-import { db } from '../../../services/firebse-config';
-import { useAppSelector } from '../../../app/hook';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../routes/paths';
-import { useEffect, useState } from 'react';
-import './ResumeTab.css';
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { Button, Typography, Divider, List, Spin, Popconfirm } from "antd";
+import { db } from "../../../services/firebse-config";
+import { useAppSelector } from "../../../app/hook";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../routes/paths";
+import { useEffect, useState } from "react";
+import "./ResumeTab.css";
 
 interface ResumeTabProps {
   theme: string;
@@ -13,8 +13,16 @@ interface ResumeTabProps {
 
 const { Title, Text, Paragraph } = Typography;
 
+interface ContactInfo {
+  name: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  city: string;
+}
+
 interface Resume {
-  contactInfo: any;
+  contactInfo: ContactInfo;
   name: string;
   phone: string;
   education: string;
@@ -40,11 +48,11 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
     setLoading(true);
     try {
       if (!id) {
-        console.error('Invalid ID: null or undefined');
+        console.error("Invalid ID: null or undefined");
         return false;
       }
 
-      const docRef = doc(db, 'resume', id);
+      const docRef = doc(db, "resume", id);
       await deleteDoc(docRef);
       setResumeData(null);
       setLoading(false);
@@ -59,7 +67,7 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'resume'));
+        const querySnapshot = await getDocs(collection(db, "resume"));
         let matchedResume: Resume | null = null;
 
         querySnapshot.forEach((docSnap) => {
@@ -67,23 +75,23 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
           if (data.ownerID === id) {
             matchedResume = {
               contactInfo: {
-                name: data.contactInfo?.name || '',
-                lastName: data.contactInfo?.lastName || '',
-                email: data.contactInfo?.email || '',
-                phone: data.contactInfo?.phone || '',
-                city: data.contactInfo?.city || '',
+                name: data.contactInfo?.name || "",
+                lastName: data.contactInfo?.lastName || "",
+                email: data.contactInfo?.email || "",
+                phone: data.contactInfo?.phone || "",
+                city: data.contactInfo?.city || "",
               },
-              name: data.contactInfo?.name || '',
-              phone: data.contactInfo?.phone || '',
-              education: data.education || '',
-              profile: data.summary || '',
+              name: data.contactInfo?.name || "",
+              phone: data.contactInfo?.phone || "",
+              education: data.education || "",
+              profile: data.summary || "",
               experience: Array.isArray(data.experience)
                 ? data.experience.map((exp: any) => ({
-                    company: exp.company || '',
-                    position: exp.position || '',
-                    description: exp.description || '',
-                    startDate: exp.startDate || '',
-                    endDate: exp.endDate || '',
+                    company: exp.company || "",
+                    position: exp.position || "",
+                    description: exp.description || "",
+                    startDate: exp.startDate || "",
+                    endDate: exp.endDate || "",
                   }))
                 : [],
               skills: Array.isArray(data.skills) ? data.skills : [],
@@ -95,10 +103,10 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
         if (matchedResume) {
           setResumeData(matchedResume);
         } else {
-          console.log('No resume found for this user');
+          console.log("No resume found for this user");
         }
       } catch (error) {
-        console.error('Error fetching resume:', error);
+        console.error("Error fetching resume:", error);
       }
     };
 
@@ -111,15 +119,15 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
     <div className={`resume-tab-wrapper ${theme}`}>
       {resumeData ? (
         <>
-          <div style={{ padding: '12px' }}>
+          <div style={{ padding: "12px" }}>
             <Title level={4} style={{ marginBottom: 4 }}>
-              {resumeData?.contactInfo?.name}{' '}
+              {resumeData?.contactInfo?.name}{" "}
               {resumeData?.contactInfo?.lastName}
             </Title>
             <Text type="secondary">{resumeData?.contactInfo?.email}</Text>
             <br />
             <Text type="secondary">
-              📞 {resumeData?.contactInfo?.phone} | 📍{' '}
+              📞 {resumeData?.contactInfo?.phone} | 📍{" "}
               {resumeData?.contactInfo?.city}
             </Text>
             <Divider />
@@ -127,7 +135,7 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
             <Paragraph>
               {resumeData?.profile?.trim()
                 ? resumeData.profile
-                : 'No profile summary provided.'}
+                : "No profile summary provided."}
             </Paragraph>
             <Divider />
             <Title level={5}>Experience</Title>
@@ -145,7 +153,7 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
                       description={
                         <>
                           <Text type="secondary">
-                            {new Date(exp.startDate).toLocaleDateString()} -{' '}
+                            {new Date(exp.startDate).toLocaleDateString()} -{" "}
                             {new Date(exp.endDate).toLocaleDateString()}
                           </Text>
                           <br />
@@ -164,14 +172,14 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
 
             <Title level={5}>Skills</Title>
             {resumeData?.skills?.length ? (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {resumeData.skills.map((skill, idx) => (
                   <span
                     key={idx}
                     style={{
-                      backgroundColor: '#f0f0f0',
-                      padding: '4px 10px',
-                      borderRadius: '20px',
+                      backgroundColor: "#f0f0f0",
+                      padding: "4px 10px",
+                      borderRadius: "20px",
                     }}
                   >
                     {skill}
@@ -185,7 +193,7 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
 
             <Title level={5}>Languages</Title>
             {resumeData?.languages?.length ? (
-              <ul style={{ paddingLeft: '1.2rem' }}>
+              <ul style={{ paddingLeft: "1.2rem" }}>
                 {resumeData.languages.map((lang, i) => (
                   <li key={i}>{lang}</li>
                 ))}

@@ -4,6 +4,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../services/firebse-config";
 import { message } from "antd";
+import type { RootState } from "../app/store";
 
 interface AuthContextType {
   isAuth: boolean;
@@ -27,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const dispatch = useDispatch();
-  const { email, token, id } = useSelector((state: any) => state.user);
+  const { email, token, id } = useSelector((state: RootState) => state.user);
   const [authLoading, setAuthLoading] = useState(true);
 
   const logout = async () => {
