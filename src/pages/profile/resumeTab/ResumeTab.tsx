@@ -1,5 +1,5 @@
 import { Button, Typography, Divider, List } from 'antd';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +35,23 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const [resumeData, setResumeData] = useState<Resume | null>(null);
   const navigate = useNavigate();
 
+  async function handleDeleteResume(id: string | null) {
+    // console.log(id, 'id');
+    try {
+      if (!id) {
+        console.error('Invalid ID: null or undefined');
+        return false;
+      }
+
+      const docRef = doc(db, 'resume', id);
+      await deleteDoc(docRef);
+      setResumeData(null);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -90,89 +107,101 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   return (
     <div className={`resume-tab-wrapper ${theme}`}>
       {resumeData ? (
-        <div style={{ padding: '12px' }}>
-          <Title level={4} style={{ marginBottom: 4 }}>
-            {resumeData?.contactInfo?.name} {resumeData?.contactInfo?.lastName}
-          </Title>
-          <Text type="secondary">{resumeData?.contactInfo?.email}</Text>
-          <br />
-          <Text type="secondary">
-            📞 {resumeData?.contactInfo?.phone} | 📍{' '}
-            {resumeData?.contactInfo?.city}
-          </Text>
-          <Divider />
-          <Title level={5}>Profile</Title>
-          <Paragraph>
-            {resumeData?.profile?.trim()
-              ? resumeData.profile
-              : 'No profile summary provided.'}
-          </Paragraph>
-          <Divider />
-          <Title level={5}>Experience</Title>
-          {resumeData?.experience?.length ? (
-            <List
-              dataSource={resumeData.experience}
-              renderItem={(exp) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={
-                      <>
-                        {exp.position} at <strong>{exp.company}</strong>
-                      </>
-                    }
-                    description={
-                      <>
-                        <Text type="secondary">
-                          {new Date(exp.startDate).toLocaleDateString()} -{' '}
-                          {new Date(exp.endDate).toLocaleDateString()}
-                        </Text>
-                        <br />
-                        {`Description: ${exp.description}`}
-                      </>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          ) : (
-            <Paragraph type="secondary">No experience listed.</Paragraph>
-          )}
+        <>
+          <div style={{ padding: '12px' }}>
+            <Title level={4} style={{ marginBottom: 4 }}>
+              {resumeData?.contactInfo?.name}{' '}
+              {resumeData?.contactInfo?.lastName}
+            </Title>
+            <Text type="secondary">{resumeData?.contactInfo?.email}</Text>
+            <br />
+            <Text type="secondary">
+              📞 {resumeData?.contactInfo?.phone} | 📍{' '}
+              {resumeData?.contactInfo?.city}
+            </Text>
+            <Divider />
+            <Title level={5}>Profile</Title>
+            <Paragraph>
+              {resumeData?.profile?.trim()
+                ? resumeData.profile
+                : 'No profile summary provided.'}
+            </Paragraph>
+            <Divider />
+            <Title level={5}>Experience</Title>
+            {resumeData?.experience?.length ? (
+              <List
+                dataSource={resumeData.experience}
+                renderItem={(exp) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={
+                        <>
+                          {exp.position} at <strong>{exp.company}</strong>
+                        </>
+                      }
+                      description={
+                        <>
+                          <Text type="secondary">
+                            {new Date(exp.startDate).toLocaleDateString()} -{' '}
+                            {new Date(exp.endDate).toLocaleDateString()}
+                          </Text>
+                          <br />
+                          {`Description: ${exp.description}`}
+                        </>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            ) : (
+              <Paragraph type="secondary">No experience listed.</Paragraph>
+            )}
 
-          <Divider />
+            <Divider />
 
-          <Title level={5}>Skills</Title>
-          {resumeData?.skills?.length ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {resumeData.skills.map((skill, idx) => (
-                <span
-                  key={idx}
-                  style={{
-                    backgroundColor: '#f0f0f0',
-                    padding: '4px 10px',
-                    borderRadius: '20px',
-                  }}
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <Paragraph type="secondary">No skills listed.</Paragraph>
-          )}
+            <Title level={5}>Skills</Title>
+            {resumeData?.skills?.length ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {resumeData.skills.map((skill, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      backgroundColor: '#f0f0f0',
+                      padding: '4px 10px',
+                      borderRadius: '20px',
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <Paragraph type="secondary">No skills listed.</Paragraph>
+            )}
 
-          <Divider />
+            <Divider />
 
-          <Title level={5}>Languages</Title>
-          {resumeData?.languages?.length ? (
-            <ul style={{ paddingLeft: '1.2rem' }}>
-              {resumeData.languages.map((lang, i) => (
-                <li key={i}>{lang}</li>
-              ))}
-            </ul>
-          ) : (
-            <Paragraph type="secondary">No languages listed.</Paragraph>
-          )}
-        </div>
+            <Title level={5}>Languages</Title>
+            {resumeData?.languages?.length ? (
+              <ul style={{ paddingLeft: '1.2rem' }}>
+                {resumeData.languages.map((lang, i) => (
+                  <li key={i}>{lang}</li>
+                ))}
+              </ul>
+            ) : (
+              <Paragraph type="secondary">No languages listed.</Paragraph>
+            )}
+          </div>
+          <div>
+            <Button
+              onClick={() => handleDeleteResume(id)}
+              type="primary"
+              danger
+            >
+              Delete
+            </Button>
+          </div>
+        </>
       ) : (
         <div className="empty-resume-container">
           <p className="resume-hint-text">
