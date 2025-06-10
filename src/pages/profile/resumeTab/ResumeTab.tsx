@@ -1,5 +1,5 @@
 import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
-import { Button, Typography, Divider, List, Spin } from 'antd';
+import { Button, Typography, Divider, List, Spin, Popconfirm } from 'antd';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
@@ -195,13 +195,17 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
             )}
           </div>
           <div>
-            <Button
-              onClick={() => handleDeleteResume(id)}
-              type="primary"
-              danger
+            <Popconfirm
+              title="Are you sure you want to delete your resume?"
+              onConfirm={() => handleDeleteResume(id)}
+              okText="Yes"
+              cancelText="No"
             >
-              Delete
-            </Button>
+              <Button type="primary" danger>
+                Delete
+              </Button>
+            </Popconfirm>
+
             {loading ? (
               <Spin tip="Loading..." size="large">
                 <div style={{ height: 200 }}></div>
