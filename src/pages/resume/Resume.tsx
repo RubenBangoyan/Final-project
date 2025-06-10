@@ -21,6 +21,7 @@ import {
   Modal,
   Typography,
   List,
+  Spin,
 } from 'antd';
 
 const { TextArea } = Input;
@@ -49,6 +50,7 @@ const ResumeForm: React.FC = () => {
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const [parsedResume, setParsedResume] = useState<Resume | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const id = useAppSelector((state) => state.user.id);
   const resultRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -63,6 +65,7 @@ const ResumeForm: React.FC = () => {
   };
 
   async function handleCreateResume(values: any) {
+    setLoading(true);
     const prompt = formatResumePrompt(values);
 
     try {
@@ -89,12 +92,15 @@ const ResumeForm: React.FC = () => {
         resultRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 300);
 
+      setLoading(false);
+
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 3000);
 
       setGeneratedResume(result);
       console.log('Resume saved to Firestore.');
     } catch (err) {
+      setLoading(false);
       console.error('Error generating/saving resume:', err);
     }
   }
@@ -122,6 +128,11 @@ const ResumeForm: React.FC = () => {
           <Divider orientation="left">
             <h1>🧍 Fill this out before creating your resume</h1>
           </Divider>
+          {loading ? (
+            <Spin tip="Loading..." size="large">
+              <div style={{ height: '200px' }}>Loading</div>
+            </Spin>
+          ) : null}
           <Row gutter={[24, 16]}>
             <Col xs={24} sm={12} md={8}>
               <Form.Item

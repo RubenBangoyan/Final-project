@@ -1,5 +1,5 @@
 import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
-import { Button, Typography, Divider, List } from 'antd';
+import { Button, Typography, Divider, List, Spin } from 'antd';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
@@ -33,9 +33,11 @@ interface Resume {
 const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const id = useAppSelector((state) => state.user.id);
   const [resumeData, setResumeData] = useState<Resume | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function handleDeleteResume(id: string | null) {
+    setLoading(true);
     try {
       if (!id) {
         console.error('Invalid ID: null or undefined');
@@ -45,9 +47,11 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
       const docRef = doc(db, 'resume', id);
       await deleteDoc(docRef);
       setResumeData(null);
+      setLoading(false);
       return true;
     } catch (error) {
       console.log(error);
+      setLoading(false);
       return false;
     }
   }
@@ -198,6 +202,11 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
             >
               Delete
             </Button>
+            {loading ? (
+              <Spin tip="Loading..." size="large">
+                <div style={{ height: 200 }}></div>
+              </Spin>
+            ) : null}
           </div>
         </>
       ) : (
