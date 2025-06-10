@@ -25,10 +25,10 @@ const routeElements = [
   { path: ROUTES.RESUME_PATH, element: <ResumeForm /> },
   { path: ROUTES.UPLOAD_WORK, element: <UploadWork /> },
   { path: ROUTES.TEAM, element: <TeamPage /> },
+  { path: ROUTES.ABOUT_PATH, element: <About /> },
   {
     element: <ProtectedRouter />,
     children: [
-      { path: ROUTES.ABOUT_PATH, element: <About /> },
       { path: ROUTES.CONTACT_US_PATH, element: <Contact /> },
       { path: ROUTES.PROFILE_PATH, element: <ProfilePage /> },
       { path: ROUTES.JOBS_PATH, element: <Jobs /> },
