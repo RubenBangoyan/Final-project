@@ -1,9 +1,11 @@
+import { Timestamp } from 'firebase/firestore';
+
 export interface Job {
   id: string;
   companyName: string;
   companyWebsite: string;
   contactEmail: string;
-  createdAt: any;
+  createdAt: Timestamp;
   employmentType: string[];
   level: string;
   location: string;
@@ -14,5 +16,5 @@ export interface Job {
   salaryTo: number;
   technologies: string[];
   appliedUsers: string[];
-  expiresAt: string;
+  expiresAt: Timestamp;
 }

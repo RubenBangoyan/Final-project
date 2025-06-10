@@ -1,11 +1,11 @@
-import { Form, Input, Select, Button, InputNumber, Modal } from 'antd';
-import { serverTimestamp, doc, setDoc } from 'firebase/firestore';
-import { db } from '../../services/firebse-config';
-import { useAppSelector } from '../../app/hook';
-import { useNavigate } from 'react-router-dom';
-import { Timestamp } from 'firebase/firestore';
-import { ROUTES } from '../../routes/paths';
-import { v4 as uuid } from 'uuid';
+import { Form, Input, Select, Button, InputNumber, Modal } from "antd";
+import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import { db } from "../../services/firebse-config";
+import { useAppSelector } from "../../app/hook";
+import { useNavigate } from "react-router-dom";
+import { Timestamp } from "firebase/firestore";
+import { ROUTES } from "../../routes/paths";
+import { v4 as uuid } from "uuid";
 
 const { Option } = Select;
 
@@ -15,7 +15,7 @@ interface OfferingWorkFormValues {
   companyWebsite?: string;
   position: string;
   category?: string;
-  level?: 'intern' | 'junior' | 'mid' | 'senior' | 'lead';
+  level?: "intern" | "junior" | "mid" | "senior" | "lead";
   technologies?: string[];
   employmentType?: string[];
   location?: string;
@@ -38,14 +38,15 @@ const UploadWork = () => {
   const onFinish = async (values: OfferingWorkFormValues) => {
     try {
       if (!id) {
-        console.error('User ID is null. Cannot create document.');
+        console.error("User ID is null. Cannot create document.");
         return;
       }
 
       const cleanedValues = cleanObject(values);
 
-
-      const expiresAt = Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
+      const expiresAt = Timestamp.fromDate(
+        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+      );
 
       const dataToSave = {
         ...cleanedValues,
@@ -55,22 +56,22 @@ const UploadWork = () => {
         expiresAt: expiresAt,
       };
 
-      await setDoc(doc(db, 'jobs', unicID), dataToSave);
-      console.log('Job successfully saved with ID:', unicID);
+      await setDoc(doc(db, "jobs", unicID), dataToSave);
+      console.log("Job successfully saved with ID:", unicID);
 
       navigate(ROUTES.HOME_PATH);
     } catch (error) {
-      console.error('Error saving document:', error);
+      console.error("Error saving document:", error);
     }
   };
 
   const handleGoBack = () => {
     Modal.confirm({
-      title: 'Discard Form?',
+      title: "Discard Form?",
       content:
-        'Are you sure you want to go back? All entered data will be lost.',
-      okText: 'Yes, go back',
-      cancelText: 'Cancel',
+        "Are you sure you want to go back? All entered data will be lost.",
+      okText: "Yes, go back",
+      cancelText: "Cancel",
       onOk: () => navigate(ROUTES.HOME_PATH),
     });
   };
@@ -81,7 +82,7 @@ const UploadWork = () => {
         <Form.Item
           name="companyName"
           label="Company Name"
-          rules={[{ required: true, message: 'Please input company name' }]}
+          rules={[{ required: true, message: "Please input company name" }]}
         >
           <Input />
         </Form.Item>
@@ -92,7 +93,7 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter information about the company',
+              message: "Please enter information about the company",
             },
           ]}
         >
@@ -105,8 +106,8 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter the company website',
-              type: 'url',
+              message: "Please enter the company website",
+              type: "url",
             },
           ]}
         >
@@ -116,7 +117,7 @@ const UploadWork = () => {
         <Form.Item
           name="position"
           label="Open Position"
-          rules={[{ required: true, message: 'Please input position' }]}
+          rules={[{ required: true, message: "Please input position" }]}
         >
           <Input />
         </Form.Item>
@@ -124,11 +125,13 @@ const UploadWork = () => {
         <Form.Item
           name="category"
           label="Job Category"
-          rules={[{ required: true, message: 'Please select a job category' }]}
+          rules={[{ required: true, message: "Please select a job category" }]}
         >
           <Select placeholder="Select job category">
             <Option value="softwareDevelopment">Software Development</Option>
-            <Option value="InfrastructureDevOps">Infrastructure / DevOps</Option>
+            <Option value="InfrastructureDevOps">
+              Infrastructure / DevOps
+            </Option>
             <Option value="designCreative">Design & Creative</Option>
             <Option value="marketingSales">Marketing & Sales</Option>
             <Option value="dataScience">Data Science</Option>
@@ -147,7 +150,7 @@ const UploadWork = () => {
           name="level"
           label="Position Level"
           rules={[
-            { required: true, message: 'Please select a position level' },
+            { required: true, message: "Please select a position level" },
           ]}
         >
           <Select placeholder="Select level">
@@ -165,7 +168,7 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please specify the required technologies',
+              message: "Please specify the required technologies",
             },
           ]}
         >
@@ -178,7 +181,7 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please select at least one employment type',
+              message: "Please select at least one employment type",
             },
           ]}
         >
@@ -194,7 +197,7 @@ const UploadWork = () => {
         <Form.Item
           name="location"
           label="Location (Office / Remote)"
-          rules={[{ required: true, message: 'Please enter the job location' }]}
+          rules={[{ required: true, message: "Please enter the job location" }]}
         >
           <Input placeholder="Moscow / remote / hybrid" />
         </Form.Item>
@@ -203,20 +206,20 @@ const UploadWork = () => {
           label="Salary From (USD)"
           name="salaryFrom"
           rules={[
-            { required: true, message: 'Please enter the minimum salary' },
+            { required: true, message: "Please enter the minimum salary" },
           ]}
         >
-          <InputNumber min={0} step={100} style={{ width: '100%' }} />
+          <InputNumber min={0} step={100} style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item
           label="Salary To (USD)"
           name="salaryTo"
           rules={[
-            { required: true, message: 'Please enter the maximum salary' },
+            { required: true, message: "Please enter the maximum salary" },
           ]}
         >
-          <InputNumber min={0} step={100} style={{ width: '100%' }} />
+          <InputNumber min={0} step={100} style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item
@@ -225,7 +228,7 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please specify the candidate requirements',
+              message: "Please specify the candidate requirements",
             },
           ]}
         >
@@ -237,9 +240,9 @@ const UploadWork = () => {
           label="Contact Email"
           rules={[
             {
-              type: 'email',
+              type: "email",
               required: true,
-              message: 'Please input a valid email',
+              message: "Please input a valid email",
             },
           ]}
         >
@@ -252,7 +255,7 @@ const UploadWork = () => {
           rules={[
             {
               required: true,
-              message: 'Please enter your Telegram or another contact',
+              message: "Please enter your Telegram or another contact",
             },
           ]}
         >
@@ -262,7 +265,7 @@ const UploadWork = () => {
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Save
-          </Button>{' '}
+          </Button>{" "}
           <Button type="default" onClick={handleGoBack}>
             Go Back Home
           </Button>
