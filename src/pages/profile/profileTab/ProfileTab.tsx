@@ -1,6 +1,7 @@
 import { UserOutlined, MailOutlined } from '@ant-design/icons';
 import { ROUTES } from '../../../routes/paths';
 import { useNavigate } from 'react-router-dom';
+import { avatarSeeds } from './avatarSeeds';
 import './ProfileTab.css';
 import {
   Divider,
@@ -14,29 +15,6 @@ import {
   Popover,
 } from 'antd';
 import { useState } from 'react';
-
-const avatarSeeds = [
-  'Adrian',
-  'Kimberly',
-  'Liliana',
-  'Avery',
-  'Jack',
-  'Sara',
-  'Ryan',
-  'Emery',
-  'Maria',
-  'Alexander',
-  'Christopher',
-  'Wyatt',
-  'Chase',
-  'Brooklynn',
-  'Sophia',
-  'Easton',
-  'Liam',
-  'Andrea',
-  'Sadie',
-  'Leo',
-];
 
 interface ProfileTabProps {
   profile: any;

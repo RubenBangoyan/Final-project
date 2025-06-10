@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { getAllJobs } from "../../../components/jobCard/JobService";
 import type { Job } from "../../../components/jobCard/types/types";
-import { Col, Empty, Row, Typography, Spin } from "antd";
 import JobCard from "../../../components/jobCard/JobCard";
+import { Col, Empty, Row, Typography, Spin } from "antd";
 import { db } from "../../../services/firebse-config";
+import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import './FavoriteJobTab.css';
 

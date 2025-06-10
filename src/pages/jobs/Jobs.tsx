@@ -6,6 +6,7 @@ import { useFilter } from "../../hooks/useFilter";
 import { useLocation } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
   Input,
   Select,
@@ -19,7 +20,6 @@ import {
   Typography,
 } from "antd";
 import "./Jobs.css";
-import { motion } from "framer-motion";
 
 const { Title } = Typography;
 const { Search } = Input;
