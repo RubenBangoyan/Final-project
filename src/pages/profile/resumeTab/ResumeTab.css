@@ -1,36 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 :root {
-    --primary-color: #1890ff;
-    --bg-light: #f1f4ff;
-    --bg-dark: #122f49;
-    --text-dark: #001529;
-    --text-light: #f0f0f0;
-    --feature-light-bg: rgba(255, 255, 255, 0.15);
-    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+  --primary-color: #1890ff;
+  --bg-light: #f1f4ff;
+  --bg-dark: #122f49;
+  --text-dark: #001529;
+  --text-light: #f0f0f0;
+  --feature-light-bg: rgba(255, 255, 255, 0.15);
+  --feature-dark-bg: rgba(60, 60, 90, 0.3);
 }
+
 .resume-tab-wrapper {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    min-height: 10vh;
-    padding: 1rem;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  min-height: 10vh;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .empty-resume-container {
-    text-align: left;
-    background: transparent;
-    padding: 0 0;
-    border: transparent;
+  text-align: left;
+  background: transparent;
+  padding: 0 0;
+  border: transparent;
 }
 
 .resume-hint-text {
-    font-size: 1.125rem;
-    color: #000;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+  font-size: 1.125rem;
+  color: #000;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
-.resume-tab-wrapper.dark .resume-hint-text{
-    color: var(--text-light);
+.resume-tab-wrapper.dark .resume-hint-text {
+  color: var(--text-light);
 }
