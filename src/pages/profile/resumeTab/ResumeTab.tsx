@@ -1,5 +1,5 @@
-import { Button, Typography, Divider, List } from 'antd';
 import { getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
+import { Button, Typography, Divider, List } from 'antd';
 import { db } from '../../../services/firebse-config';
 import { useAppSelector } from '../../../app/hook';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +36,6 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const navigate = useNavigate();
 
   async function handleDeleteResume(id: string | null) {
-    // console.log(id, 'id');
     try {
       if (!id) {
         console.error('Invalid ID: null or undefined');
@@ -178,7 +177,6 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
             ) : (
               <Paragraph type="secondary">No skills listed.</Paragraph>
             )}
-
             <Divider />
 
             <Title level={5}>Languages</Title>
