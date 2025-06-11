@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 100vh;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -63,4 +63,49 @@
   .submit-remember-container button {
     width: 100%;
   }
+}
+
+.sign-up-container.dark {
+  background-color: var(--bg-dark);
+}
+
+.sign-up-container.dark .form {
+  background-color: var(--feature-dark-bg);
+  color: var(--text-light);
+}
+
+.sign-up-container.dark input,
+.sign-up-container.dark .ant-input,
+.sign-up-container.dark .ant-input-password{
+  background-color: #2c2c2c !important;
+  color: var(--text-light) !important;
+  border: 1px solid #444 !important;
+}
+.sign-up-container.dark .ant-input-password input{
+  background-color: #2c2c2c !important;
+  color: var(--text-light) !important;
+  border: transparent !important;
+}
+
+.sign-up-container.dark input::placeholder,
+.sign-up-container.dark .ant-input::placeholder {
+  color: #aaa !important;
+}
+
+.sign-up-container.dark .ant-input:focus,
+.sign-up-container.dark .ant-input-focused,
+.sign-up-container.dark .ant-input-password input:focus {
+  background-color: #2c2c2c !important;
+  color: var(--text-light) !important;
+  box-shadow: none !important;
+}
+
+.sign-up-container.dark .ant-input-password-icon {
+  color: #ccc !important;
+}
+
+.sign-up-container.dark .remember,
+.sign-up-container.dark .login-redirect,
+.sign-up-container.dark label {
+  color: var(--text-light);
 }

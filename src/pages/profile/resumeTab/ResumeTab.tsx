@@ -151,16 +151,9 @@ const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
             {resumeData?.skills?.length ? (
               <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {resumeData.skills.map((skill, idx) => (
-                  <span
-                    key={idx}
-                    style={{
-                      backgroundColor: "#f0f0f0",
-                      padding: "4px 10px",
-                      borderRadius: "20px",
-                    }}
-                  >
+                    <span key={idx} className="resume-skill-tag">
                     {skill}
-                  </span>
+                    </span>
                 ))}
               </div>
             ) : (

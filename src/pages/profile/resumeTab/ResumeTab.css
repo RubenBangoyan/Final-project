@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 :root {
   --primary-color: #1890ff;
   --bg-light: #f1f4ff;
@@ -7,6 +8,8 @@
   --text-light: #f0f0f0;
   --feature-light-bg: rgba(255, 255, 255, 0.15);
   --feature-dark-bg: rgba(60, 60, 90, 0.3);
+  --skill-light-bg: #f0f0f0;
+  --skill-dark-bg: #2e3b4e;
 }
 
 .resume-tab-wrapper {
@@ -16,22 +19,84 @@
   padding: 1rem;
   flex-direction: column;
   justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.empty-resume-container {
-  text-align: left;
-  background: transparent;
-  padding: 0 0;
-  border: transparent;
+.resume-tab-wrapper.light {
+  color: var(--text-dark);
 }
 
-.resume-hint-text {
-  font-size: 1.125rem;
-  color: #000;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
+.resume-tab-wrapper.light .resume-hint-text {
+  color: var(--text-dark);
+}
+
+.resume-tab-wrapper.light .resume-skill-tag {
+  background-color: var(--skill-light-bg);
+  color: var(--text-dark);
+}
+
+.resume-tab-wrapper.dark {
+  color: var(--text-light);
 }
 
 .resume-tab-wrapper.dark .resume-hint-text {
   color: var(--text-light);
 }
+
+.resume-tab-wrapper.dark .ant-typography,
+.resume-tab-wrapper.dark .ant-divider,
+.resume-tab-wrapper.dark .ant-list-item-meta-title,
+.resume-tab-wrapper.dark .ant-list-item-meta-description,
+.resume-tab-wrapper.dark li {
+  color: var(--text-light) !important;
+}
+
+.resume-tab-wrapper.dark .ant-list-item {
+  border-color: var(--feature-dark-bg);
+}
+
+.resume-tab-wrapper.dark .resume-skill-tag {
+  background-color: var(--skill-dark-bg);
+  color: var(--text-light);
+}
+
+.empty-resume-container {
+  text-align: left;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.resume-hint-text {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.resume-skill-tag {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  display: inline-block;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.resume-skill-tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  display: inline-block;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.resume-tab-wrapper.light .resume-skill-tag {
+  background-color: var(--skill-light-bg);
+  color: var(--text-dark);
+}
+
+.resume-tab-wrapper.dark .resume-skill-tag {
+  background-color: var(--skill-dark-bg);
+  color: var(--text-light);
+}
+
