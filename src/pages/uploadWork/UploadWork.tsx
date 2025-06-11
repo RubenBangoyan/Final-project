@@ -204,6 +204,7 @@ const UploadWork = () => {
                     <Option value="legal">Legal</Option>
                     <Option value="engineering">Engineering</Option>
                     <Option value="finance">Finance</Option>
+                    <Option value="QualityTesting">Quality Assurance / Testing</Option>
                     <Option value="others">Others</Option>
                   </Select>
                 </Form.Item>
