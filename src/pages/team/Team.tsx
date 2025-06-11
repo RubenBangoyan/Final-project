@@ -1,11 +1,11 @@
+import YuriAvatar from "../../assets/images/yuri_dolukhanyan_avatar.png";
 import defaultAvatar from "../../assets/images/225-default-avatar.png";
 import NairiAvatar from "../../assets/images/Nairi-avatar-2.jpg";
-import YuriAvatar from "../../assets/images/yuri_dolukhanyan_avatar.png";
 import MelineAvatar from "../../assets/images/meline_img.png";
+import { useTheme } from "../../contexts/ThemeContext";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import "./Team.css";
-import { useTheme } from "../../contexts/ThemeContext";
 import {
   Layout,
   Row,
@@ -31,7 +31,6 @@ interface Developer {
   email: string;
   surname: string;
   skills: string[];
-  // university: string;
   photo: string | null;
   gender: "male" | "female";
 }

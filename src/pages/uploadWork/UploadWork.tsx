@@ -1,3 +1,12 @@
+import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import { useTheme } from "../../contexts/ThemeContext";
+import { db } from "../../services/firebse-config";
+import { useAppSelector } from "../../app/hook";
+import { useNavigate } from "react-router-dom";
+import { Timestamp } from "firebase/firestore";
+import { ROUTES } from "../../routes/paths";
+import { v4 as uuid } from "uuid";
+import "./UploadWork.css";
 import {
   Form,
   Input,
@@ -11,15 +20,6 @@ import {
   Divider,
   Typography,
 } from "antd";
-import { serverTimestamp, doc, setDoc } from "firebase/firestore";
-import { db } from "../../services/firebse-config";
-import { useAppSelector } from "../../app/hook";
-import { useNavigate } from "react-router-dom";
-import { Timestamp } from "firebase/firestore";
-import { ROUTES } from "../../routes/paths";
-import { v4 as uuid } from "uuid";
-import "./UploadWork.css";
-import { useTheme } from "../../contexts/ThemeContext";
 
 const { Option } = Select;
 

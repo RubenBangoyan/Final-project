@@ -1,13 +1,13 @@
-import type { FieldType } from '../types';
+import { setUser } from '../../../features/user/userSlice';
+import { auth } from '../../../services/firebse-config';
 import type { FormInstance, FormProps } from 'antd';
+import type { FieldType } from '../types';
 import {
+  setPersistence,
   inMemoryPersistence,
   browserLocalPersistence,
-  setPersistence,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth } from '../../../services/firebse-config';
-import { setUser } from '../../../features/user/userSlice';
 
 type SignInDependencies = {
   dispatch: any;
