@@ -148,3 +148,14 @@ button {
     padding: 1.5rem;
   }
 }
+
+[data-theme='dark'] .ant-input:focus,
+[data-theme='dark'] .ant-input-focused,
+[data-theme='dark'] .ant-picker-focused,
+[data-theme='dark'] .ant-picker-range-focused,
+[data-theme='dark'] .ant-input-textarea:focus {
+  background-color: #2a2a3d !important;
+  color: var(--text-light) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: none !important;
+}

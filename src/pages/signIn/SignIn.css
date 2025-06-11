@@ -1,8 +1,19 @@
+:root {
+  --primary-color: #1890ff;
+  --bg-light: #f1f4ff;
+  --bg-dark: #122f49;
+  --text-dark: #001529;
+  --text-light: #f0f0f0;
+  --feature-light-bg: transparent;
+  --feature-dark-bg: #1e1e2f;;
+  transition: background-color 0.3s, color 0.3s;
+}
+
 .sign-in-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 100vh;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -61,4 +72,65 @@
   .submit-remember-container button {
     width: 100%;
   }
+}
+
+.container.dark{
+  background-color: var(--bg-dark);
+}
+
+.container.dark .sign-in-container {
+  background-color: var(--bg-dark);
+}
+
+.container.dark .form {
+  background-color: var(--feature-dark-bg)
+}
+
+.container.dark input {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+input[type="password"] {
+  background-color: var(--bg-dark);
+  color: #f0f0f0;
+}
+
+.container.dark .ant-input-password input {
+  background-color: transparent;
+  border: transparent;
+}
+
+.container.dark .ant-input-password,
+.container.dark .ant-input-email{
+  background-color: #2c2c2c;
+  border: 1px solid #444;
+}
+
+.container.dark .text,
+.container.dark .remember{
+  color: white;
+}
+
+.container.dark .ant-input-focused,
+.container.dark .ant-input:focus,
+.container.dark .ant-input-password:focus,
+.container.dark .ant-input-password input:focus {
+  background-color: #2c2c2c !important;
+  color: #f0f0f0 !important;
+  border-color: #666 !important;
+  box-shadow: none !important;
+}
+
+.container.dark input,
+.container.dark .ant-input,
+.container.dark .ant-input-password,
+.container.dark .ant-input-password input {
+  background-color: #2c2c2c !important;
+  color: #f0f0f0 !important;
+}
+
+.container.dark input::placeholder,
+.container.dark .ant-input::placeholder {
+  color: #aaa !important;
 }
