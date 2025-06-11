@@ -1,22 +1,10 @@
 import { Avatar, Badge, Skeleton, Typography, Card } from 'antd';
+import type { ProfileHeaderProps } from './types';
 import { UserOutlined } from '@ant-design/icons';
 import './ProfileHeader.css';
 import React from 'react';
 
 const { Title, Text } = Typography;
-
-interface ProfileHeaderProps {
-  loading: boolean;
-  profile: {
-    firstName?: string;
-    lastName?: string;
-    avatarSeed?: string;
-    joinDate?: string;
-    lastLogin?: string;
-  } | null;
-  email?: string | null;
-  theme: string;
-}
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   loading,

@@ -1,3 +1,7 @@
+import { updateUserPassword } from '../../../hooks/usePasswordUpdate';
+import { LockOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import type { SecurityTabProps, PasswordFormValues } from './types';
+import './SecurityTab.css';
 import {
   Card,
   Col,
@@ -8,36 +12,19 @@ import {
   Typography,
   Button,
   notification,
-} from "antd";
-import { LockOutlined, ClockCircleOutlined } from "@ant-design/icons";
-import "./SecurityTab.css";
-import { updateUserPassword } from "../../../hooks/usePasswordUpdate";
+} from 'antd';
 
 const { Title, Text } = Typography;
 
-interface Profile {
-  lastLogin?: string;
-}
-
-interface SecurityTabProps {
-  profile: Profile;
-  theme: string;
-}
-
-interface PasswordFormValues {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
 
 export const SecurityTab: React.FC<SecurityTabProps> = ({ profile, theme }) => {
   async function handleSubmit(values: PasswordFormValues) {
     try {
       await updateUserPassword(values.newPassword);
-      notification.success({ message: "Password updated successfully" });
+      notification.success({ message: 'Password updated successfully' });
     } catch (error: any) {
       notification.error({
-        message: "Error updating password",
+        message: 'Error updating password',
         description: error.message,
       });
     }
@@ -55,7 +42,7 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile, theme }) => {
               label="Current Password"
               name="currentPassword"
               rules={[
-                { required: true, message: "Please enter current password" },
+                { required: true, message: 'Please enter current password' },
               ]}
             >
               <Input.Password prefix={<LockOutlined />} size="large" />
@@ -66,8 +53,8 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile, theme }) => {
             <Form.Item
               label="Confirm Password"
               name="confirmPassword"
-              dependencies={["newPassword"]}
-              rules={[{ required: true, message: "Please confirm password" }]}
+              dependencies={['newPassword']}
+              rules={[{ required: true, message: 'Please confirm password' }]}
             >
               <Input.Password prefix={<LockOutlined />} size="large" />
             </Form.Item>
@@ -80,8 +67,8 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile, theme }) => {
               label="New Password"
               name="newPassword"
               rules={[
-                { required: true, message: "Please enter new password" },
-                { min: 6, message: "Password must be at least 6 characters" },
+                { required: true, message: 'Please enter new password' },
+                { min: 6, message: 'Password must be at least 6 characters' },
               ]}
             >
               <Input.Password prefix={<LockOutlined />} size="large" />
@@ -116,7 +103,7 @@ export const SecurityTab: React.FC<SecurityTabProps> = ({ profile, theme }) => {
           <Col flex="auto">
             <Text strong>Last login</Text>
             <Text className="block text-gray-600">
-              {new Date(profile?.lastLogin || "").toLocaleString()}
+              {new Date(profile?.lastLogin || '').toLocaleString()}
             </Text>
           </Col>
         </Row>

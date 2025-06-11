@@ -5,6 +5,7 @@ import { useAppSelector } from "../../../app/hook";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../routes/paths";
 import { useEffect, useState } from "react";
+import type { Resume } from "./types";
 import "./ResumeTab.css";
 
 interface ResumeTabProps {
@@ -13,30 +14,6 @@ interface ResumeTabProps {
 
 const { Title, Text, Paragraph } = Typography;
 
-interface ContactInfo {
-  name: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  city: string;
-}
-
-interface Resume {
-  contactInfo: ContactInfo;
-  name: string;
-  phone: string;
-  education: string;
-  experience?: {
-    company: string;
-    position: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-  }[];
-  skills?: string[];
-  languages?: string[];
-  profile?: string;
-}
 
 const ResumeTab: React.FC<ResumeTabProps> = ({ theme }) => {
   const id = useAppSelector((state) => state.user.id);
