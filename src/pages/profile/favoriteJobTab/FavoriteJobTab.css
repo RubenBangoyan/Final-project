@@ -47,3 +47,25 @@
 .favorite-jobs-dark .favorite-jobs-header.ant-typography {
     color: var(--text-light) !important;
 }
+
+.favorite-jobs-dark .job-card {
+    background: var(--feature-dark-bg);
+    color: var(--text-light);
+}
+
+.favorite-jobs-dark .job-card .ant-typography,
+.favorite-jobs-dark .job-card .job-title,
+.favorite-jobs-dark .job-card .ant-tag {
+    color: var(--text-light) !important;
+}
+
+.favorite-jobs-light .job-card {
+    background: white;
+    color: var(--text-dark);
+}
+
+.favorite-jobs-light .job-card .ant-typography,
+.favorite-jobs-light .job-card .job-title {
+    color: var(--text-dark);
+}
+

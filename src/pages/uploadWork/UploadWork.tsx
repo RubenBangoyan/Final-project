@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import { ROUTES } from "../../routes/paths";
 import { v4 as uuid } from "uuid";
+import './UploadWork.css';
+import { useTheme } from "../../contexts/ThemeContext";
 
 const { Option } = Select;
 
@@ -31,6 +33,7 @@ const UploadWork = () => {
   const navigate = useNavigate();
   const id = useAppSelector((state) => state.user.id);
   const unicID = uuid();
+  const { theme } = useTheme();
 
   const cleanObject = (obj: Record<string, any>) =>
     Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined));
@@ -77,7 +80,7 @@ const UploadWork = () => {
   };
 
   return (
-    <div className="container">
+      <div className={`upload-container ${theme === "dark" ? "upload-dark" : "upload-light"}`}>
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
           name="companyName"

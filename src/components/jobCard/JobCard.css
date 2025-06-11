@@ -1,0 +1,80 @@
+.job-card {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.job-card-light {
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 350px;
+  margin: 3px;
+}
+
+.job-card-light .ant-typography,
+.job-card-light .ant-tag {
+  color: black;
+}
+
+.job-card-light .ant-card-head-title {
+  color: black;
+}
+
+.job-card-dark {
+  background-color: #1e1e2f;
+  color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+  min-height: 350px;
+  margin: 3px;
+}
+
+.job-card-dark .ant-typography,
+.job-card-dark .ant-tag {
+  color: #f0f0f0;
+}
+
+.job-card-dark .ant-tag {
+  background-color: #2c3e50;
+  border-color: #3d566e;
+}
+
+.job-card-dark .ant-card-head-title {
+  color: #f0f0f0;
+}
+
+.job-card-light .ant-typography,
+.job-card-dark .ant-typography,
+.job-card-light p,
+.job-card-dark p,
+.job-card-light span,
+.job-card-dark span {
+  margin: 4px 0 !important;
+  line-height: 1;
+  font-size: 0.95rem;
+  padding: 0;
+}
+
+.job-card .ant-card-body {
+  padding: 0 !important;
+  text-align: left;
+}
+
+.job-card .ant-card-head {
+  margin-top: -20px;
+  padding: 0 0 !important;
+}
+
+.job-card .ant-card-head-title {
+  text-align: left !important;
+  padding: 0 !important;
+  font-size: 1rem;
+}
+
+.job-card .ant-card-actions {
+  background-color: transparent !important;
+  border-top: none !important;
+  box-shadow: none !important;
+}
+
+.job-card .ant-card-actions::before {
+  display: none !important;
+}

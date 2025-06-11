@@ -248,3 +248,38 @@
 .home-dark .hero-title {
   color: var(--text-light);
 }
+
+.team.container {
+  display: flex;
+  justify-content: center;
+  margin: 9rem 0 -3rem;
+  border: transparent;
+}
+
+.team.container button {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 30px 32px;
+  border-radius: 32px;
+  color: var(--text-dark);
+  border: 2px solid var(--text-dark);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.team.container button:hover {
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  transform: translateY(-2px);
+}
+
+.home-dark .team.container button {
+  color: var(--text-light);
+  border: 2px solid var(--text-light);
+}
+
+.home-dark .team.container button:hover {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+

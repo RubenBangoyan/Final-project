@@ -9,6 +9,7 @@ import { ROUTES } from "../../routes/paths";
 import React, { useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./Resume.css";
+import { useTheme } from "../../contexts/ThemeContext";
 import {
   Button,
   DatePicker,
@@ -63,6 +64,7 @@ const ResumeForm: React.FC = () => {
   const resultRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const { theme } = useTheme();
 
   const addExperience = () => {
     setExperienceFields([...experienceFields, { id: uuidv4() }]);
@@ -125,7 +127,7 @@ const ResumeForm: React.FC = () => {
   };
 
   return (
-    <div className="container resume-container">
+      <div className={`container resume-container`} data-theme={theme}>
       <div className="resume-scroll">
         <Form
           form={form}
@@ -208,7 +210,6 @@ const ResumeForm: React.FC = () => {
                 padding: 16,
                 marginBottom: 16,
                 borderRadius: 8,
-                backgroundColor: "#fafafa",
               }}
             >
               <Row gutter={[24, 16]}>

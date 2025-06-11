@@ -187,7 +187,7 @@ const JobDetail = () => {
                 </Paragraph>
               </Col>
 
-              <Col xs={24} sm={12}>
+              <Col xs={24} sm={12} className="col-right">
                 <Text strong>Technologies:</Text>
 
                 <Paragraph>
