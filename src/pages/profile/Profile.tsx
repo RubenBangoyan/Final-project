@@ -23,6 +23,12 @@ const ProfilePage: React.FC = () => {
     (state: RootState) => state.user
   );
 
+
+  if (!profile) {
+  return <div>Loading profile...</div>;
+}
+
+
   const tabItems = [
     {
       key: '1',
