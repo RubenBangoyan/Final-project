@@ -167,3 +167,22 @@ header {
     height: 28px;
   }
 }
+
+.mobile-burger-button {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-burger-button {
+    display: inline-block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
