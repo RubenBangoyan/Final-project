@@ -1,24 +1,92 @@
 :root {
   --primary: #1890ff;
   --background-light: #f1f4ff;
-  --card-bg: #ffffff;
+  --background-dark: #122f49;
+  --card-bg-light: #ffffff;
+  --card-bg-dark: #1e1e2f;
   --text-dark: #001529;
-  --accent-bg: #fafafa;
-  --border: #d9d9d9;
+  --text-light: #f0f0f0;
+  --accent-bg-light: #fafafa;
+  --accent-bg-dark: #2e3b4e;
+  --border-light: #d9d9d9;
+  --border-dark: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='light'] .resume-container {
+  background: linear-gradient(135deg, var(--background-light) 0%, #2a5298 100%);
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .resume-container {
+  background: linear-gradient(135deg, var(--background-dark) 0%, #091c33 100%);
+  color: var(--text-light);
+}
+
+[data-theme='light'] .resume-scroll {
+  background-color: var(--card-bg-light);
+  color: var(--text-dark);
+}
+
+[data-theme='dark'] .resume-scroll {
+  background-color: var(--card-bg-dark);
+  color: var(--text-light);
+}
+
+[data-theme='light'] .resume-scroll .ant-space {
+  background-color: var(--accent-bg-light);
+  border: 1px solid var(--border-light);
+}
+
+[data-theme='dark'] .resume-scroll .ant-space {
+  background-color: var(--accent-bg-dark);
+  border: 1px solid var(--border-dark);
+}
+
+[data-theme='dark'] h1,
+[data-theme='dark'] .ant-divider,
+[data-theme='dark'] .ant-form-item-label > label {
+  color: var(--text-light);
+}
+
+[data-theme='dark'] .ant-input,
+[data-theme='dark'] .ant-picker,
+[data-theme='dark'] .ant-picker-range,
+[data-theme='dark'] .ant-input-textarea {
+  background-color: #2a2a3d;
+  color: var(--text-light);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme='dark'] .ant-btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+[data-theme='dark'] .ant-btn-default {
+  background-color: transparent;
+  border-color: var(--text-light);
+  color: var(--text-light);
+}
+
+[data-theme='dark'] input::placeholder,
+[data-theme='dark'] textarea::placeholder,
+[data-theme='dark'] .ant-input::placeholder,
+[data-theme='dark'] .ant-input-textarea::placeholder,
+[data-theme='dark'] .ant-picker-input > input::placeholder {
+  color: var(--text-light);
+  opacity: 0.6;
 }
 
 .resume-container {
-  background: linear-gradient(135deg, var(--background-light) 0%, #2a5298 100%);
   padding: 3rem 2rem;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
-  color: var(--text-dark);
 }
 
 .resume-scroll {
   max-width: 1200px;
   margin: 0 auto;
-  background-color: var(--card-bg);
   padding: 2.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
@@ -33,7 +101,6 @@ h1 {
 .ant-divider {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-dark);
 }
 
 .ant-form-item-label > label {
@@ -51,9 +118,7 @@ h1 {
 }
 
 .resume-scroll .ant-space {
-  border: 1px solid var(--border);
   border-radius: 1rem;
-  background-color: var(--accent-bg);
   padding: 1.5rem;
   transition: box-shadow 0.3s;
 }
@@ -67,12 +132,12 @@ button {
   border-radius: 10px !important;
 }
 
-.ant-space .ant-btn-primary {
-  background-color: var(--primary);
-  border-color: var(--primary);
-  font-weight: 600;
-  padding: 0.5rem 2rem;
-}
+/*.ant-space .ant-btn-primary {*/
+/*  background-color: var(--primary);*/
+/*  border-color: var(--primary);*/
+/*  font-weight: 600;*/
+/*  padding: 0.5rem 2rem;*/
+/*}*/
 
 .ant-space .ant-btn-default {
   padding: 0.5rem 2rem;

@@ -1,0 +1,52 @@
+:root {
+    --primary-color: #1890ff;
+    --bg-light: #f1f4ff;
+    --bg-dark: #122f49;
+    --text-dark: #001529;
+    --text-light: #f0f0f0;
+    --feature-light-bg: transparent;
+    --feature-dark-bg: rgba(60, 60, 90, 0.3);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.upload-container {
+    min-height: 100vh;
+    padding: 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.upload-light {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.upload-dark {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.upload-dark .ant-form-item-label > label,
+.upload-dark .ant-input,
+.upload-dark .ant-input-number,
+.upload-dark .ant-select-selector,
+.upload-dark .ant-input-textarea,
+.upload-dark .ant-btn {
+    background-color: var(--feature-dark-bg) !important;
+    color: var(--text-light) !important;
+    border-color: var(--text-light) !important;
+}
+
+.upload-dark .ant-select-selection-placeholder,
+.upload-dark .ant-input::placeholder {
+    color: rgba(240, 240, 240, 0.6);
+}
+
+.upload-dark .ant-btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.upload-light .ant-btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

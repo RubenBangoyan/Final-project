@@ -14,6 +14,7 @@ import {
   SafetyOutlined,
   TeamOutlined,
   RocketOutlined,
+  ArrowRightOutlined
 } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
@@ -111,7 +112,7 @@ const Home = () => {
       </section>
       <CompanyCarousel />
       <Col className='team container' >
-        <Button onClick={() => navigate('/team')} type="text">Our Team</Button>
+        <Button onClick={() => navigate('/team')} type="text" icon={<ArrowRightOutlined />}>Our Team</Button>
       </Col>
       <div className="chat-helper">
         <ChatHelper />

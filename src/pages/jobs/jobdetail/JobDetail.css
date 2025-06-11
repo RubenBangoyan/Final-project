@@ -43,7 +43,7 @@
 .job-detail-title.ant-typography {
   text-align: center;
   font-weight: 600;
-  font-size: 2.4rem;
+  font-size: 1.7rem !important;
   margin: -20px 0 1rem;
 }
 
@@ -121,4 +121,7 @@
   border-color: #3a4a6b !important;
 }
 
+.col-right {
+  margin-top: -3.5rem;
+}
 

@@ -1,9 +1,11 @@
 import defaultAvatar from "../../assets/images/225-default-avatar.png";
 import NairiAvatar from "../../assets/images/Nairi-avatar-2.jpg";
 import YuriAvatar from "../../assets/images/yuri_dolukhanyan_avatar.png";
+import MelineAvatar from "../../assets/images/meline_img.png";
 import { UserOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import "./Team.css";
+import { useTheme } from "../../contexts/ThemeContext";
 import {
   Layout,
   Row,
@@ -17,7 +19,6 @@ import {
 } from "antd";
 
 // import TigranAvatar from '';
-// import MelineAvatar from '';
 // import RubenAvatar from '';
 // import GevorgAvatar from '';
 
@@ -68,7 +69,7 @@ const developers: Developer[] = [
     name: "Meline",
     gender: "female",
     surname: "Afrikyan",
-    photo: defaultAvatar,
+    photo: MelineAvatar,
     email: "meline_afrikyan@edu.aua.am",
     skills: ["React", "JavaScript", "TypeScript", "Antd"],
   },
@@ -94,6 +95,7 @@ const developers: Developer[] = [
 
 const TeamPage: React.FC = () => {
   const [selectedDev, setSelectedDev] = useState<Developer | null>(null);
+  const { theme } = useTheme();
 
   const handleCardClick = (dev: Developer) => {
     setSelectedDev(dev);
@@ -104,9 +106,9 @@ const TeamPage: React.FC = () => {
   };
 
   return (
-    <Layout className="layout-background">
+    <Layout className={`team-layout ${theme === "dark" ? "home-dark" : "home-light"}`}>
       <Content style={{ padding: "40px" }}>
-        <Title level={2} className="page-title">
+        <Title className="team-title">
           Our Development Team
         </Title>
 

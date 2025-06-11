@@ -44,4 +44,64 @@
     color: var(--text-light) !important;
 }
 
+.my-jobs-dark .job-card {
+    background: var(--feature-dark-bg);
+    color: var(--text-light);
+}
+
+.my-jobs-dark .job-card .ant-typography,
+.my-jobs-dark .job-card .job-title,
+.my-jobs-dark .job-card .ant-tag {
+    color: var(--text-light) !important;
+}
+
+.my-jobs-light .job-card {
+    background: white;
+    color: var(--text-dark);
+}
+
+.my-jobs-light .job-card .ant-typography,
+.my-jobs-light .job-card .job-title {
+    color: var(--text-dark);
+}
+
+.my-jobs-dark .job-card .ant-btn {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--text-light);
+}
+
+.my-jobs-dark .job-card .ant-btn-dangerous {
+    color: red;
+    background: transparent;
+    border: 1px solid red;
+}
+
+.my-jobs-dark .job-card .ant-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.my-jobs-dark .job-card .ant-card-actions {
+    background-color: transparent !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.my-jobs-dark .job-card .ant-card-actions::before {
+    display: none !important;
+    content: none !important;
+}
+
+.my-jobs-light .job-card .ant-card-actions {
+    background-color: transparent !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.my-jobs-light .job-card .ant-card-actions::before {
+    display: none !important;
+}
+
 

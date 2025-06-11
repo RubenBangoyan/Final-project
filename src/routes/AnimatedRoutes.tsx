@@ -13,7 +13,7 @@ import Contact from '../pages/contact/Contact';
 import SignIn from '../pages/signIn/SignIn';
 import SignUp from '../pages/signUp/SignUp';
 import TeamPage from '../pages/team/Team';
-import About from '../pages/about/About';
+import About from '../pages/About/About';
 import Home from '../pages/home/Home';
 import Jobs from '../pages/jobs/Jobs';
 import { ROUTES } from './paths';
