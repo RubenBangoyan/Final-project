@@ -1,15 +1,16 @@
 import ConfettiExplosion from "../../components/confettiExplosion/ConfettiExplosion";
 import { serverTimestamp, doc, setDoc } from "firebase/firestore";
 import { formatResumePrompt } from "../../utils/resumeFormat";
+import { useTheme } from "../../contexts/ThemeContext";
 import { db } from "../../services/firebse-config";
 import { generateResumeFromGPT } from "../../api";
 import { useAppSelector } from "../../app/hook";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/paths";
-import React, { useState, useRef } from "react";
+import type { Resume } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import "./Resume.css";
-import { useTheme } from "../../contexts/ThemeContext";
 import {
   Button,
   DatePicker,
@@ -29,32 +30,9 @@ const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 const { Title, Paragraph, Text } = Typography;
 
-interface ContactInfo {
-  name: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  city: string;
-}
-
-interface Resume {
-  contactInfo: ContactInfo;
-  name: string;
-  phone: string;
-  education: string;
-  experience?: {
-    company: string;
-    position: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-  }[];
-  skills?: string[];
-  languages?: string[];
-  profile?: string;
-}
 
 const ResumeForm: React.FC = () => {
+  
   const [generatedResume, setGeneratedResume] = useState<string | null>(null);
   const [experienceFields, setExperienceFields] = useState([{ id: uuidv4() }]);
   const [parsedResume, setParsedResume] = useState<Resume | null>(null);

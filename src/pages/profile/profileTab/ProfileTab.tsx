@@ -1,8 +1,9 @@
-import { UserOutlined, MailOutlined } from "@ant-design/icons";
-import { ROUTES } from "../../../routes/paths";
-import { useNavigate } from "react-router-dom";
-import { avatarSeeds } from "./avatarSeeds";
-import "./ProfileTab.css";
+import { UserOutlined, MailOutlined } from '@ant-design/icons';
+import { ROUTES } from '../../../routes/paths';
+import { useNavigate } from 'react-router-dom';
+import type { ProfileTabProps } from './types';
+import { avatarSeeds } from './avatarSeeds';
+import './ProfileTab.css';
 import {
   Divider,
   Form,
@@ -13,32 +14,9 @@ import {
   Space,
   Skeleton,
   Popover,
-} from "antd";
-import { useState } from "react";
+} from 'antd';
+import { useState } from 'react';
 
-interface Profile {
-  firstName?: string;
-  lastName?: string;
-  avatarSeed?: string;
-}
-
-interface ProfileFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatarSeed: string;
-}
-
-interface ProfileTabProps {
-  profile: Profile;
-  name: string | null;
-  surname: string | null;
-  email: string | null;
-  theme: string;
-  handleSave: (values: ProfileFormValues) => void;
-  loading?: boolean;
-  handleClick?: () => void;
-}
 
 export const ProfileTab: React.FC<ProfileTabProps> = ({
   profile,
@@ -52,7 +30,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [selectedSeed, setSelectedSeed] = useState(
-    profile?.avatarSeed || "smile"
+    profile?.avatarSeed || 'smile'
   );
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -71,10 +49,10 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
             layout="vertical"
             onFinish={handleSave}
             initialValues={{
-              firstName: profile?.firstName || name || "",
-              lastName: profile?.lastName || surname || "",
-              email: email || "",
-              avatarSeed: profile?.avatarSeed || "smile",
+              firstName: profile?.firstName || name || '',
+              lastName: profile?.lastName || surname || '',
+              email: email || '',
+              avatarSeed: profile?.avatarSeed || 'smile',
             }}
             className="profile-form"
           >
@@ -87,7 +65,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
                         <img
                           key={seed}
                           className={`avatar-choice ${
-                            seed === selectedSeed ? "selected" : ""
+                            seed === selectedSeed ? 'selected' : ''
                           }`}
                           src={`https://api.dicebear.com/7.x/micah/svg?seed=${seed}&mouth=smile&baseColor=f9c9b6&facialHairProbability=0&hairColor=000000,6bd9e9,9287ff`}
                           alt={seed}
@@ -118,7 +96,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
                       label="First Name"
                       name="firstName"
                       rules={[
-                        { required: true, message: "Please enter first name" },
+                        { required: true, message: 'Please enter first name' },
                       ]}
                     >
                       <Input prefix={<UserOutlined />} size="large" />
@@ -129,7 +107,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
                       label="Last Name"
                       name="lastName"
                       rules={[
-                        { required: true, message: "Please enter last name" },
+                        { required: true, message: 'Please enter last name' },
                       ]}
                     >
                       <Input prefix={<UserOutlined />} size="large" />
@@ -142,8 +120,8 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
                       rules={[
                         {
                           required: true,
-                          type: "email",
-                          message: "Enter a valid email",
+                          type: 'email',
+                          message: 'Enter a valid email',
                         },
                       ]}
                     >
