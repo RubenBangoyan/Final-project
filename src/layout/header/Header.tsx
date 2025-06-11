@@ -6,15 +6,15 @@ import logoWhite from '../../assets/images/logo-white.png';
 import logoDark from '../../assets/images/logo-dark.png';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import hyFlag from '../../assets/images/flags/am.png';
+import usFlag from '../../assets/images/flags/us.png';
+import ruFlag from '../../assets/images/flags/ru.png';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../routes/paths';
 import './header.css';
 
-import usFlag from '../../assets/images/flags/us.png';
-import hyFlag from '../../assets/images/flags/am.png';
-import ruFlag from '../../assets/images/flags/ru.png';
 
 const flags = {
   en: usFlag,

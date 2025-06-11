@@ -3,8 +3,8 @@ import { removeUser, setUser } from "../features/user/userSlice";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../services/firebse-config";
-import { message } from "antd";
 import type { RootState } from "../app/store";
+import { message } from "antd";
 
 interface AuthContextType {
   isAuth: boolean;
